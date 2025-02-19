@@ -24,6 +24,7 @@
     "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
+    "@biomejs/biome": "1.9.4",
     "@eslint/js": "^9.19.0",
     "@tanstack/router-devtools": "^1.106.0",
     "@tanstack/router-plugin": "^1.106.0",
