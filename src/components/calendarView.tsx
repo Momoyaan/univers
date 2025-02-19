@@ -72,7 +72,7 @@ export default function CalendarView({ filters }: CalendarViewProps) {
 	};
 
 	return (
-		<div>
+		<div className="m-12">
 			<div className="mb-4 flex items-center justify-between">
 				<h2 className="text-2xl font-semibold">
 					{currentDate.toLocaleString("default", {
@@ -81,11 +81,11 @@ export default function CalendarView({ filters }: CalendarViewProps) {
 					})}
 				</h2>
 				<div>
-					<Button variant="secondary" size="icon" onClick={prevMonth}>
+					<Button variant="outline" size="icon" onClick={prevMonth}>
 						<ChevronLeft className="h-4 w-4" />
 					</Button>
 					<Button
-						variant="secondary"
+						variant="outline"
 						size="icon"
 						onClick={nextMonth}
 						className="ml-2"
