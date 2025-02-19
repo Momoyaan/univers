@@ -8,11 +8,18 @@ import {
 	PopoverTrigger,
 } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/select";
 
-export const categories = [
-	{ id: "personal", name: "Personal", color: "bg-blue-500" },
-	{ id: "work", name: "Work", color: "bg-green-500" },
-	{ id: "family", name: "Family", color: "bg-yellow-500" },
+const categories = [
+	{ id: "personal", name: "Personal", color: "bg-yellow-500" },
+	{ id: "work", name: "Work", color: "bg-blue-500" },
+	{ id: "family", name: "Family", color: "bg-green-500" },
 ];
 
 export type FilterState = {
@@ -20,6 +27,10 @@ export type FilterState = {
 	dateRange: {
 		from: Date | undefined;
 		to: Date | undefined;
+	};
+	timeRange: {
+		start: string | undefined;
+		end: string | undefined;
 	};
 };
 
@@ -36,6 +47,13 @@ export default function Filter({ onFilterChange }: FilterProps) {
 		from: undefined,
 		to: undefined,
 	});
+	const [timeRange, setTimeRange] = useState<{
+		start: string | undefined;
+		end: string | undefined;
+	}>({
+		start: undefined,
+		end: undefined,
+	});
 
 	const handleCategoryChange = (categoryId: string, checked: boolean) => {
 		setSelectedCategories((prev) =>
@@ -47,6 +65,7 @@ export default function Filter({ onFilterChange }: FilterProps) {
 		onFilterChange({
 			categories: selectedCategories,
 			dateRange,
+			timeRange,
 		});
 	};
 
@@ -107,6 +126,49 @@ export default function Filter({ onFilterChange }: FilterProps) {
 						/>
 					</PopoverContent>
 				</Popover>
+			</div>
+			<div>
+				<h3 className="mb-2 text-sm font-medium">Time Range</h3>
+				<div className="flex space-x-2">
+					<Select
+						onValueChange={(value) =>
+							setTimeRange((prev) => ({ ...prev, start: value }))
+						}
+					>
+						<SelectTrigger className="w-full">
+							<SelectValue placeholder="Start time" />
+						</SelectTrigger>
+						<SelectContent>
+							{Array.from({ length: 24 }).map((_, i) => (
+								<SelectItem
+									key={i}
+									value={`${i.toString().padStart(2, "0")}:00`}
+								>
+									{`${i.toString().padStart(2, "0")}:00`}
+								</SelectItem>
+							))}
+						</SelectContent>
+					</Select>
+					<Select
+						onValueChange={(value) =>
+							setTimeRange((prev) => ({ ...prev, end: value }))
+						}
+					>
+						<SelectTrigger className="w-full">
+							<SelectValue placeholder="End time" />
+						</SelectTrigger>
+						<SelectContent>
+							{Array.from({ length: 24 }).map((_, i) => (
+								<SelectItem
+									key={i}
+									value={`${i.toString().padStart(2, "0")}:00`}
+								>
+									{`${i.toString().padStart(2, "0")}:00`}
+								</SelectItem>
+							))}
+						</SelectContent>
+					</Select>
+				</div>
 			</div>
 			<Button onClick={handleApplyFilters} className="w-full">
 				Apply Filters

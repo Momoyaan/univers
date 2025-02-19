@@ -2,29 +2,53 @@ import { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import type { FilterState } from "@/components/calendarFilter";
+import type { FilterState } from "@/components/filter";
 
 const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-// Simulated events
-const events = [
+// Updated event structure with start and end times
+type Event = {
+	id: number;
+	title: string;
+	category: string;
+	date: Date;
+	startTime: string;
+	endTime: string;
+};
+
+// Simulated events with start and end times
+const events: Event[] = [
 	{
 		id: 1,
 		title: "Team Meeting",
 		category: "work",
 		date: new Date(2025, 1, 20),
+		startTime: "09:00",
+		endTime: "10:00",
 	},
 	{
 		id: 2,
 		title: "Family Dinner",
 		category: "family",
 		date: new Date(2025, 1, 22),
+		startTime: "18:00",
+		endTime: "20:00",
 	},
 	{
 		id: 3,
 		title: "Gym Session",
 		category: "personal",
 		date: new Date(2025, 1, 25),
+		startTime: "07:00",
+		endTime: "08:30",
+	},
+	{
+		id: 4,
+		title: "Project Deadline",
+		category: "work",
+		date: new Date(2025, 1, 28),
+		startTime: "14:00",
+		endTime: "15:00",
 	},
 ];
 
@@ -71,6 +95,19 @@ export default function CalendarView({ filters }: CalendarViewProps) {
 		);
 	};
 
+	const getEventColor = (category: string) => {
+		switch (category) {
+			case "work":
+				return "bg-blue-100 text-blue-800 border-blue-300";
+			case "family":
+				return "bg-green-100 text-green-800 border-green-300";
+			case "personal":
+				return "bg-yellow-100 text-yellow-800 border-yellow-300";
+			default:
+				return "bg-gray-100 text-gray-800 border-gray-300";
+		}
+	};
+
 	return (
 		<div className="m-12">
 			<div className="mb-4 flex items-center justify-between">
@@ -101,7 +138,7 @@ export default function CalendarView({ filters }: CalendarViewProps) {
 					</div>
 				))}
 				{Array.from({ length: firstDayOfMonth }).map((_, index) => (
-					<div key={`empty-${index}`} className="h-24 border" />
+					<div key={`empty-${index}`} className="h-32 border" />
 				))}
 				{Array.from({ length: daysInMonth }).map((_, index) => {
 					const day = index + 1;
@@ -117,14 +154,31 @@ export default function CalendarView({ filters }: CalendarViewProps) {
 					return (
 						<div
 							key={day}
-							className={cn("h-24 border p-1", isToday && "bg-blue-100")}
+							className={cn(
+								"h-32 border p-1 overflow-y-auto",
+								isToday && "bg-blue-50",
+							)}
 						>
-							<span className={cn("text-sm", isToday && "font-bold")}>
+							<span
+								className={cn(
+									"text-sm font-semibold",
+									isToday && "text-blue-600",
+								)}
+							>
 								{day}
 							</span>
 							{dayEvents.map((event) => (
-								<div key={event.id} className="mt-1 text-xs truncate">
-									{event.title}
+								<div
+									key={event.id}
+									className={cn(
+										"mt-1 text-xs p-1 rounded border",
+										getEventColor(event.category),
+									)}
+								>
+									<div className="font-semibold">{event.title}</div>
+									<div>
+										{event.startTime} - {event.endTime}
+									</div>
 								</div>
 							))}
 						</div>
