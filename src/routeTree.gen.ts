@@ -13,6 +13,9 @@
 import { Route as rootRoute } from "./routes/__root";
 import { Route as AboutImport } from "./routes/about";
 import { Route as IndexImport } from "./routes/index";
+import { Route as authRegisterImport } from "./routes/(auth)/register";
+import { Route as authLoginImport } from "./routes/(auth)/login";
+import { Route as appDashboardImport } from "./routes/(app)/dashboard";
 
 // Create/Update Routes
 
@@ -25,6 +28,24 @@ const AboutRoute = AboutImport.update({
 const IndexRoute = IndexImport.update({
 	id: "/",
 	path: "/",
+	getParentRoute: () => rootRoute,
+} as any);
+
+const authRegisterRoute = authRegisterImport.update({
+	id: "/(auth)/register",
+	path: "/register",
+	getParentRoute: () => rootRoute,
+} as any);
+
+const authLoginRoute = authLoginImport.update({
+	id: "/(auth)/login",
+	path: "/login",
+	getParentRoute: () => rootRoute,
+} as any);
+
+const appDashboardRoute = appDashboardImport.update({
+	id: "/(app)/dashboard",
+	path: "/dashboard",
 	getParentRoute: () => rootRoute,
 } as any);
 
@@ -46,6 +67,27 @@ declare module "@tanstack/react-router" {
 			preLoaderRoute: typeof AboutImport;
 			parentRoute: typeof rootRoute;
 		};
+		"/(app)/dashboard": {
+			id: "/(app)/dashboard";
+			path: "/dashboard";
+			fullPath: "/dashboard";
+			preLoaderRoute: typeof appDashboardImport;
+			parentRoute: typeof rootRoute;
+		};
+		"/(auth)/login": {
+			id: "/(auth)/login";
+			path: "/login";
+			fullPath: "/login";
+			preLoaderRoute: typeof authLoginImport;
+			parentRoute: typeof rootRoute;
+		};
+		"/(auth)/register": {
+			id: "/(auth)/register";
+			path: "/register";
+			fullPath: "/register";
+			preLoaderRoute: typeof authRegisterImport;
+			parentRoute: typeof rootRoute;
+		};
 	}
 }
 
@@ -54,36 +96,57 @@ declare module "@tanstack/react-router" {
 export interface FileRoutesByFullPath {
 	"/": typeof IndexRoute;
 	"/about": typeof AboutRoute;
+	"/dashboard": typeof appDashboardRoute;
+	"/login": typeof authLoginRoute;
+	"/register": typeof authRegisterRoute;
 }
 
 export interface FileRoutesByTo {
 	"/": typeof IndexRoute;
 	"/about": typeof AboutRoute;
+	"/dashboard": typeof appDashboardRoute;
+	"/login": typeof authLoginRoute;
+	"/register": typeof authRegisterRoute;
 }
 
 export interface FileRoutesById {
 	__root__: typeof rootRoute;
 	"/": typeof IndexRoute;
 	"/about": typeof AboutRoute;
+	"/(app)/dashboard": typeof appDashboardRoute;
+	"/(auth)/login": typeof authLoginRoute;
+	"/(auth)/register": typeof authRegisterRoute;
 }
 
 export interface FileRouteTypes {
 	fileRoutesByFullPath: FileRoutesByFullPath;
-	fullPaths: "/" | "/about";
+	fullPaths: "/" | "/about" | "/dashboard" | "/login" | "/register";
 	fileRoutesByTo: FileRoutesByTo;
-	to: "/" | "/about";
-	id: "__root__" | "/" | "/about";
+	to: "/" | "/about" | "/dashboard" | "/login" | "/register";
+	id:
+		| "__root__"
+		| "/"
+		| "/about"
+		| "/(app)/dashboard"
+		| "/(auth)/login"
+		| "/(auth)/register";
 	fileRoutesById: FileRoutesById;
 }
 
 export interface RootRouteChildren {
 	IndexRoute: typeof IndexRoute;
 	AboutRoute: typeof AboutRoute;
+	appDashboardRoute: typeof appDashboardRoute;
+	authLoginRoute: typeof authLoginRoute;
+	authRegisterRoute: typeof authRegisterRoute;
 }
 
 const rootRouteChildren: RootRouteChildren = {
 	IndexRoute: IndexRoute,
 	AboutRoute: AboutRoute,
+	appDashboardRoute: appDashboardRoute,
+	authLoginRoute: authLoginRoute,
+	authRegisterRoute: authRegisterRoute,
 };
 
 export const routeTree = rootRoute
@@ -97,7 +160,10 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/about"
+        "/about",
+        "/(app)/dashboard",
+        "/(auth)/login",
+        "/(auth)/register"
       ]
     },
     "/": {
@@ -105,6 +171,15 @@ export const routeTree = rootRoute
     },
     "/about": {
       "filePath": "about.tsx"
+    },
+    "/(app)/dashboard": {
+      "filePath": "(app)/dashboard.tsx"
+    },
+    "/(auth)/login": {
+      "filePath": "(auth)/login.tsx"
+    },
+    "/(auth)/register": {
+      "filePath": "(auth)/register.tsx"
     }
   }
 }
