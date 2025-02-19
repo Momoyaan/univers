@@ -8,7 +8,7 @@
 - [Vite](https://vitejs.dev/guide/)
 - [Shadcn](https://ui.shadcn.com)
 - [Tailwind CSS](https://tailwindcss.com)
-- [Biome](https://http://biomejs.dev)
+- [Biome](https://biomejs.dev)
 
 ## How to Use
 
