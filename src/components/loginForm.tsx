@@ -15,6 +15,7 @@ import {
 	FormMessage,
 } from "@/components/ui/form";
 import { userSignIn } from "@/lib/auth";
+import { Link } from "@tanstack/react-router";
 const loginSchema = z.object({
 	email: z.string().email({
 		message: "Please enter a valid email address.",
@@ -91,7 +92,17 @@ export function LoginForm({
 						name="password"
 						render={({ field }) => (
 							<FormItem>
-								<FormLabel>Password</FormLabel>
+								<FormLabel>
+									<span className="flex items-center justify-between">
+										Password
+										<Link
+											to="/forgot-password"
+											className="text-sm text-muted-foreground underline-offset-4 hover:underline"
+										>
+											Forgot password?
+										</Link>
+									</span>
+								</FormLabel>
 								<FormControl>
 									<Input type="password" {...field} />
 								</FormControl>
@@ -120,9 +131,9 @@ export function LoginForm({
 			</Button>
 			<div className="text-center text-sm">
 				Don&apos;t have an account?{" "}
-				<a href="/register" className="underline underline-offset-4">
+				<Link to="/register" className="underline underline-offset-4">
 					Sign up
-				</a>
+				</Link>
 			</div>
 		</div>
 	);

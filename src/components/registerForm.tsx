@@ -15,6 +15,7 @@ import {
 	FormMessage,
 } from "@/components/ui/form";
 import { userSignUp } from "@/lib/auth";
+import { Link } from "@tanstack/react-router";
 
 const registerSchema = z
 	.object({
@@ -158,9 +159,9 @@ export function RegisterForm({
 			</Button>
 			<div className="text-center text-sm">
 				Already have an account?{" "}
-				<a href="/login" className="underline underline-offset-4">
+				<Link to="/login" className="underline underline-offset-4">
 					Login
-				</a>
+				</Link>
 			</div>
 		</div>
 	);
