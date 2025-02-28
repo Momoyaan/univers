@@ -14,7 +14,7 @@ import {
 	FormLabel,
 	FormMessage,
 } from "@/components/ui/form";
-
+import { userSignIn } from "@/lib/auth";
 const loginSchema = z.object({
 	email: z.string().email({
 		message: "Please enter a valid email address.",
@@ -41,14 +41,26 @@ export function LoginForm({
 	});
 
 	async function onSubmit(data: LoginFormValues) {
-		setIsLoading(true);
+		try {
+			setIsLoading(true);
 
-		// Simulate API call
-		await new Promise((resolve) => setTimeout(resolve, 2000));
-
-		console.log(data);
-		setIsLoading(false);
-		// TODO: Implement actual login logic
+			// Attempt to sign in user
+			const response = await userSignIn(data.email, data.password);
+			window.location.reload();
+			// Handle successful login
+			// You might want to redirect or update app state here
+			console.log("Login successful:", response);
+		} catch (error) {
+			// Handle login error
+			console.error("Login failed:", error);
+			// You might want to show an error message to the user
+			form.setError("root", {
+				type: "manual",
+				message: "Invalid email or password",
+			});
+		} finally {
+			setIsLoading(false);
+		}
 	}
 
 	return (

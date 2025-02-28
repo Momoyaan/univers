@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import CalendarView from "@/components/calendarView";
-import type { FilterState } from "@/components/filter";
+import type { FilterState } from "@/components/calendarFilter";
 import { useState } from "react";
 import LandingNav from "@/components/landingNav";
 

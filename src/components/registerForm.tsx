@@ -14,10 +14,11 @@ import {
 	FormLabel,
 	FormMessage,
 } from "@/components/ui/form";
+import { userSignUp } from "@/lib/auth";
 
 const registerSchema = z
 	.object({
-		name: z.string().min(2, {
+		names: z.string().min(2, {
 			message: "Name must be at least 2 characters.",
 		}),
 		email: z.string().email({
@@ -44,7 +45,7 @@ export function RegisterForm({
 	const form = useForm<RegisterFormValues>({
 		resolver: zodResolver(registerSchema),
 		defaultValues: {
-			name: "",
+			names: "",
 			email: "",
 			password: "",
 			confirmPassword: "",
@@ -52,14 +53,26 @@ export function RegisterForm({
 	});
 
 	async function onSubmit(data: RegisterFormValues) {
-		setIsLoading(true);
+		try {
+			setIsLoading(true);
 
-		// Simulate API call
-		await new Promise((resolve) => setTimeout(resolve, 2000));
+			// Attempt to sign in user
+			const response = await userSignUp(data.names, data.email, data.password);
 
-		console.log(data);
-		setIsLoading(false);
-		// TODO: Implement actual registration logic
+			// Handle successful login
+			// You might want to redirect or update app state here
+			console.log("Login successful:", response);
+		} catch (error) {
+			// Handle login error
+			console.error("Login failed:", error);
+			// You might want to show an error message to the user
+			form.setError("root", {
+				type: "manual",
+				message: "Invalid email or password",
+			});
+		} finally {
+			setIsLoading(false);
+		}
 	}
 
 	return (
@@ -74,7 +87,7 @@ export function RegisterForm({
 				<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
 					<FormField
 						control={form.control}
-						name="name"
+						name="names"
 						render={({ field }) => (
 							<FormItem>
 								<FormLabel>Full Name</FormLabel>
