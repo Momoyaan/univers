@@ -13,6 +13,7 @@
 import { Route as rootRoute } from "./routes/__root";
 import { Route as AboutImport } from "./routes/about";
 import { Route as IndexImport } from "./routes/index";
+import { Route as authVerifyEmailImport } from "./routes/(auth)/verify-email";
 import { Route as authRegisterImport } from "./routes/(auth)/register";
 import { Route as authLoginImport } from "./routes/(auth)/login";
 import { Route as authForgotPasswordImport } from "./routes/(auth)/forgot-password";
@@ -29,6 +30,12 @@ const AboutRoute = AboutImport.update({
 const IndexRoute = IndexImport.update({
 	id: "/",
 	path: "/",
+	getParentRoute: () => rootRoute,
+} as any);
+
+const authVerifyEmailRoute = authVerifyEmailImport.update({
+	id: "/(auth)/verify-email",
+	path: "/verify-email",
 	getParentRoute: () => rootRoute,
 } as any);
 
@@ -102,6 +109,13 @@ declare module "@tanstack/react-router" {
 			preLoaderRoute: typeof authRegisterImport;
 			parentRoute: typeof rootRoute;
 		};
+		"/(auth)/verify-email": {
+			id: "/(auth)/verify-email";
+			path: "/verify-email";
+			fullPath: "/verify-email";
+			preLoaderRoute: typeof authVerifyEmailImport;
+			parentRoute: typeof rootRoute;
+		};
 	}
 }
 
@@ -114,6 +128,7 @@ export interface FileRoutesByFullPath {
 	"/forgot-password": typeof authForgotPasswordRoute;
 	"/login": typeof authLoginRoute;
 	"/register": typeof authRegisterRoute;
+	"/verify-email": typeof authVerifyEmailRoute;
 }
 
 export interface FileRoutesByTo {
@@ -123,6 +138,7 @@ export interface FileRoutesByTo {
 	"/forgot-password": typeof authForgotPasswordRoute;
 	"/login": typeof authLoginRoute;
 	"/register": typeof authRegisterRoute;
+	"/verify-email": typeof authVerifyEmailRoute;
 }
 
 export interface FileRoutesById {
@@ -133,6 +149,7 @@ export interface FileRoutesById {
 	"/(auth)/forgot-password": typeof authForgotPasswordRoute;
 	"/(auth)/login": typeof authLoginRoute;
 	"/(auth)/register": typeof authRegisterRoute;
+	"/(auth)/verify-email": typeof authVerifyEmailRoute;
 }
 
 export interface FileRouteTypes {
@@ -143,7 +160,8 @@ export interface FileRouteTypes {
 		| "/dashboard"
 		| "/forgot-password"
 		| "/login"
-		| "/register";
+		| "/register"
+		| "/verify-email";
 	fileRoutesByTo: FileRoutesByTo;
 	to:
 		| "/"
@@ -151,7 +169,8 @@ export interface FileRouteTypes {
 		| "/dashboard"
 		| "/forgot-password"
 		| "/login"
-		| "/register";
+		| "/register"
+		| "/verify-email";
 	id:
 		| "__root__"
 		| "/"
@@ -159,7 +178,8 @@ export interface FileRouteTypes {
 		| "/(app)/dashboard"
 		| "/(auth)/forgot-password"
 		| "/(auth)/login"
-		| "/(auth)/register";
+		| "/(auth)/register"
+		| "/(auth)/verify-email";
 	fileRoutesById: FileRoutesById;
 }
 
@@ -170,6 +190,7 @@ export interface RootRouteChildren {
 	authForgotPasswordRoute: typeof authForgotPasswordRoute;
 	authLoginRoute: typeof authLoginRoute;
 	authRegisterRoute: typeof authRegisterRoute;
+	authVerifyEmailRoute: typeof authVerifyEmailRoute;
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -179,6 +200,7 @@ const rootRouteChildren: RootRouteChildren = {
 	authForgotPasswordRoute: authForgotPasswordRoute,
 	authLoginRoute: authLoginRoute,
 	authRegisterRoute: authRegisterRoute,
+	authVerifyEmailRoute: authVerifyEmailRoute,
 };
 
 export const routeTree = rootRoute
@@ -196,7 +218,8 @@ export const routeTree = rootRoute
         "/(app)/dashboard",
         "/(auth)/forgot-password",
         "/(auth)/login",
-        "/(auth)/register"
+        "/(auth)/register",
+        "/(auth)/verify-email"
       ]
     },
     "/": {
@@ -216,6 +239,9 @@ export const routeTree = rootRoute
     },
     "/(auth)/register": {
       "filePath": "(auth)/register.tsx"
+    },
+    "/(auth)/verify-email": {
+      "filePath": "(auth)/verify-email.tsx"
     }
   }
 }

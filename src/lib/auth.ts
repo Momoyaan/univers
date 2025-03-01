@@ -94,6 +94,7 @@ export const userSignOut = async () => {
 	if (error) {
 		throw error;
 	}
+	return res;
 };
 
 export const getSessionUser = async () => {
@@ -105,6 +106,65 @@ export const getSessionUser = async () => {
 			"Content-Type": "application/json",
 		},
 		credentials: "include",
+	})
+		.then(async (res) => {
+			if (!res.ok) throw await res.json();
+			return res.json();
+		})
+		.catch((err) => {
+			console.log(err);
+			error = err.detail;
+			return null;
+		});
+
+	if (error) {
+		throw error;
+	}
+
+	return res;
+};
+
+export const verifyEmail = async (email: string) => {
+	let error = null;
+
+	const res = await fetch(`${API_BASE_URL}/verify/send/${email}`, {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify({
+			email: email,
+		}),
+	})
+		.then(async (res) => {
+			if (!res.ok) throw await res.json();
+			return res.json();
+		})
+		.catch((err) => {
+			console.log(err);
+			error = err.detail;
+			return null;
+		});
+
+	if (error) {
+		throw error;
+	}
+
+	return res;
+};
+
+export const verifyOTP = async (email: string, otp: string) => {
+	let error = null;
+
+	const res = await fetch(`${API_BASE_URL}/verify/check/${email}/${otp}`, {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify({
+			email: email,
+			otp: otp,
+		}),
 	})
 		.then(async (res) => {
 			if (!res.ok) throw await res.json();
