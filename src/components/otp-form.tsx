@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/input-otp";
 import { verifyOTP } from "@/lib/auth";
 import { useState } from "react";
+import { useNavigate } from "@tanstack/react-router";
 
 const FormSchema = z.object({
 	pin: z.string().min(6, {
@@ -28,6 +29,8 @@ const FormSchema = z.object({
 
 export function InputOTPForm() {
 	const [isLoading, setIsLoading] = useState<boolean>(false);
+
+	const navigate = useNavigate();
 
 	const form = useForm<z.infer<typeof FormSchema>>({
 		resolver: zodResolver(FormSchema),
@@ -45,6 +48,7 @@ export function InputOTPForm() {
 			const response = await verifyOTP(email, data.pin);
 			console.log(email, data.pin);
 			console.log("OTP successful:", response);
+			navigate({ to: "/dashboard" });
 		} catch (error) {
 			// Handle login error
 			console.error("OTP failed:", error);

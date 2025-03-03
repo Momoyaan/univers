@@ -74,7 +74,7 @@ export const userSignUp = async (
 export const userSignOut = async () => {
 	let error = null;
 
-	const res = await fetch(`${API_BASE_URL}/auths/signout`, {
+	const res = await fetch(`${API_BASE_URL}/auth/signout`, {
 		method: "GET",
 		headers: {
 			"Content-Type": "application/json",
@@ -83,6 +83,8 @@ export const userSignOut = async () => {
 	})
 		.then(async (res) => {
 			if (!res.ok) throw await res.json();
+			localStorage.clear();
+			window.location.reload();
 			return res;
 		})
 		.catch((err) => {
