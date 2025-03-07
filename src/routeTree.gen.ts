@@ -12,13 +12,14 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as AboutImport } from './routes/about'
+import { Route as AppRouteImport } from './routes/app/route'
 import { Route as IndexImport } from './routes/index'
+import { Route as AppSettingsImport } from './routes/app/settings'
+import { Route as AppDashboardImport } from './routes/app/dashboard'
 import { Route as authVerifyEmailImport } from './routes/(auth)/verify-email'
 import { Route as authRegisterImport } from './routes/(auth)/register'
 import { Route as authLoginImport } from './routes/(auth)/login'
 import { Route as authForgotPasswordImport } from './routes/(auth)/forgot-password'
-import { Route as appSettingsImport } from './routes/(app)/settings'
-import { Route as appDashboardImport } from './routes/(app)/dashboard'
 
 // Create/Update Routes
 
@@ -28,10 +29,28 @@ const AboutRoute = AboutImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const AppRouteRoute = AppRouteImport.update({
+  id: '/app',
+  path: '/app',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRoute,
+} as any)
+
+const AppSettingsRoute = AppSettingsImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AppRouteRoute,
+} as any)
+
+const AppDashboardRoute = AppDashboardImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => AppRouteRoute,
 } as any)
 
 const authVerifyEmailRoute = authVerifyEmailImport.update({
@@ -58,18 +77,6 @@ const authForgotPasswordRoute = authForgotPasswordImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const appSettingsRoute = appSettingsImport.update({
-  id: '/(app)/settings',
-  path: '/settings',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const appDashboardRoute = appDashboardImport.update({
-  id: '/(app)/dashboard',
-  path: '/dashboard',
-  getParentRoute: () => rootRoute,
-} as any)
-
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -81,25 +88,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
+    '/app': {
+      id: '/app'
+      path: '/app'
+      fullPath: '/app'
+      preLoaderRoute: typeof AppRouteImport
+      parentRoute: typeof rootRoute
+    }
     '/about': {
       id: '/about'
       path: '/about'
       fullPath: '/about'
       preLoaderRoute: typeof AboutImport
-      parentRoute: typeof rootRoute
-    }
-    '/(app)/dashboard': {
-      id: '/(app)/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof appDashboardImport
-      parentRoute: typeof rootRoute
-    }
-    '/(app)/settings': {
-      id: '/(app)/settings'
-      path: '/settings'
-      fullPath: '/settings'
-      preLoaderRoute: typeof appSettingsImport
       parentRoute: typeof rootRoute
     }
     '/(auth)/forgot-password': {
@@ -130,84 +130,117 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authVerifyEmailImport
       parentRoute: typeof rootRoute
     }
+    '/app/dashboard': {
+      id: '/app/dashboard'
+      path: '/dashboard'
+      fullPath: '/app/dashboard'
+      preLoaderRoute: typeof AppDashboardImport
+      parentRoute: typeof AppRouteImport
+    }
+    '/app/settings': {
+      id: '/app/settings'
+      path: '/settings'
+      fullPath: '/app/settings'
+      preLoaderRoute: typeof AppSettingsImport
+      parentRoute: typeof AppRouteImport
+    }
   }
 }
 
 // Create and export the route tree
 
+interface AppRouteRouteChildren {
+  AppDashboardRoute: typeof AppDashboardRoute
+  AppSettingsRoute: typeof AppSettingsRoute
+}
+
+const AppRouteRouteChildren: AppRouteRouteChildren = {
+  AppDashboardRoute: AppDashboardRoute,
+  AppSettingsRoute: AppSettingsRoute,
+}
+
+const AppRouteRouteWithChildren = AppRouteRoute._addFileChildren(
+  AppRouteRouteChildren,
+)
+
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/app': typeof AppRouteRouteWithChildren
   '/about': typeof AboutRoute
-  '/dashboard': typeof appDashboardRoute
-  '/settings': typeof appSettingsRoute
   '/forgot-password': typeof authForgotPasswordRoute
   '/login': typeof authLoginRoute
   '/register': typeof authRegisterRoute
   '/verify-email': typeof authVerifyEmailRoute
+  '/app/dashboard': typeof AppDashboardRoute
+  '/app/settings': typeof AppSettingsRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/app': typeof AppRouteRouteWithChildren
   '/about': typeof AboutRoute
-  '/dashboard': typeof appDashboardRoute
-  '/settings': typeof appSettingsRoute
   '/forgot-password': typeof authForgotPasswordRoute
   '/login': typeof authLoginRoute
   '/register': typeof authRegisterRoute
   '/verify-email': typeof authVerifyEmailRoute
+  '/app/dashboard': typeof AppDashboardRoute
+  '/app/settings': typeof AppSettingsRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
+  '/app': typeof AppRouteRouteWithChildren
   '/about': typeof AboutRoute
-  '/(app)/dashboard': typeof appDashboardRoute
-  '/(app)/settings': typeof appSettingsRoute
   '/(auth)/forgot-password': typeof authForgotPasswordRoute
   '/(auth)/login': typeof authLoginRoute
   '/(auth)/register': typeof authRegisterRoute
   '/(auth)/verify-email': typeof authVerifyEmailRoute
+  '/app/dashboard': typeof AppDashboardRoute
+  '/app/settings': typeof AppSettingsRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/app'
     | '/about'
-    | '/dashboard'
-    | '/settings'
     | '/forgot-password'
     | '/login'
     | '/register'
     | '/verify-email'
+    | '/app/dashboard'
+    | '/app/settings'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/app'
     | '/about'
-    | '/dashboard'
-    | '/settings'
     | '/forgot-password'
     | '/login'
     | '/register'
     | '/verify-email'
+    | '/app/dashboard'
+    | '/app/settings'
   id:
     | '__root__'
     | '/'
+    | '/app'
     | '/about'
-    | '/(app)/dashboard'
-    | '/(app)/settings'
     | '/(auth)/forgot-password'
     | '/(auth)/login'
     | '/(auth)/register'
     | '/(auth)/verify-email'
+    | '/app/dashboard'
+    | '/app/settings'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AppRouteRoute: typeof AppRouteRouteWithChildren
   AboutRoute: typeof AboutRoute
-  appDashboardRoute: typeof appDashboardRoute
-  appSettingsRoute: typeof appSettingsRoute
   authForgotPasswordRoute: typeof authForgotPasswordRoute
   authLoginRoute: typeof authLoginRoute
   authRegisterRoute: typeof authRegisterRoute
@@ -216,9 +249,8 @@ export interface RootRouteChildren {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AppRouteRoute: AppRouteRouteWithChildren,
   AboutRoute: AboutRoute,
-  appDashboardRoute: appDashboardRoute,
-  appSettingsRoute: appSettingsRoute,
   authForgotPasswordRoute: authForgotPasswordRoute,
   authLoginRoute: authLoginRoute,
   authRegisterRoute: authRegisterRoute,
@@ -236,9 +268,8 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
+        "/app",
         "/about",
-        "/(app)/dashboard",
-        "/(app)/settings",
         "/(auth)/forgot-password",
         "/(auth)/login",
         "/(auth)/register",
@@ -248,14 +279,15 @@ export const routeTree = rootRoute
     "/": {
       "filePath": "index.tsx"
     },
+    "/app": {
+      "filePath": "app/route.tsx",
+      "children": [
+        "/app/dashboard",
+        "/app/settings"
+      ]
+    },
     "/about": {
       "filePath": "about.tsx"
-    },
-    "/(app)/dashboard": {
-      "filePath": "(app)/dashboard.tsx"
-    },
-    "/(app)/settings": {
-      "filePath": "(app)/settings.tsx"
     },
     "/(auth)/forgot-password": {
       "filePath": "(auth)/forgot-password.tsx"
@@ -268,6 +300,14 @@ export const routeTree = rootRoute
     },
     "/(auth)/verify-email": {
       "filePath": "(auth)/verify-email.tsx"
+    },
+    "/app/dashboard": {
+      "filePath": "app/dashboard.tsx",
+      "parent": "/app"
+    },
+    "/app/settings": {
+      "filePath": "app/settings.tsx",
+      "parent": "/app"
     }
   }
 }

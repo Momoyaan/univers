@@ -23,10 +23,10 @@ import { ScrollArea } from "./ui/scroll-area";
 import { Separator } from "./ui/separator";
 
 const mainNavigation = [
-	{ name: "Dashboard", href: "/dashboard", icon: Home },
-	{ name: "Calendar", href: "/calendar", icon: CalendarDays },
-	{ name: "Events", href: "/events", icon: LayoutGrid },
-	{ name: "Team", href: "/team", icon: Users },
+	{ name: "Dashboard", href: "/app/dashboard", icon: Home },
+	{ name: "Calendar", href: "/app/calendar", icon: CalendarDays },
+	{ name: "Events", href: "/app/events", icon: LayoutGrid },
+	{ name: "Team", href: "/app/team", icon: Users },
 ];
 
 const workspaces = [
@@ -57,11 +57,11 @@ export function Sidebar() {
 		<TooltipProvider>
 			<>
 				<Button
-					className="lg:hidden fixed top-4 left-4 z-50 p-2 bg-background rounded-md shadow-md"
+					className="lg:hidden fixed top-4 left-4 z-50 p-2 bg-primary rounded-md shadow-md"
 					onClick={() => setIsMobileOpen(!isMobileOpen)}
 					aria-label="Toggle sidebar"
 				>
-					<Menu className="h-6 w-6" />
+					<Menu className="text-foreground h-6 w-6" />
 				</Button>
 				<div
 					className={cn(
@@ -113,7 +113,7 @@ export function Sidebar() {
 											"flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors",
 											pathname === item.href
 												? "bg-primary text-primary-foreground"
-												: "text-muted-foreground hover:bg-secondary hover:text-secondary-foreground",
+												: "text-foreground hover:bg-secondary hover:text-secondary-foreground",
 											isCollapsed && "justify-center px-2",
 										)}
 									>
@@ -141,7 +141,7 @@ export function Sidebar() {
 											"flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors",
 											pathname === workspace.href
 												? "bg-primary text-primary-foreground"
-												: "text-muted-foreground hover:bg-secondary hover:text-secondary-foreground",
+												: "text-foreground hover:bg-secondary hover:text-secondary-foreground",
 											isCollapsed && "justify-center px-2",
 										)}
 									>
@@ -181,7 +181,7 @@ export function Sidebar() {
 						</Tooltip>
 						{!isCollapsed && (
 							<Link
-								to="/settings"
+								to="/app/settings"
 								className={cn(
 									buttonVariants({ variant: "ghost", size: "icon" }),
 									"ml-auto",

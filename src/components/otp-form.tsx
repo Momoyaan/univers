@@ -48,7 +48,7 @@ export function InputOTPForm() {
 			const response = await verifyOTP(email, data.pin);
 			console.log(email, data.pin);
 			console.log("OTP successful:", response);
-			navigate({ to: "/dashboard" });
+			navigate({ to: "/login" });
 		} catch (error) {
 			// Handle login error
 			console.error("OTP failed:", error);

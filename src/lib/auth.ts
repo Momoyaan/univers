@@ -1,9 +1,9 @@
-export const API_BASE_URL = "http://localhost:3000/api"; // Backend API URL
+export const API_BASE_URL = "http://localhost:8080"; // Backend API URL
 
 export const userSignIn = async (email: string, password: string) => {
 	let error = null;
 
-	const res = await fetch(`${API_BASE_URL}/auth/login`, {
+	const res = await fetch(`${API_BASE_URL}/users/login`, {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
@@ -41,7 +41,7 @@ export const userSignUp = async (
 ) => {
 	let error = null;
 
-	const res = await fetch(`${API_BASE_URL}/auth/register`, {
+	const res = await fetch(`${API_BASE_URL}/users/register`, {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
@@ -74,7 +74,7 @@ export const userSignUp = async (
 export const userSignOut = async () => {
 	let error = null;
 
-	const res = await fetch(`${API_BASE_URL}/auth/signout`, {
+	const res = await fetch(`${API_BASE_URL}/users/logout`, {
 		method: "GET",
 		headers: {
 			"Content-Type": "application/json",
@@ -129,7 +129,7 @@ export const getSessionUser = async () => {
 export const verifyEmail = async (email: string) => {
 	let error = null;
 
-	const res = await fetch(`${API_BASE_URL}/verify/send/${email}`, {
+	const res = await fetch(`${API_BASE_URL}/users/resend-verification`, {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
@@ -155,17 +155,17 @@ export const verifyEmail = async (email: string) => {
 	return res;
 };
 
-export const verifyOTP = async (email: string, otp: string) => {
+export const verifyOTP = async (email: string, code: string) => {
 	let error = null;
 
-	const res = await fetch(`${API_BASE_URL}/verify/check/${email}/${otp}`, {
+	const res = await fetch(`${API_BASE_URL}/users/verify-email`, {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
 		},
 		body: JSON.stringify({
 			email: email,
-			otp: otp,
+			code: code,
 		}),
 	})
 		.then(async (res) => {

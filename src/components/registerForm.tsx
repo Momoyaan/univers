@@ -62,7 +62,7 @@ export function RegisterForm({
 
 			// Attempt to sign in user
 			const response = await userSignUp(data.names, data.email, data.password);
-			await verifyEmail(data.email);
+			//await verifyEmail(data.email);
 			localStorage.setItem("email", data.email);
 			navigate({ to: "/verify-email" });
 			console.log("Register successful:", response);
