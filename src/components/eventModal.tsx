@@ -1,21 +1,18 @@
-import { useState } from "react";
-import { CalendarIcon, X } from "lucide-react";
+import { toast } from "sonner";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
 import {
-	Dialog,
-	DialogContent,
-	DialogFooter,
-	DialogHeader,
-	DialogTitle,
-} from "@/components/ui/dialog";
+	Form,
+	FormControl,
+	FormField,
+	FormItem,
+	FormLabel,
+	FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-	Popover,
-	PopoverContent,
-	PopoverTrigger,
-} from "@/components/ui/popover";
 import {
 	Select,
 	SelectContent,
@@ -23,88 +20,315 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
+import {
+	Command,
+	CommandEmpty,
+	CommandGroup,
+	CommandInput,
+	CommandItem,
+	CommandList,
+} from "@/components/ui/command";
+import {
+	Popover,
+	PopoverContent,
+	PopoverTrigger,
+} from "@/components/ui/popover";
+import { Check, ChevronsUpDown } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
-import { format } from "date-fns";
-
+import {
+	Dialog,
+	DialogTitle,
+	DialogContent,
+	DialogFooter,
+	DialogHeader,
+} from "@/components/ui/dialog";
+import { SmartDatetimeInput } from "@/components/ui/smart-datetime-input";
+import { Checkbox } from "@/components/ui/checkbox";
+import { useState } from "react";
+import { describe } from "node:test";
 interface EventModalProps {
 	isOpen: boolean;
 	onClose: () => void;
 }
 
+const formSchema = z.object({
+	eventName: z.string().min(1),
+	status: z.string(),
+	facility: z.string(),
+	description: z.string().optional(),
+	startTime: z.unknown(),
+	endTime: z.unknown(),
+	allDay: z.boolean().default(true).optional(),
+});
+
+const facilities = [
+	{
+		label: "Main Hall",
+		value: "main-hall",
+	},
+	{
+		label: "Conference Room A",
+		value: "conf-room-a",
+	},
+	{
+		label: "Conference Room B",
+		value: "conf-room-b",
+	},
+	{
+		label: "Auditorium",
+		value: "auditorium",
+	},
+	{
+		label: "Meeting Room 1",
+		value: "meeting-room-1",
+	},
+	{
+		label: "Meeting Room 2",
+		value: "meeting-room-2",
+	},
+] as const;
+
 export function EventModal({ isOpen, onClose }: EventModalProps) {
 	const [date, setDate] = useState<Date>();
 
+	const form = useForm<z.infer<typeof formSchema>>({
+		resolver: zodResolver(formSchema),
+		defaultValues: {
+			startTime: new Date(),
+			endTime: new Date(),
+		},
+	});
+
+	function onSubmit(values: z.infer<typeof formSchema>) {
+		try {
+			console.log(values);
+			toast("Event Created", {
+				description: `Event ${values.eventName} has been created successfully.`,
+			});
+		} catch (error) {
+			console.error("Form submission error", error);
+			toast.error("Failed to submit the form. Please try again.");
+		}
+	}
+
 	return (
 		<Dialog open={isOpen} onOpenChange={onClose}>
-			<DialogContent className="sm:max-w-[500px]">
+			<DialogContent className="sm:max-w-[600px]">
 				<DialogHeader>
 					<DialogTitle className="text-xl">Create New Event</DialogTitle>
 				</DialogHeader>
 				<div className="grid gap-4 py-4">
-					<div className="grid gap-2">
-						<Label htmlFor="title">Event Title</Label>
-						<Input id="title" placeholder="Enter event title" />
-					</div>
-					<div className="grid grid-cols-2 gap-4">
-						<div className="grid gap-2">
-							<Label>Event Date</Label>
-							<Popover>
-								<PopoverTrigger asChild>
-									<Button
-										variant="outline"
-										className="w-full justify-start text-left font-normal"
-									>
-										<CalendarIcon className="mr-2 h-4 w-4" />
-										{date ? format(date, "PPP") : <span>Pick a date</span>}
-									</Button>
-								</PopoverTrigger>
-								<PopoverContent className="w-auto p-0">
-									<Calendar
-										mode="single"
-										selected={date}
-										onSelect={setDate}
-										initialFocus
-									/>
-								</PopoverContent>
-							</Popover>
-						</div>
-						<div className="grid gap-2">
-							<Label htmlFor="status">Status</Label>
-							<Select>
-								<SelectTrigger id="status">
-									<SelectValue placeholder="Select status" />
-								</SelectTrigger>
-								<SelectContent>
-									<SelectItem value="planning">Planning</SelectItem>
-									<SelectItem value="confirmed">Confirmed</SelectItem>
-									<SelectItem value="completed">Completed</SelectItem>
-								</SelectContent>
-							</Select>
-						</div>
-					</div>
-					<div className="grid gap-2">
-						<Label htmlFor="location">Location</Label>
-						<Input id="location" placeholder="Enter event location" />
-					</div>
-					<div className="grid gap-2">
-						<Label htmlFor="attendees">Expected Attendees</Label>
-						<Input
-							id="attendees"
-							type="number"
-							placeholder="Enter number of attendees"
-						/>
-					</div>
-					<div className="grid gap-2">
-						<Label htmlFor="description">Description</Label>
-						<Textarea id="description" placeholder="Enter event description" />
-					</div>
+					<Form {...form}>
+						<form
+							onSubmit={form.handleSubmit(onSubmit)}
+							className="grid grid-cols-2 gap-4"
+						>
+							<div className="grid col-span-2 gap-2">
+								<FormField
+									control={form.control}
+									name="eventName"
+									render={({ field }) => (
+										<FormItem>
+											<FormLabel>Event Name</FormLabel>
+											<FormControl>
+												<Input
+													placeholder="Enter event name"
+													type=""
+													{...field}
+												/>
+											</FormControl>
+
+											<FormMessage />
+										</FormItem>
+									)}
+								/>
+							</div>
+
+							<div className="grid gap-2">
+								<FormField
+									control={form.control}
+									name="status"
+									render={({ field }) => (
+										<FormItem>
+											<FormLabel>Status</FormLabel>
+											<Select
+												onValueChange={field.onChange}
+												defaultValue={field.value}
+											>
+												<FormControl>
+													<SelectTrigger>
+														<SelectValue placeholder="Select Status" />
+													</SelectTrigger>
+												</FormControl>
+												<SelectContent>
+													<SelectItem value="Pending">Pending</SelectItem>
+													<SelectItem value="Confirmed">Confirmed</SelectItem>
+													<SelectItem value="Completed">Completed</SelectItem>
+												</SelectContent>
+											</Select>
+
+											<FormMessage />
+										</FormItem>
+									)}
+								/>
+							</div>
+
+							<div className="col-span-1">
+								<FormField
+									control={form.control}
+									name="facility"
+									render={({ field }) => (
+										<FormItem className="flex flex-col">
+											<FormLabel>Facility</FormLabel>
+											<Popover>
+												<PopoverTrigger asChild>
+													<FormControl>
+														<Button
+															variant="outline"
+															role="combobox"
+															className={cn(
+																"justify-between",
+																!field.value && "text-muted-foreground",
+															)}
+														>
+															{field.value
+																? facilities.find(
+																		(facility) =>
+																			facility.value === field.value,
+																	)?.label
+																: "Select facility"}
+															<ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+														</Button>
+													</FormControl>
+												</PopoverTrigger>
+												<PopoverContent>
+													<Command>
+														<CommandInput placeholder="Search facility..." />
+														<CommandList>
+															<CommandEmpty>No facility found.</CommandEmpty>
+															<CommandGroup>
+																{facilities.map((facility) => (
+																	<CommandItem
+																		value={facility.label}
+																		key={facility.value}
+																		onSelect={() => {
+																			form.setValue("facility", facility.value);
+																		}}
+																	>
+																		<Check
+																			className={cn(
+																				"mr-2 h-4 w-4",
+																				facility.value === field.value
+																					? "opacity-100"
+																					: "opacity-0",
+																			)}
+																		/>
+																		{facility.label}
+																	</CommandItem>
+																))}
+															</CommandGroup>
+														</CommandList>
+													</Command>
+												</PopoverContent>
+											</Popover>
+
+											<FormMessage />
+										</FormItem>
+									)}
+								/>
+							</div>
+
+							<div className="col-span-2">
+								<FormField
+									control={form.control}
+									name="description"
+									render={({ field }) => (
+										<FormItem>
+											<FormLabel>Description</FormLabel>
+											<FormControl>
+												<Textarea
+													placeholder="Enter event description"
+													className="resize-none"
+													{...field}
+												/>
+											</FormControl>
+
+											<FormMessage />
+										</FormItem>
+									)}
+								/>
+							</div>
+							<div className="col-span-1">
+								<FormField
+									control={form.control}
+									name="startTime"
+									render={({ field }) => (
+										<FormItem>
+											<FormLabel>Start Time</FormLabel>
+											<FormControl>
+												<SmartDatetimeInput
+													value={field.value}
+													onValueChange={field.onChange}
+													placeholder="e.g. Tomorrow morning 9am"
+												/>
+											</FormControl>
+
+											<FormMessage />
+										</FormItem>
+									)}
+								/>
+							</div>
+
+							<div className="col-span-1">
+								<FormField
+									control={form.control}
+									name="endTime"
+									render={({ field }) => (
+										<FormItem>
+											<FormLabel>End Time</FormLabel>
+											<FormControl>
+												<SmartDatetimeInput
+													value={field.value}
+													onValueChange={field.onChange}
+													placeholder="e.g. Tomorrow morning 9am"
+												/>
+											</FormControl>
+
+											<FormMessage />
+										</FormItem>
+									)}
+								/>
+							</div>
+							<div className="col-span-2">
+								<FormField
+									control={form.control}
+									name="allDay"
+									render={({ field }) => (
+										<FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+											<FormControl>
+												<Checkbox
+													checked={field.value}
+													onCheckedChange={field.onChange}
+												/>
+											</FormControl>
+											<div className="space-y-1 leading-none">
+												<FormLabel>All day</FormLabel>
+
+												<FormMessage />
+											</div>
+										</FormItem>
+									)}
+								/>
+							</div>
+							<DialogFooter className="col-span-2">
+								{/* <Button variant="outline" onClick={onClose}>
+									Cancel
+								</Button> */}
+								<Button type="submit">Create Event</Button>
+							</DialogFooter>
+						</form>
+					</Form>
 				</div>
-				<DialogFooter>
-					<Button variant="outline" onClick={onClose}>
-						Cancel
-					</Button>
-					<Button>Create Event</Button>
-				</DialogFooter>
 			</DialogContent>
 		</Dialog>
 	);
