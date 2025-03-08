@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import type { FilterState } from "@/components/calendarFilter";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import type { FilterState } from "@/components/calendarFilter";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useEffect, useState } from "react";
 
 const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 

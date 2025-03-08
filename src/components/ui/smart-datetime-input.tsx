@@ -1,18 +1,18 @@
 // @ts-nocheck
 
-import React from "react";
-import { parseDate } from "chrono-node";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { Calendar, type CalendarProps } from "@/components/ui/calendar";
 import {
     Popover,
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover";
-import { ActiveModifiers } from "react-day-picker";
-import { Calendar, CalendarProps } from "@/components/ui/calendar";
-import { Button, buttonVariants } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-import { Calendar as CalendarIcon, LucideTextCursorInput } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { cn } from "@/lib/utils";
+import { parseDate } from "chrono-node";
+import { Calendar as CalendarIcon, LucideTextCursorInput } from "lucide-react";
+import React from "react";
+import type { ActiveModifiers } from "react-day-picker";
 
 /* -------------------------------------------------------------------------- */
 /*                               Inspired By:                                 */
@@ -206,12 +206,12 @@ const TimePicker = () => {
         (time: string, hour: number, partStamp: number) => {
             onTimeChange(time);
 
-            let newVal = value ? new Date(value) : new Date();
+            const newVal = value ? new Date(value) : new Date();
 
             // If no value exists, use current date but only set the time
             newVal.setHours(
                 hour,
-                partStamp === 0 ? parseInt("00") : timestamp * partStamp,
+                partStamp === 0 ? Number.parseInt("00") : timestamp * partStamp,
             );
 
             onValueChange(newVal);
@@ -261,7 +261,7 @@ const TimePicker = () => {
                 // this should work now haha that hour is what does the trick
 
                 const PM_AM = timeValue.split(" ")[1];
-                const PM_AM_hour = parseInt(
+                const PM_AM_hour = Number.parseInt(
                     timeValue.split(" ")[0].split(":")[0],
                 );
                 const hour =
@@ -274,7 +274,7 @@ const TimePicker = () => {
                           : PM_AM_hour + 12;
 
                 const part = Math.floor(
-                    parseInt(timeValue.split(" ")[0].split(":")[1]) / 15,
+                    Number.parseInt(timeValue.split(" ")[0].split(":")[1]) / 15,
                 );
 
                 formateSelectedTime(timeValue, hour, part);
@@ -324,16 +324,16 @@ const TimePicker = () => {
     const currentTime = React.useMemo(() => {
         const timeVal = Time.split(" ")[0];
         return {
-            hours: parseInt(timeVal.split(":")[0]),
-            minutes: parseInt(timeVal.split(":")[1]),
+            hours: Number.parseInt(timeVal.split(":")[0]),
+            minutes: Number.parseInt(timeVal.split(":")[1]),
         };
     }, [Time]);
 
     React.useEffect(() => {
         const getCurrentElementTime = () => {
             const timeVal = Time.split(" ")[0];
-            const hours = parseInt(timeVal.split(":")[0]);
-            const minutes = parseInt(timeVal.split(":")[1]);
+            const hours = Number.parseInt(timeVal.split(":")[0]);
+            const minutes = Number.parseInt(timeVal.split(":")[1]);
             const PM_AM = Time.split(" ")[1];
 
             const formatIndex =

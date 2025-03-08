@@ -1,10 +1,3 @@
-import {
-    CalendarClock,
-    ChevronRight,
-    Clock,
-    MapPin,
-    Users,
-} from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import {
     Card,
@@ -14,6 +7,13 @@ import {
 } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Separator } from "@/components/ui/separator";
+import {
+    CalendarClock,
+    ChevronRight,
+    Clock,
+    MapPin,
+    Users,
+} from "lucide-react";
 
 // Sample data
 const events = [

@@ -1,9 +1,9 @@
+import { CreateEventButton } from "@/components/events/createEventButton";
+import { EventList } from "@/components/events/eventList";
+import { EventModal } from "@/components/events/eventModal";
+import { EventTimeline } from "@/components/events/eventTimeline";
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import { useState } from "react";
-import { EventList } from "@/components/eventList";
-import { EventTimeline } from "@/components/eventTimeline";
-import { CreateEventButton } from "@/components/createEventButton";
-import { EventModal } from "@/components/eventModal";
 export const Route = createFileRoute("/app/dashboard")({
     component: Dashboard,
     // beforeLoad: async ({ location }) => {

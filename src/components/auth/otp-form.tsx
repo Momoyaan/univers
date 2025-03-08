@@ -18,8 +18,8 @@ import {
     InputOTPSlot,
 } from "@/components/ui/input-otp";
 import { verifyOTP } from "@/lib/auth";
-import { useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
+import { useState } from "react";
 
 const FormSchema = z.object({
     pin: z.string().min(6, {

@@ -1,8 +1,8 @@
-import { createFileRoute, redirect } from "@tanstack/react-router";
-import { isAuthenticated } from "@/lib/stores";
 import { Sidebar } from "@/components/sideBar";
-import { Outlet } from "@tanstack/react-router";
 import { SettingsProvider } from "@/contexts/settings-context";
+import { isAuthenticated } from "@/lib/stores";
+import { createFileRoute, redirect } from "@tanstack/react-router";
+import { Outlet } from "@tanstack/react-router";
 import { useState } from "react";
 export const Route = createFileRoute("/app")({
     component: App,

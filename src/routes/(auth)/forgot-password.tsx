@@ -1,6 +1,6 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { ForgotPasswordForm } from "@/components/auth/forgotPassword";
+import { Link, createFileRoute } from "@tanstack/react-router";
 import { GalleryVerticalEnd } from "lucide-react";
-import { ForgotPasswordForm } from "@/components/forgotPassword";
 
 export const Route = createFileRoute("/(auth)/forgot-password")({
     component: ForgotPasswordPage,

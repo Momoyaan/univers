@@ -1,6 +1,6 @@
-import { Link } from "@tanstack/react-router";
-import { buttonVariants } from "@/components/ui/button";
 import { ModeToggle } from "@/components/modeToggle";
+import { buttonVariants } from "@/components/ui/button";
+import { Link } from "@tanstack/react-router";
 export default function LandingNav() {
     return (
         <header className="flex h-16 shrink-0 items-center gap-2 border-b transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">

@@ -1,8 +1,8 @@
-import { createFileRoute } from "@tanstack/react-router";
-import CalendarView from "@/components/calendarView";
 import type { FilterState } from "@/components/calendarFilter";
-import { useState } from "react";
+import CalendarView from "@/components/calendarView";
 import LandingNav from "@/components/landingNav";
+import { createFileRoute } from "@tanstack/react-router";
+import { useState } from "react";
 
 export const Route = createFileRoute("/")({
     component: Index,

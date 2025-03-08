@@ -1,7 +1,7 @@
-import { CalendarDays, CheckCircle, Circle, Clock } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { CalendarDays, CheckCircle, Circle, Clock } from "lucide-react";
 
 // Sample timeline data
 const timelineEvents = [

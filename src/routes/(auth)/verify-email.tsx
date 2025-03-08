@@ -1,6 +1,6 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { InputOTPForm } from "@/components/auth/otp-form";
+import { Link, createFileRoute } from "@tanstack/react-router";
 import { GalleryVerticalEnd } from "lucide-react";
-import { InputOTPForm } from "@/components/otp-form";
 export const Route = createFileRoute("/(auth)/verify-email")({
     component: VerifyEmailPage,
 });

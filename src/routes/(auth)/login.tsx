@@ -1,14 +1,14 @@
-import { createFileRoute, redirect, Link } from "@tanstack/react-router";
-import { LoginForm } from "@/components/loginForm";
-import { GalleryVerticalEnd } from "lucide-react";
+import { LoginForm } from "@/components/auth/loginForm";
 import { isAuthenticated } from "@/lib/stores";
+import { Link, createFileRoute, redirect } from "@tanstack/react-router";
+import { GalleryVerticalEnd } from "lucide-react";
 
 export const Route = createFileRoute("/(auth)/login")({
     component: LoginPage,
     beforeLoad: async () => {
         if (isAuthenticated) {
             throw redirect({
-                to: "/app",
+                to: "/app/dashboard",
             });
         }
     },

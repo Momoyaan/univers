@@ -1,16 +1,16 @@
-import { useState } from "react";
-import {
-    Bell,
-    X,
-    Info,
-    AlertTriangle,
-    CreditCard,
-    TrendingUp,
-    Gift,
-} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import {
+    AlertTriangle,
+    Bell,
+    CreditCard,
+    Gift,
+    Info,
+    TrendingUp,
+    X,
+} from "lucide-react";
+import { useState } from "react";
 
 const notifications = [
     {

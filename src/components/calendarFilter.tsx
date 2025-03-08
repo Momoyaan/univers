@@ -1,13 +1,11 @@
-import { useState } from "react";
-import { CalendarIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
     Popover,
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover";
-import { Calendar } from "@/components/ui/calendar";
 import {
     Select,
     SelectContent,
@@ -15,6 +13,8 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
+import { CalendarIcon } from "lucide-react";
+import { useState } from "react";
 
 const categories = [
     { id: "personal", name: "Personal", color: "bg-yellow-500" },
