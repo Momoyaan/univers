@@ -1,5 +1,5 @@
 import { LoginForm } from "@/components/auth/loginForm";
-import { isAuthenticated } from "@/lib/stores";
+import { isAuthenticated } from "@/lib/types";
 import { Link, createFileRoute, redirect } from "@tanstack/react-router";
 import { GalleryVerticalEnd } from "lucide-react";
 

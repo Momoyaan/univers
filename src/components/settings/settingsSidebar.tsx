@@ -2,6 +2,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { Link, useRouterState } from "@tanstack/react-router";
+import { Button } from "@/components/ui/button";
 import {
     Bell,
     Building,
@@ -11,6 +12,7 @@ import {
     Settings,
     User,
     Users,
+    LogOut,
 } from "lucide-react";
 
 export function SettingsSidebar() {
@@ -75,6 +77,12 @@ export function SettingsSidebar() {
                             <Settings className="h-4 w-4" />
                             Advanced
                         </Link>
+                        <Button
+                            variant="ghost"
+                            className="inline-flex w-full items-center justify-start gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors text-primary hover:text-destructive"
+                        >
+                            <LogOut className="h-4 w-4" /> Logout
+                        </Button>
                     </div>
                 </div>
             </ScrollArea>

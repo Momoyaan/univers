@@ -47,6 +47,8 @@ export function LoginForm({
 
             // Attempt to sign in user
             const response = await userSignIn(data.email, data.password);
+            localStorage.setItem("token", response.token);
+            localStorage.setItem("tokenType", response.tokenType);
             window.location.reload();
             // Handle successful login
             // You might want to redirect or update app state here

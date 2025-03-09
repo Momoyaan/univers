@@ -1,39 +1,33 @@
-export const API_BASE_URL = "http://localhost:8080"; // Backend API URL
+import type { User, LoginResponse } from "./types";
 
-export const userSignIn = async (email: string, password: string) => {
-    let error = null;
+export const API_BASE_URL = "http://localhost:8080/api"; // Backend API URL
 
-    const res = await fetch(`${API_BASE_URL}/users/login`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        //credentials: "include",
-        body: JSON.stringify({
-            email: email,
-            password: password,
-        }),
-    })
-        .then(async (res) => {
-            if (!res.ok) throw await res.json();
-            localStorage.setItem(
-                "token",
-                await res.json().then((data) => data.data),
-            );
-            return res.json();
-        })
-        .catch((err) => {
-            console.log(err);
-
-            error = err.detail;
-            return null;
+export const userSignIn = async (
+    email: string,
+    password: string,
+): Promise<LoginResponse> => {
+    try {
+        const response = await fetch(`${API_BASE_URL}/auth/login`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            //credentials: "include",
+            body: JSON.stringify({
+                email: email,
+                password: password,
+            }),
         });
 
-    if (error) {
+        if (!response.ok) {
+            throw new Error("Login failed");
+        }
+
+        const data: LoginResponse = await response.json();
+        return data;
+    } catch (error) {
         throw error;
     }
-
-    return res;
 };
 
 export const userSignUp = async (
@@ -44,7 +38,7 @@ export const userSignUp = async (
 ) => {
     let error = null;
 
-    const res = await fetch(`${API_BASE_URL}/users/register`, {
+    const res = await fetch(`${API_BASE_URL}/auth/signup`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -161,7 +155,7 @@ export const verifyEmail = async (email: string) => {
 export const verifyOTP = async (email: string, code: string) => {
     let error = null;
 
-    const res = await fetch(`${API_BASE_URL}/users/verify-email`, {
+    const res = await fetch(`${API_BASE_URL}/auth/verify`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",

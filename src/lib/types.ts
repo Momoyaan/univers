@@ -6,3 +6,8 @@ export type User = {
     email: string;
     //profile_image_url: string
 };
+
+export type LoginResponse = {
+    token: string;
+    tokenType: string;
+};
