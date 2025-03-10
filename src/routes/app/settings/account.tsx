@@ -10,8 +10,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
+import { Sun, Moon } from "lucide-react";
 import { useState } from "react";
-
+import { useTheme } from "next-themes";
 import { createFileRoute } from "@tanstack/react-router";
 export const Route = createFileRoute("/app/settings/account")({
     component: AccountSettings,
@@ -19,6 +20,7 @@ export const Route = createFileRoute("/app/settings/account")({
 
 export function AccountSettings() {
     const [twoFactorEnabled, setTwoFactorEnabled] = useState(false);
+    const { theme, setTheme } = useTheme();
 
     return (
         <div className="space-y-6">
@@ -30,7 +32,63 @@ export function AccountSettings() {
                     Manage your account settings and security preferences.
                 </p>
             </div>
-
+            <Card>
+                <CardHeader>
+                    <CardTitle>Appearance</CardTitle>
+                    <CardDescription>
+                        Customize the appearance of the application.
+                    </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                    <div className="flex items-center justify-between">
+                        <div className="space-y-0.5">
+                            <Label>Theme</Label>
+                            <p className="text-sm text-muted-foreground">
+                                Select your preferred theme for the application.
+                            </p>
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <div className="flex items-center space-x-2">
+                                <Button
+                                    variant={
+                                        theme === "light"
+                                            ? "default"
+                                            : "outline"
+                                    }
+                                    size="sm"
+                                    onClick={() => setTheme("light")}
+                                    className="gap-2"
+                                >
+                                    <Sun className="h-4 w-4" />
+                                    Light
+                                </Button>
+                                <Button
+                                    variant={
+                                        theme === "dark" ? "default" : "outline"
+                                    }
+                                    size="sm"
+                                    onClick={() => setTheme("dark")}
+                                    className="gap-2"
+                                >
+                                    <Moon className="h-4 w-4" />
+                                    Dark
+                                </Button>
+                                <Button
+                                    variant={
+                                        theme === "system"
+                                            ? "default"
+                                            : "outline"
+                                    }
+                                    size="sm"
+                                    onClick={() => setTheme("system")}
+                                >
+                                    System
+                                </Button>
+                            </div>
+                        </div>
+                    </div>
+                </CardContent>
+            </Card>
             <Card>
                 <CardHeader>
                     <CardTitle>Email Address</CardTitle>
