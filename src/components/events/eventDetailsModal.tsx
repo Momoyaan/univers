@@ -101,14 +101,6 @@ export function EventDetailsModal({
             <DialogContent className="sm:max-w-[650px]">
                 <DialogHeader>
                     <DialogTitle className="text-xl">{event.title}</DialogTitle>
-                    <Button
-                        variant="ghost"
-                        size="icon"
-                        className="absolute right-4 top-4"
-                        onClick={onClose}
-                    >
-                        <X className="h-4 w-4" />
-                    </Button>
                 </DialogHeader>
 
                 <div className="flex justify-between items-center">
