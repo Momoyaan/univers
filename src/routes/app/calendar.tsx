@@ -1,5 +1,18 @@
-import { useState } from "react";
-import { ChevronLeft, ChevronRight, Filter, Plus } from "lucide-react";
+import { CreateEventButton } from "@/components/events/createEventButton";
+import { EventDetailsModal } from "@/components/events/eventDetailsModal";
+import { EventModal } from "@/components/events/eventModal";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from "@/components/ui/popover";
+import { Separator } from "@/components/ui/separator";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { cn } from "@/lib/utils";
 import {
     addDays,
     addMonths,
@@ -12,21 +25,8 @@ import {
     startOfWeek,
     subMonths,
 } from "date-fns";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
-} from "@/components/ui/popover";
-import { Separator } from "@/components/ui/separator";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { CreateEventButton } from "@/components/events/createEventButton";
-import { EventModal } from "@/components/events/eventModal";
-import { EventDetailsModal } from "@/components/events/eventDetailsModal";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Label } from "@/components/ui/label";
-import { cn } from "@/lib/utils";
+import { ChevronLeft, ChevronRight, Filter, Plus } from "lucide-react";
+import { useState } from "react";
 
 import { createFileRoute } from "@tanstack/react-router";
 

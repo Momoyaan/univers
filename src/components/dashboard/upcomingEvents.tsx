@@ -1,5 +1,5 @@
-import { CalendarClock, MapPin } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { CalendarClock, MapPin } from "lucide-react";
 
 // Sample upcoming events
 const upcomingEvents = [

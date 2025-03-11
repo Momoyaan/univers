@@ -1,6 +1,8 @@
-import { createFileRoute, redirect } from "@tanstack/react-router";
-import { useState } from "react";
-import { Calendar, CalendarDays, TrendingUp, Users } from "lucide-react";
+import { EventAttendanceChart } from "@/components/dashboard/eventAttendanceChart";
+import { EventCategoriesChart } from "@/components/dashboard/eventCategoriesChart";
+import { EventsOverviewChart } from "@/components/dashboard/eventOverviewChart";
+import { RecentActivity } from "@/components/dashboard/recentActivity";
+import { UpcomingEvents } from "@/components/dashboard/upcomingEvents";
 import {
     Card,
     CardContent,
@@ -9,11 +11,9 @@ import {
     CardTitle,
 } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { RecentActivity } from "@/components/dashboard/recentActivity";
-import { EventsOverviewChart } from "@/components/dashboard/eventOverviewChart";
-import { EventCategoriesChart } from "@/components/dashboard/eventCategoriesChart";
-import { EventAttendanceChart } from "@/components/dashboard/eventAttendanceChart";
-import { UpcomingEvents } from "@/components/dashboard/upcomingEvents";
+import { createFileRoute, redirect } from "@tanstack/react-router";
+import { Calendar, CalendarDays, TrendingUp, Users } from "lucide-react";
+import { useState } from "react";
 export const Route = createFileRoute("/app/dashboard")({
     component: Dashboard,
     // beforeLoad: async ({ location }) => {

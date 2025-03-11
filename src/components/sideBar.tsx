@@ -5,6 +5,7 @@ import {
     TooltipProvider,
     TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { NotificationCenter } from "@/contexts/notification-context";
 import { cn } from "@/lib/utils";
 import { Link } from "@tanstack/react-router";
 import { useRouterState } from "@tanstack/react-router";
@@ -21,7 +22,6 @@ import { useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { ScrollArea } from "./ui/scroll-area";
 import { Separator } from "./ui/separator";
-import { NotificationCenter } from "@/contexts/notification-context";
 
 const mainNavigation = [
     { name: "Dashboard", href: "/app/dashboard", icon: Home },

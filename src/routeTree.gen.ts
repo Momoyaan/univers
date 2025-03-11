@@ -10,25 +10,25 @@
 
 // Import Routes
 
+import { Route as authForgotPasswordImport } from "./routes/(auth)/forgot-password";
+import { Route as authLoginImport } from "./routes/(auth)/login";
+import { Route as authRegisterImport } from "./routes/(auth)/register";
+import { Route as authVerifyEmailImport } from "./routes/(auth)/verify-email";
 import { Route as rootRoute } from "./routes/__root";
 import { Route as AboutImport } from "./routes/about";
-import { Route as AppRouteImport } from "./routes/app/route";
-import { Route as IndexImport } from "./routes/index";
-import { Route as AppNotificationsImport } from "./routes/app/notifications";
-import { Route as AppEventsImport } from "./routes/app/events";
-import { Route as AppDashboardImport } from "./routes/app/dashboard";
 import { Route as AppCalendarImport } from "./routes/app/calendar";
-import { Route as authVerifyEmailImport } from "./routes/(auth)/verify-email";
-import { Route as authRegisterImport } from "./routes/(auth)/register";
-import { Route as authLoginImport } from "./routes/(auth)/login";
-import { Route as authForgotPasswordImport } from "./routes/(auth)/forgot-password";
-import { Route as AppSettingsRouteImport } from "./routes/app/settings/route";
-import { Route as AppSettingsWorkspacesImport } from "./routes/app/settings/workspaces";
-import { Route as AppSettingsTeamImport } from "./routes/app/settings/team";
-import { Route as AppSettingsProfileImport } from "./routes/app/settings/profile";
-import { Route as AppSettingsNotificationsImport } from "./routes/app/settings/notifications";
-import { Route as AppSettingsIntegrationsImport } from "./routes/app/settings/integrations";
+import { Route as AppDashboardImport } from "./routes/app/dashboard";
+import { Route as AppEventsImport } from "./routes/app/events";
+import { Route as AppNotificationsImport } from "./routes/app/notifications";
+import { Route as AppRouteImport } from "./routes/app/route";
 import { Route as AppSettingsAccountImport } from "./routes/app/settings/account";
+import { Route as AppSettingsIntegrationsImport } from "./routes/app/settings/integrations";
+import { Route as AppSettingsNotificationsImport } from "./routes/app/settings/notifications";
+import { Route as AppSettingsProfileImport } from "./routes/app/settings/profile";
+import { Route as AppSettingsRouteImport } from "./routes/app/settings/route";
+import { Route as AppSettingsTeamImport } from "./routes/app/settings/team";
+import { Route as AppSettingsWorkspacesImport } from "./routes/app/settings/workspaces";
+import { Route as IndexImport } from "./routes/index";
 
 // Create/Update Routes
 

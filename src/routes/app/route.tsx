@@ -1,6 +1,6 @@
 import { Sidebar } from "@/components/sideBar";
-import { SettingsProvider } from "@/contexts/settings-context";
 import { NotificationProvider } from "@/contexts/notification-context";
+import { SettingsProvider } from "@/contexts/settings-context";
 import { isAuthenticated } from "@/lib/stores";
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import { Outlet } from "@tanstack/react-router";

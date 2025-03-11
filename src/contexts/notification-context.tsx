@@ -1,6 +1,4 @@
-import type React from "react";
-import { createContext, useContext, useState, useEffect } from "react";
-import { Bell } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
     DropdownMenu,
@@ -10,8 +8,10 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Badge } from "@/components/ui/badge";
 import { Link } from "@tanstack/react-router";
+import { Bell } from "lucide-react";
+import type React from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 export interface Notification {
     id: number;

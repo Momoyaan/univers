@@ -1,14 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-import { useState } from "react";
-import { format } from "date-fns";
-import { Bell, Check, Filter, Trash2 } from "lucide-react";
-import {
-    useNotification,
-    type Notification,
-} from "@/contexts/notification-context";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -17,6 +9,14 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Input } from "@/components/ui/input";
+import {
+    type Notification,
+    useNotification,
+} from "@/contexts/notification-context";
+import { format } from "date-fns";
+import { Bell, Check, Filter, Trash2 } from "lucide-react";
+import { useState } from "react";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/app/notifications")({

@@ -10,10 +10,10 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { Sun, Moon } from "lucide-react";
-import { useState } from "react";
-import { useTheme } from "next-themes";
 import { createFileRoute } from "@tanstack/react-router";
+import { Moon, Sun } from "lucide-react";
+import { useTheme } from "next-themes";
+import { useState } from "react";
 export const Route = createFileRoute("/app/settings/account")({
     component: AccountSettings,
 });
