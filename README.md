@@ -1,4 +1,4 @@
-# UniVERS 
+# UniVERS
 
 ## Technologies Used
 
