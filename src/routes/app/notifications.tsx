@@ -17,6 +17,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/app/notifications")({
     component: Notifications,
@@ -67,6 +68,9 @@ export function Notifications() {
             title: `Test ${randomType} notification`,
             description: "This is a test notification message.",
             type: randomType,
+        });
+        toast(`Toast ${randomType} notification`, {
+            description: "This is a test notification message.",
         });
     };
 
