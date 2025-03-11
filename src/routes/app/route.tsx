@@ -1,5 +1,6 @@
 import { Sidebar } from "@/components/sideBar";
 import { SettingsProvider } from "@/contexts/settings-context";
+import { NotificationProvider } from "@/contexts/notification-context";
 import { isAuthenticated } from "@/lib/stores";
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import { Outlet } from "@tanstack/react-router";
@@ -27,12 +28,14 @@ function App() {
     return (
         <div className="flex h-screen overflow-y-hidden">
             <SettingsProvider>
-                <Sidebar setView={setView} currentView={view} />
-                <div className="flex-1 relative flex h-full w-full flex-col overflow-y-auto overflow-x-hidden">
-                    <main>
-                        <Outlet />
-                    </main>
-                </div>
+                <NotificationProvider>
+                    <Sidebar setView={setView} currentView={view} />
+                    <div className="flex-1 relative flex h-full w-full flex-col overflow-y-auto overflow-x-hidden">
+                        <main>
+                            <Outlet />
+                        </main>
+                    </div>
+                </NotificationProvider>
             </SettingsProvider>
         </div>
     );

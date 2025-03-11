@@ -21,6 +21,7 @@ import { useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { ScrollArea } from "./ui/scroll-area";
 import { Separator } from "./ui/separator";
+import { NotificationCenter } from "@/contexts/notification-context";
 
 const mainNavigation = [
     { name: "Dashboard", href: "/app/dashboard", icon: Home },
@@ -79,8 +80,10 @@ export function Sidebar() {
                     <div className="border-b border-r border-border">
                         <div
                             className={cn(
-                                "flex h-16 items-center gap-2 px-4",
-                                isCollapsed && "justify-center px-2",
+                                "flex h-16 items-center px-4",
+                                isCollapsed
+                                    ? "flex-col gap-1 justify-center"
+                                    : "justify-between",
                             )}
                         >
                             {!isCollapsed && (
@@ -91,26 +94,35 @@ export function Sidebar() {
                                     <span className="text-lg">UniVERS</span>
                                 </Link>
                             )}
-                            <Button
-                                variant="ghost"
-                                size="sm"
+                            <div
                                 className={cn(
-                                    "ml-auto h-8 w-8",
-                                    isCollapsed && "ml-0",
+                                    isCollapsed
+                                        ? "flex flex-col items-center gap-1"
+                                        : "flex items-center gap-2",
                                 )}
-                                onClick={() => setIsCollapsed(!isCollapsed)}
                             >
-                                <ChevronLeft
+                                {!isCollapsed && <NotificationCenter />}
+                                <Button
+                                    variant="ghost"
+                                    size="sm"
                                     className={cn(
-                                        "h-4 w-4 transition-transform",
-                                        isCollapsed && "rotate-180",
+                                        "h-8 w-8",
+                                        !isCollapsed && "ml-auto",
                                     )}
-                                />
-                                <span className="sr-only">
-                                    {isCollapsed ? "Expand" : "Collapse"}{" "}
-                                    Sidebar
-                                </span>
-                            </Button>
+                                    onClick={() => setIsCollapsed(!isCollapsed)}
+                                >
+                                    <ChevronLeft
+                                        className={cn(
+                                            "h-4 w-4 transition-transform",
+                                            isCollapsed && "rotate-180",
+                                        )}
+                                    />
+                                    <span className="sr-only">
+                                        {isCollapsed ? "Expand" : "Collapse"}{" "}
+                                        Sidebar
+                                    </span>
+                                </Button>
+                            </div>
                         </div>
                     </div>
                     <div className="flex-1 border-r">
@@ -177,15 +189,55 @@ export function Sidebar() {
                             </div>
                         </ScrollArea>
                     </div>
-                    <div className="flex items-center border-t border-r border-border gap-2 p-4">
-                        <Tooltip delayDuration={0}>
-                            <TooltipTrigger asChild>
-                                <div className="flex items-center gap-2">
-                                    <Avatar className="h-8 w-8">
-                                        <AvatarImage src="/placeholder.svg?height=32&width=32" />
-                                        <AvatarFallback>JD</AvatarFallback>
-                                    </Avatar>
-                                    {!isCollapsed && (
+                    {isCollapsed ? (
+                        <div className="flex flex-col gap-1 border-t border-r border-border p-4">
+                            <div className="flex justify-center">
+                                <NotificationCenter />
+                            </div>
+                            <div className="flex justify-center">
+                                <Link
+                                    to="/app/settings"
+                                    className={cn(
+                                        buttonVariants({
+                                            variant: "ghost",
+                                            size: "icon",
+                                        }),
+                                    )}
+                                >
+                                    <Settings className="h-4 w-4" />
+                                </Link>
+                            </div>
+                            <div className="flex justify-center">
+                                <Tooltip delayDuration={0}>
+                                    <TooltipTrigger asChild>
+                                        <Avatar className="h-8 w-8">
+                                            <AvatarImage src="/placeholder.svg?height=32&width=32" />
+                                            <AvatarFallback>JD</AvatarFallback>
+                                        </Avatar>
+                                    </TooltipTrigger>
+                                    <TooltipContent
+                                        side="top"
+                                        className="flex flex-col gap-1"
+                                    >
+                                        <span className="font-medium">
+                                            Jane Doe
+                                        </span>
+                                        <span className="text-xs">
+                                            jane@example.com
+                                        </span>
+                                    </TooltipContent>
+                                </Tooltip>
+                            </div>
+                        </div>
+                    ) : (
+                        <div className="flex items-center border-t border-r border-border gap-2 p-4">
+                            <Tooltip delayDuration={0}>
+                                <TooltipTrigger asChild>
+                                    <div className="flex items-center gap-2">
+                                        <Avatar className="h-8 w-8">
+                                            <AvatarImage src="/placeholder.svg?height=32&width=32" />
+                                            <AvatarFallback>JD</AvatarFallback>
+                                        </Avatar>
                                         <div className="flex flex-col">
                                             <span className="text-sm font-medium">
                                                 Jane Doe
@@ -194,24 +246,9 @@ export function Sidebar() {
                                                 jane@example.com
                                             </span>
                                         </div>
-                                    )}
-                                </div>
-                            </TooltipTrigger>
-                            {isCollapsed && (
-                                <TooltipContent
-                                    side="right"
-                                    className="flex flex-col gap-1"
-                                >
-                                    <span className="font-medium">
-                                        Jane Doe
-                                    </span>
-                                    <span className="text-xs">
-                                        jane@example.com
-                                    </span>
-                                </TooltipContent>
-                            )}
-                        </Tooltip>
-                        {!isCollapsed && (
+                                    </div>
+                                </TooltipTrigger>
+                            </Tooltip>
                             <Link
                                 to="/app/settings"
                                 className={cn(
@@ -224,8 +261,8 @@ export function Sidebar() {
                             >
                                 <Settings className="h-4 w-4" />
                             </Link>
-                        )}
-                    </div>
+                        </div>
+                    )}
                 </div>
             </>
         </TooltipProvider>
