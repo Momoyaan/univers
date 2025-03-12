@@ -1,8 +1,17 @@
+import { ApprovalTimeChart } from "@/components/dashboard/approvalTimeChart";
+import { CancellationRateChart } from "@/components/dashboard/cancellationRateChart";
+import { EquipmentReservationsChart } from "@/components/dashboard/equipmentReservationsChart";
 import { EventAttendanceChart } from "@/components/dashboard/eventAttendanceChart";
 import { EventCategoriesChart } from "@/components/dashboard/eventCategoriesChart";
 import { EventsOverviewChart } from "@/components/dashboard/eventOverviewChart";
+import { EventsPerVenueChart } from "@/components/dashboard/eventsPerVenueChart";
+import { PeakReservationHoursChart } from "@/components/dashboard/peakReservationHoursChart";
 import { RecentActivity } from "@/components/dashboard/recentActivity";
+import { ReservationOverlapChart } from "@/components/dashboard/reservationOverlapChart";
+import { TopEquipmentChart } from "@/components/dashboard/topEquipmentChart";
+import { TopVenuesChart } from "@/components/dashboard/topVenuesChart";
 import { UpcomingEvents } from "@/components/dashboard/upcomingEvents";
+import { UserActivityChart } from "@/components/dashboard/userActivityChart";
 import {
     Card,
     CardContent,
@@ -136,6 +145,118 @@ function Dashboard() {
                             </Card>
                         </div>
 
+                        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                            <Card>
+                                <CardHeader>
+                                    <CardTitle>Events per Venue</CardTitle>
+                                    <CardDescription>
+                                        Number of events per month per venue
+                                    </CardDescription>
+                                </CardHeader>
+                                <CardContent>
+                                    <EventsPerVenueChart />
+                                </CardContent>
+                            </Card>
+                            <Card>
+                                <CardHeader>
+                                    <CardTitle>
+                                        Equipment Reservations
+                                    </CardTitle>
+                                    <CardDescription>
+                                        Number of equipment reservations per
+                                        month
+                                    </CardDescription>
+                                </CardHeader>
+                                <CardContent>
+                                    <EquipmentReservationsChart />
+                                </CardContent>
+                            </Card>
+                            <Card>
+                                <CardHeader>
+                                    <CardTitle>
+                                        Peak Reservation Hours
+                                    </CardTitle>
+                                    <CardDescription>
+                                        Most common times for venue and
+                                        equipment bookings
+                                    </CardDescription>
+                                </CardHeader>
+                                <CardContent>
+                                    <PeakReservationHoursChart />
+                                </CardContent>
+                            </Card>
+                            <Card>
+                                <CardHeader>
+                                    <CardTitle>Top Venues</CardTitle>
+                                    <CardDescription>
+                                        Most frequently used venues
+                                    </CardDescription>
+                                </CardHeader>
+                                <CardContent>
+                                    <TopVenuesChart />
+                                </CardContent>
+                            </Card>
+                            <Card>
+                                <CardHeader>
+                                    <CardTitle>Top Equipment</CardTitle>
+                                    <CardDescription>
+                                        Most reserved equipment
+                                    </CardDescription>
+                                </CardHeader>
+                                <CardContent>
+                                    <TopEquipmentChart />
+                                </CardContent>
+                            </Card>
+                            <Card>
+                                <CardHeader>
+                                    <CardTitle>
+                                        Approval Time Analysis
+                                    </CardTitle>
+                                    <CardDescription>
+                                        Average time for reservation approvals
+                                    </CardDescription>
+                                </CardHeader>
+                                <CardContent>
+                                    <ApprovalTimeChart />
+                                </CardContent>
+                            </Card>
+                            <Card>
+                                <CardHeader>
+                                    <CardTitle>Cancellation Rate</CardTitle>
+                                    <CardDescription>
+                                        Cancellation rate per month
+                                    </CardDescription>
+                                </CardHeader>
+                                <CardContent>
+                                    <CancellationRateChart />
+                                </CardContent>
+                            </Card>
+                            <Card>
+                                <CardHeader>
+                                    <CardTitle>
+                                        User Reservation Activity
+                                    </CardTitle>
+                                    <CardDescription>
+                                        Most active organizers
+                                    </CardDescription>
+                                </CardHeader>
+                                <CardContent>
+                                    <UserActivityChart />
+                                </CardContent>
+                            </Card>
+                            <Card>
+                                <CardHeader>
+                                    <CardTitle>Reservation Overlap</CardTitle>
+                                    <CardDescription>
+                                        Time slots with highest scheduling
+                                        conflicts
+                                    </CardDescription>
+                                </CardHeader>
+                                <CardContent>
+                                    <ReservationOverlapChart />
+                                </CardContent>
+                            </Card>
+                        </div>
                         {/* Charts */}
                         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-7">
                             <Card className="col-span-4">

@@ -12,7 +12,6 @@ export const userSignIn = async (
             headers: {
                 "Content-Type": "application/json",
             },
-            //credentials: "include",
             body: JSON.stringify({
                 email: email,
                 password: password,
@@ -20,13 +19,13 @@ export const userSignIn = async (
         });
 
         if (!response.ok) {
-            throw new Error("Login failed");
+            throw new Error(`Error! Status: ${response.status}`);
         }
 
-        const data: LoginResponse = await response.json();
+        const data = await response.json();
         return data;
     } catch (error) {
-        throw error;
+        throw Error;
     }
 };
 

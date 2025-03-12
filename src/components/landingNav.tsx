@@ -13,6 +13,12 @@ export default function LandingNav() {
                 </Link>
                 <div className="flex items-center gap-2 ml-auto">
                     <Link
+                        to="/app/dashboard"
+                        className={buttonVariants({ variant: "secondary" })}
+                    >
+                        Go to App
+                    </Link>
+                    <Link
                         to="/login"
                         className={buttonVariants({ variant: "default" })}
                     >
