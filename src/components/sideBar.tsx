@@ -15,6 +15,7 @@ import {
     Home,
     LayoutGrid,
     Menu,
+    Package,
     Settings,
     Users,
 } from "lucide-react";
@@ -28,6 +29,7 @@ const mainNavigation = [
     { name: "Calendar", href: "/app/calendar", icon: CalendarDays },
     { name: "Events", href: "/app/events", icon: LayoutGrid },
     { name: "Users", href: "/app/user-management", icon: Users },
+    { name: "Equipments", href: "/app/equipments", icon: Package },
 ];
 
 const workspaces = [

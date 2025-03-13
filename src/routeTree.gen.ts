@@ -17,6 +17,7 @@ import { Route as IndexImport } from './routes/index'
 import { Route as AppUserManagementImport } from './routes/app/user-management'
 import { Route as AppNotificationsImport } from './routes/app/notifications'
 import { Route as AppEventsImport } from './routes/app/events'
+import { Route as AppEquipmentsImport } from './routes/app/equipments'
 import { Route as AppDashboardImport } from './routes/app/dashboard'
 import { Route as AppCalendarImport } from './routes/app/calendar'
 import { Route as authVerifyEmailImport } from './routes/(auth)/verify-email'
@@ -66,6 +67,12 @@ const AppNotificationsRoute = AppNotificationsImport.update({
 const AppEventsRoute = AppEventsImport.update({
   id: '/events',
   path: '/events',
+  getParentRoute: () => AppRouteRoute,
+} as any)
+
+const AppEquipmentsRoute = AppEquipmentsImport.update({
+  id: '/equipments',
+  path: '/equipments',
   getParentRoute: () => AppRouteRoute,
 } as any)
 
@@ -221,6 +228,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppDashboardImport
       parentRoute: typeof AppRouteImport
     }
+    '/app/equipments': {
+      id: '/app/equipments'
+      path: '/equipments'
+      fullPath: '/app/equipments'
+      preLoaderRoute: typeof AppEquipmentsImport
+      parentRoute: typeof AppRouteImport
+    }
     '/app/events': {
       id: '/app/events'
       path: '/events'
@@ -314,6 +328,7 @@ interface AppRouteRouteChildren {
   AppSettingsRouteRoute: typeof AppSettingsRouteRouteWithChildren
   AppCalendarRoute: typeof AppCalendarRoute
   AppDashboardRoute: typeof AppDashboardRoute
+  AppEquipmentsRoute: typeof AppEquipmentsRoute
   AppEventsRoute: typeof AppEventsRoute
   AppNotificationsRoute: typeof AppNotificationsRoute
   AppUserManagementRoute: typeof AppUserManagementRoute
@@ -323,6 +338,7 @@ const AppRouteRouteChildren: AppRouteRouteChildren = {
   AppSettingsRouteRoute: AppSettingsRouteRouteWithChildren,
   AppCalendarRoute: AppCalendarRoute,
   AppDashboardRoute: AppDashboardRoute,
+  AppEquipmentsRoute: AppEquipmentsRoute,
   AppEventsRoute: AppEventsRoute,
   AppNotificationsRoute: AppNotificationsRoute,
   AppUserManagementRoute: AppUserManagementRoute,
@@ -343,6 +359,7 @@ export interface FileRoutesByFullPath {
   '/verify-email': typeof authVerifyEmailRoute
   '/app/calendar': typeof AppCalendarRoute
   '/app/dashboard': typeof AppDashboardRoute
+  '/app/equipments': typeof AppEquipmentsRoute
   '/app/events': typeof AppEventsRoute
   '/app/notifications': typeof AppNotificationsRoute
   '/app/user-management': typeof AppUserManagementRoute
@@ -365,6 +382,7 @@ export interface FileRoutesByTo {
   '/verify-email': typeof authVerifyEmailRoute
   '/app/calendar': typeof AppCalendarRoute
   '/app/dashboard': typeof AppDashboardRoute
+  '/app/equipments': typeof AppEquipmentsRoute
   '/app/events': typeof AppEventsRoute
   '/app/notifications': typeof AppNotificationsRoute
   '/app/user-management': typeof AppUserManagementRoute
@@ -388,6 +406,7 @@ export interface FileRoutesById {
   '/(auth)/verify-email': typeof authVerifyEmailRoute
   '/app/calendar': typeof AppCalendarRoute
   '/app/dashboard': typeof AppDashboardRoute
+  '/app/equipments': typeof AppEquipmentsRoute
   '/app/events': typeof AppEventsRoute
   '/app/notifications': typeof AppNotificationsRoute
   '/app/user-management': typeof AppUserManagementRoute
@@ -412,6 +431,7 @@ export interface FileRouteTypes {
     | '/verify-email'
     | '/app/calendar'
     | '/app/dashboard'
+    | '/app/equipments'
     | '/app/events'
     | '/app/notifications'
     | '/app/user-management'
@@ -433,6 +453,7 @@ export interface FileRouteTypes {
     | '/verify-email'
     | '/app/calendar'
     | '/app/dashboard'
+    | '/app/equipments'
     | '/app/events'
     | '/app/notifications'
     | '/app/user-management'
@@ -454,6 +475,7 @@ export interface FileRouteTypes {
     | '/(auth)/verify-email'
     | '/app/calendar'
     | '/app/dashboard'
+    | '/app/equipments'
     | '/app/events'
     | '/app/notifications'
     | '/app/user-management'
@@ -514,6 +536,7 @@ export const routeTree = rootRoute
         "/app/settings",
         "/app/calendar",
         "/app/dashboard",
+        "/app/equipments",
         "/app/events",
         "/app/notifications",
         "/app/user-management"
@@ -552,6 +575,10 @@ export const routeTree = rootRoute
     },
     "/app/dashboard": {
       "filePath": "app/dashboard.tsx",
+      "parent": "/app"
+    },
+    "/app/equipments": {
+      "filePath": "app/equipments.tsx",
       "parent": "/app"
     },
     "/app/events": {
