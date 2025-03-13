@@ -27,7 +27,7 @@ const mainNavigation = [
     { name: "Dashboard", href: "/app/dashboard", icon: Home },
     { name: "Calendar", href: "/app/calendar", icon: CalendarDays },
     { name: "Events", href: "/app/events", icon: LayoutGrid },
-    { name: "Team", href: "/app/team", icon: Users },
+    { name: "Users", href: "/app/user-management", icon: Users },
 ];
 
 const workspaces = [

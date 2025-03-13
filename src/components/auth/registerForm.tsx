@@ -66,14 +66,12 @@ export function RegisterForm({
                 data.email,
                 data.password,
             );
-            //await verifyEmail(data.email);
             localStorage.setItem("email", data.email);
             navigate({ to: "/verify-email" });
             console.log("Register successful:", response);
         } catch (error) {
             // Handle login error
-            console.error("Register failed:", error);
-            // You might want to show an error message to the user
+            console.error("Register failed:", error.message);
         } finally {
             setIsLoading(false);
         }

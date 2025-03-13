@@ -14,6 +14,7 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as AboutImport } from './routes/about'
 import { Route as AppRouteImport } from './routes/app/route'
 import { Route as IndexImport } from './routes/index'
+import { Route as AppUserManagementImport } from './routes/app/user-management'
 import { Route as AppNotificationsImport } from './routes/app/notifications'
 import { Route as AppEventsImport } from './routes/app/events'
 import { Route as AppDashboardImport } from './routes/app/dashboard'
@@ -48,6 +49,12 @@ const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRoute,
+} as any)
+
+const AppUserManagementRoute = AppUserManagementImport.update({
+  id: '/user-management',
+  path: '/user-management',
+  getParentRoute: () => AppRouteRoute,
 } as any)
 
 const AppNotificationsRoute = AppNotificationsImport.update({
@@ -228,6 +235,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppNotificationsImport
       parentRoute: typeof AppRouteImport
     }
+    '/app/user-management': {
+      id: '/app/user-management'
+      path: '/user-management'
+      fullPath: '/app/user-management'
+      preLoaderRoute: typeof AppUserManagementImport
+      parentRoute: typeof AppRouteImport
+    }
     '/app/settings/account': {
       id: '/app/settings/account'
       path: '/account'
@@ -302,6 +316,7 @@ interface AppRouteRouteChildren {
   AppDashboardRoute: typeof AppDashboardRoute
   AppEventsRoute: typeof AppEventsRoute
   AppNotificationsRoute: typeof AppNotificationsRoute
+  AppUserManagementRoute: typeof AppUserManagementRoute
 }
 
 const AppRouteRouteChildren: AppRouteRouteChildren = {
@@ -310,6 +325,7 @@ const AppRouteRouteChildren: AppRouteRouteChildren = {
   AppDashboardRoute: AppDashboardRoute,
   AppEventsRoute: AppEventsRoute,
   AppNotificationsRoute: AppNotificationsRoute,
+  AppUserManagementRoute: AppUserManagementRoute,
 }
 
 const AppRouteRouteWithChildren = AppRouteRoute._addFileChildren(
@@ -329,6 +345,7 @@ export interface FileRoutesByFullPath {
   '/app/dashboard': typeof AppDashboardRoute
   '/app/events': typeof AppEventsRoute
   '/app/notifications': typeof AppNotificationsRoute
+  '/app/user-management': typeof AppUserManagementRoute
   '/app/settings/account': typeof AppSettingsAccountRoute
   '/app/settings/integrations': typeof AppSettingsIntegrationsRoute
   '/app/settings/notifications': typeof AppSettingsNotificationsRoute
@@ -350,6 +367,7 @@ export interface FileRoutesByTo {
   '/app/dashboard': typeof AppDashboardRoute
   '/app/events': typeof AppEventsRoute
   '/app/notifications': typeof AppNotificationsRoute
+  '/app/user-management': typeof AppUserManagementRoute
   '/app/settings/account': typeof AppSettingsAccountRoute
   '/app/settings/integrations': typeof AppSettingsIntegrationsRoute
   '/app/settings/notifications': typeof AppSettingsNotificationsRoute
@@ -372,6 +390,7 @@ export interface FileRoutesById {
   '/app/dashboard': typeof AppDashboardRoute
   '/app/events': typeof AppEventsRoute
   '/app/notifications': typeof AppNotificationsRoute
+  '/app/user-management': typeof AppUserManagementRoute
   '/app/settings/account': typeof AppSettingsAccountRoute
   '/app/settings/integrations': typeof AppSettingsIntegrationsRoute
   '/app/settings/notifications': typeof AppSettingsNotificationsRoute
@@ -395,6 +414,7 @@ export interface FileRouteTypes {
     | '/app/dashboard'
     | '/app/events'
     | '/app/notifications'
+    | '/app/user-management'
     | '/app/settings/account'
     | '/app/settings/integrations'
     | '/app/settings/notifications'
@@ -415,6 +435,7 @@ export interface FileRouteTypes {
     | '/app/dashboard'
     | '/app/events'
     | '/app/notifications'
+    | '/app/user-management'
     | '/app/settings/account'
     | '/app/settings/integrations'
     | '/app/settings/notifications'
@@ -435,6 +456,7 @@ export interface FileRouteTypes {
     | '/app/dashboard'
     | '/app/events'
     | '/app/notifications'
+    | '/app/user-management'
     | '/app/settings/account'
     | '/app/settings/integrations'
     | '/app/settings/notifications'
@@ -493,7 +515,8 @@ export const routeTree = rootRoute
         "/app/calendar",
         "/app/dashboard",
         "/app/events",
-        "/app/notifications"
+        "/app/notifications",
+        "/app/user-management"
       ]
     },
     "/about": {
@@ -537,6 +560,10 @@ export const routeTree = rootRoute
     },
     "/app/notifications": {
       "filePath": "app/notifications.tsx",
+      "parent": "/app"
+    },
+    "/app/user-management": {
+      "filePath": "app/user-management.tsx",
       "parent": "/app"
     },
     "/app/settings/account": {
