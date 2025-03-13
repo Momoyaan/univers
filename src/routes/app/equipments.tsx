@@ -363,9 +363,9 @@ export function EquipmentInventory() {
     };
 
     return (
-        <div className="flex h-screen bg-background">
+        <div className="bg-background">
             <div className="flex flex-col flex-1 overflow-hidden">
-                <header className="flex items-center justify-between border-b px-6 py-3">
+                <header className="flex items-center justify-between border-b px-6 py-3.5">
                     <h1 className="text-xl font-semibold">
                         Equipment Inventory
                     </h1>
