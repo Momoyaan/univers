@@ -40,7 +40,7 @@ export function SettingsSidebar() {
 
     return (
         <div className="w-64 border-r bg-background">
-            <div className="flex h-16.5 items-center border-b px-4">
+            <div className="flex items-center border-b px-6 py-4.5">
                 <h1 className="text-lg font-semibold">Settings</h1>
             </div>
             <ScrollArea className="h-[calc(100vh-3.5rem)]">
