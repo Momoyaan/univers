@@ -20,7 +20,7 @@ git clone https://github.com/Momoyaan/univers.git
 
 ### Install dependencies
 
-You can use one of them `npm`, `yarn`, `pnpm`, `bun`, Using pnpm is recommended.
+You can use one of them `npm`, `yarn`, `pnpm`, `bun`, using pnpm is recommended.
 Example using `pnpm`:
 
 ```bash
