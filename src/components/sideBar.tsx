@@ -10,7 +10,9 @@ import { cn } from "@/lib/utils";
 import { Link } from "@tanstack/react-router";
 import { useRouterState } from "@tanstack/react-router";
 import {
+    Building,
     CalendarDays,
+    CheckCircle,
     ChevronLeft,
     Home,
     LayoutGrid,
@@ -28,6 +30,8 @@ const mainNavigation = [
     { name: "Dashboard", href: "/app/dashboard", icon: Home },
     { name: "Calendar", href: "/app/calendar", icon: CalendarDays },
     { name: "Events", href: "/app/events", icon: LayoutGrid },
+    { name: "Venues", href: "/app/venues", icon: Building },
+    { name: "Venue Approval", href: "/app/venue-approvals", icon: CheckCircle },
     { name: "Users", href: "/app/user-management", icon: Users },
     { name: "Equipments", href: "/app/equipments", icon: Package },
 ];
