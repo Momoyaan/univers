@@ -6,103 +6,137 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useState } from "react";
 
 // Mock equipment data
-const equipmentData = {
-    msdo: [
-        {
-            id: "msdo-camera",
-            name: "Camera",
-            available: true,
-            quantity: 5,
-            quantityAvailable: 3,
-        },
-        {
-            id: "msdo-speaker",
-            name: "Speaker",
-            available: true,
-            quantity: 10,
-            quantityAvailable: 8,
-        },
-        {
-            id: "msdo-microphone",
-            name: "Microphone",
-            available: true,
-            quantity: 15,
-            quantityAvailable: 10,
-        },
-        {
-            id: "msdo-extension",
-            name: "Extension Wire",
-            available: true,
-            quantity: 20,
-            quantityAvailable: 15,
-        },
-        {
-            id: "msdo-projector",
-            name: "Projector",
-            available: false,
-            quantity: 3,
-            quantityAvailable: 0,
-        },
-        {
-            id: "msdo-screen",
-            name: "Projection Screen",
-            available: true,
-            quantity: 3,
-            quantityAvailable: 2,
-        },
-        {
-            id: "msdo-laptop",
-            name: "Laptop",
-            available: false,
-            quantity: 5,
-            quantityAvailable: 0,
-        },
-    ],
-    opc: [
-        {
-            id: "opc-chairs",
-            name: "Chairs",
-            available: true,
-            quantity: 200,
-            quantityAvailable: 150,
-        },
-        {
-            id: "opc-table",
-            name: "Folding Table",
-            available: true,
-            quantity: 50,
-            quantityAvailable: 30,
-        },
-        {
-            id: "opc-extension",
-            name: "Extension Wire",
-            available: true,
-            quantity: 15,
-            quantityAvailable: 10,
-        },
-        {
-            id: "opc-podium",
-            name: "Podium",
-            available: false,
-            quantity: 2,
-            quantityAvailable: 0,
-        },
-        {
-            id: "opc-tent",
-            name: "Event Tent",
-            available: true,
-            quantity: 5,
-            quantityAvailable: 3,
-        },
-        {
-            id: "opc-stage",
-            name: "Portable Stage",
-            available: false,
-            quantity: 1,
-            quantityAvailable: 0,
-        },
-    ],
-};
+const msdoEquipment = [
+    {
+        id: "msdo-camera",
+        name: "Camera",
+        available: true,
+        quantity: 5,
+        availableQuantity: 3,
+    },
+    {
+        id: "msdo-speaker",
+        name: "Speaker",
+        available: true,
+        quantity: 10,
+        availableQuantity: 8,
+    },
+    {
+        id: "msdo-microphone",
+        name: "Wireless Microphone",
+        available: true,
+        quantity: 15,
+        availableQuantity: 10,
+    },
+    {
+        id: "msdo-projector",
+        name: "Projector",
+        available: true,
+        quantity: 3,
+        availableQuantity: 2,
+    },
+    {
+        id: "msdo-laptop",
+        name: "Laptop",
+        available: true,
+        quantity: 8,
+        availableQuantity: 3,
+    },
+    {
+        id: "msdo-extension",
+        name: "Extension Wire",
+        available: true,
+        quantity: 20,
+        availableQuantity: 15,
+    },
+    {
+        id: "msdo-screen",
+        name: "Projection Screen",
+        available: true,
+        quantity: 3,
+        availableQuantity: 1,
+    },
+    {
+        id: "msdo-mixer",
+        name: "Audio Mixer",
+        available: false,
+        quantity: 2,
+        availableQuantity: 0,
+    },
+    {
+        id: "msdo-spotlight",
+        name: "Spotlight",
+        available: false,
+        quantity: 4,
+        availableQuantity: 0,
+    },
+];
+
+const opcEquipment = [
+    {
+        id: "opc-chairs",
+        name: "Chairs",
+        available: true,
+        quantity: 200,
+        availableQuantity: 150,
+    },
+    {
+        id: "opc-table",
+        name: "Folding Table",
+        available: true,
+        quantity: 50,
+        availableQuantity: 30,
+    },
+    {
+        id: "opc-extension",
+        name: "Extension Wire",
+        available: true,
+        quantity: 15,
+        availableQuantity: 10,
+    },
+    {
+        id: "opc-podium",
+        name: "Podium",
+        available: true,
+        quantity: 3,
+        availableQuantity: 2,
+    },
+    {
+        id: "opc-whiteboard",
+        name: "Whiteboard",
+        available: true,
+        quantity: 5,
+        availableQuantity: 3,
+    },
+    {
+        id: "opc-tent",
+        name: "Event Tent",
+        available: false,
+        quantity: 2,
+        availableQuantity: 0,
+    },
+    {
+        id: "opc-barrier",
+        name: "Crowd Barrier",
+        available: true,
+        quantity: 20,
+        availableQuantity: 15,
+    },
+    {
+        id: "opc-stage",
+        name: "Portable Stage",
+        available: false,
+        quantity: 1,
+        availableQuantity: 0,
+    },
+    {
+        id: "opc-backdrop",
+        name: "Event Backdrop",
+        available: true,
+        quantity: 2,
+        availableQuantity: 1,
+    },
+];
 
 interface EquipmentListProps {
     selectedEquipment: string[];
@@ -115,14 +149,31 @@ export default function EquipmentList({
 }: EquipmentListProps) {
     const [activeTab, setActiveTab] = useState("msdo");
 
-    const toggleEquipment = (id: string, available: boolean) => {
-        if (!available) return;
+    const handleEquipmentToggle = (
+        equipmentId: string,
+        isAvailable: boolean,
+    ) => {
+        if (!isAvailable) return;
 
-        if (selectedEquipment.includes(id)) {
-            onEquipmentChange(selectedEquipment.filter((item) => item !== id));
+        if (selectedEquipment.includes(equipmentId)) {
+            onEquipmentChange(
+                selectedEquipment.filter((id) => id !== equipmentId),
+            );
         } else {
-            onEquipmentChange([...selectedEquipment, id]);
+            onEquipmentChange([...selectedEquipment, equipmentId]);
         }
+    };
+
+    const getAvailabilityBadge = (available: boolean) => {
+        return available ? (
+            <Badge className="bg-green-500/10 text-green-500 hover:bg-green-500/20">
+                Available
+            </Badge>
+        ) : (
+            <Badge className="bg-red-500/10 text-red-500 hover:bg-red-500/20">
+                Unavailable
+            </Badge>
+        );
     };
 
     return (
@@ -133,107 +184,95 @@ export default function EquipmentList({
             </TabsList>
 
             <TabsContent value="msdo" className="pt-4">
-                <Card>
-                    <CardContent className="p-4">
-                        <ScrollArea className="h-[300px]">
-                            <div className="space-y-4">
-                                {equipmentData.msdo.map((equipment) => (
-                                    <div
-                                        key={equipment.id}
-                                        className="flex items-center justify-between"
-                                    >
-                                        <div className="flex items-center space-x-2">
-                                            <Checkbox
-                                                id={equipment.id}
-                                                checked={selectedEquipment.includes(
+                <ScrollArea className="h-[300px]">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {msdoEquipment.map((equipment) => (
+                            <Card
+                                key={equipment.id}
+                                className={`overflow-hidden ${!equipment.available ? "opacity-60" : ""}`}
+                            >
+                                <CardContent className="p-4">
+                                    <div className="flex items-start gap-3">
+                                        <Checkbox
+                                            checked={selectedEquipment.includes(
+                                                equipment.id,
+                                            )}
+                                            onCheckedChange={() =>
+                                                handleEquipmentToggle(
                                                     equipment.id,
+                                                    equipment.available,
+                                                )
+                                            }
+                                            disabled={!equipment.available}
+                                            className="mt-1"
+                                        />
+                                        <div className="space-y-1 flex-1">
+                                            <div className="flex justify-between">
+                                                <div className="font-medium">
+                                                    {equipment.name}
+                                                </div>
+                                                {getAvailabilityBadge(
+                                                    equipment.available,
                                                 )}
-                                                onCheckedChange={() =>
-                                                    toggleEquipment(
-                                                        equipment.id,
-                                                        equipment.available,
-                                                    )
-                                                }
-                                                disabled={!equipment.available}
-                                            />
-                                            <label
-                                                htmlFor={equipment.id}
-                                                className={`text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 ${!equipment.available ? "text-gray-400" : ""}`}
-                                            >
-                                                {equipment.name}
-                                            </label>
-                                        </div>
-                                        <div className="flex items-center space-x-2">
-                                            <Badge
-                                                variant={
-                                                    equipment.available
-                                                        ? "outline"
-                                                        : "destructive"
-                                                }
-                                            >
-                                                {equipment.available
-                                                    ? `${equipment.quantityAvailable}/${equipment.quantity} Available`
-                                                    : "Not Available"}
-                                            </Badge>
+                                            </div>
+                                            <div className="text-sm text-muted-foreground">
+                                                Available:{" "}
+                                                {equipment.availableQuantity} /{" "}
+                                                {equipment.quantity}
+                                            </div>
                                         </div>
                                     </div>
-                                ))}
-                            </div>
-                        </ScrollArea>
-                    </CardContent>
-                </Card>
+                                </CardContent>
+                            </Card>
+                        ))}
+                    </div>
+                </ScrollArea>
             </TabsContent>
 
             <TabsContent value="opc" className="pt-4">
-                <Card>
-                    <CardContent className="p-4">
-                        <ScrollArea className="h-[300px]">
-                            <div className="space-y-4">
-                                {equipmentData.opc.map((equipment) => (
-                                    <div
-                                        key={equipment.id}
-                                        className="flex items-center justify-between"
-                                    >
-                                        <div className="flex items-center space-x-2">
-                                            <Checkbox
-                                                id={equipment.id}
-                                                checked={selectedEquipment.includes(
+                <ScrollArea className="h-[300px]">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {opcEquipment.map((equipment) => (
+                            <Card
+                                key={equipment.id}
+                                className={`overflow-hidden ${!equipment.available ? "opacity-60" : ""}`}
+                            >
+                                <CardContent className="p-4">
+                                    <div className="flex items-start gap-3">
+                                        <Checkbox
+                                            checked={selectedEquipment.includes(
+                                                equipment.id,
+                                            )}
+                                            onCheckedChange={() =>
+                                                handleEquipmentToggle(
                                                     equipment.id,
+                                                    equipment.available,
+                                                )
+                                            }
+                                            disabled={!equipment.available}
+                                            className="mt-1"
+                                        />
+                                        <div className="space-y-1 flex-1">
+                                            <div className="flex justify-between">
+                                                <div className="font-medium">
+                                                    {equipment.name}
+                                                </div>
+                                                {getAvailabilityBadge(
+                                                    equipment.available,
                                                 )}
-                                                onCheckedChange={() =>
-                                                    toggleEquipment(
-                                                        equipment.id,
-                                                        equipment.available,
-                                                    )
-                                                }
-                                                disabled={!equipment.available}
-                                            />
-                                            <label
-                                                htmlFor={equipment.id}
-                                                className={`text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 ${!equipment.available ? "text-gray-400" : ""}`}
-                                            >
-                                                {equipment.name}
-                                            </label>
-                                        </div>
-                                        <div className="flex items-center space-x-2">
-                                            <Badge
-                                                variant={
-                                                    equipment.available
-                                                        ? "outline"
-                                                        : "destructive"
-                                                }
-                                            >
-                                                {equipment.available
-                                                    ? `${equipment.quantityAvailable}/${equipment.quantity} Available`
-                                                    : "Not Available"}
-                                            </Badge>
+                                            </div>
+                                            <div className="text-sm text-muted-foreground">
+                                                Available:{" "}
+                                                {equipment.availableQuantity} /{" "}
+                                                {equipment.quantity}
+                                            </div>
                                         </div>
                                     </div>
-                                ))}
-                            </div>
-                        </ScrollArea>
-                    </CardContent>
-                </Card>
+                                </CardContent>
+                            </Card>
+                        ))}
+                    </div>
+                </ScrollArea>
             </TabsContent>
         </Tabs>
     );

@@ -217,7 +217,7 @@ function ReservationDetails() {
     return (
         <div className="bg-background">
             <div className="flex flex-col flex-1 overflow-hidden">
-                <header className="flex items-center justify-between border-b px-6 py-4">
+                <header className="flex items-center justify-between border-b px-6 py-4 sticky top-0 bg-background z-10">
                     <div className="flex items-center gap-4">
                         <Link
                             from={Route.fullPath}

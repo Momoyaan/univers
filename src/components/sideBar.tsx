@@ -19,6 +19,7 @@ import {
     LayoutGrid,
     Menu,
     Package,
+    PackageCheck,
     PackagePlus,
     Settings,
     Users,
@@ -45,6 +46,11 @@ const mainNavigation = [
     },
     { name: "Users", href: "/app/user-management", icon: Users },
     { name: "Equipments", href: "/app/equipments", icon: Package },
+    {
+        name: "Equipment Approval",
+        href: "/app/equipment-approval/approval",
+        icon: PackageCheck,
+    },
     {
         name: "Equipment Reservation",
         href: "/app/equipment-reservation",

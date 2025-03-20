@@ -37,6 +37,8 @@ import { Route as AppSettingsProfileImport } from './routes/app/settings/profile
 import { Route as AppSettingsNotificationsImport } from './routes/app/settings/notifications'
 import { Route as AppSettingsIntegrationsImport } from './routes/app/settings/integrations'
 import { Route as AppSettingsAccountImport } from './routes/app/settings/account'
+import { Route as AppEquipmentApprovalApprovalImport } from './routes/app/equipment-approval/approval'
+import { Route as AppEquipmentApprovalApprovalIdImport } from './routes/app/equipment-approval/$approvalId'
 
 // Create/Update Routes
 
@@ -198,6 +200,20 @@ const AppSettingsAccountRoute = AppSettingsAccountImport.update({
   getParentRoute: () => AppSettingsRouteRoute,
 } as any)
 
+const AppEquipmentApprovalApprovalRoute =
+  AppEquipmentApprovalApprovalImport.update({
+    id: '/equipment-approval/approval',
+    path: '/equipment-approval/approval',
+    getParentRoute: () => AppRouteRoute,
+  } as any)
+
+const AppEquipmentApprovalApprovalIdRoute =
+  AppEquipmentApprovalApprovalIdImport.update({
+    id: '/equipment-approval/$approvalId',
+    path: '/equipment-approval/$approvalId',
+    getParentRoute: () => AppRouteRoute,
+  } as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -335,6 +351,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthVerifyEmailImport
       parentRoute: typeof AuthRouteImport
     }
+    '/app/equipment-approval/$approvalId': {
+      id: '/app/equipment-approval/$approvalId'
+      path: '/equipment-approval/$approvalId'
+      fullPath: '/app/equipment-approval/$approvalId'
+      preLoaderRoute: typeof AppEquipmentApprovalApprovalIdImport
+      parentRoute: typeof AppRouteImport
+    }
+    '/app/equipment-approval/approval': {
+      id: '/app/equipment-approval/approval'
+      path: '/equipment-approval/approval'
+      fullPath: '/app/equipment-approval/approval'
+      preLoaderRoute: typeof AppEquipmentApprovalApprovalImport
+      parentRoute: typeof AppRouteImport
+    }
     '/app/settings/account': {
       id: '/app/settings/account'
       path: '/account'
@@ -433,6 +463,8 @@ interface AppRouteRouteChildren {
   AppUserManagementRoute: typeof AppUserManagementRoute
   AppVenueReservationRoute: typeof AppVenueReservationRoute
   AppVenuesRoute: typeof AppVenuesRoute
+  AppEquipmentApprovalApprovalIdRoute: typeof AppEquipmentApprovalApprovalIdRoute
+  AppEquipmentApprovalApprovalRoute: typeof AppEquipmentApprovalApprovalRoute
   AppVenueVenueIdRoute: typeof AppVenueVenueIdRoute
 }
 
@@ -448,6 +480,8 @@ const AppRouteRouteChildren: AppRouteRouteChildren = {
   AppUserManagementRoute: AppUserManagementRoute,
   AppVenueReservationRoute: AppVenueReservationRoute,
   AppVenuesRoute: AppVenuesRoute,
+  AppEquipmentApprovalApprovalIdRoute: AppEquipmentApprovalApprovalIdRoute,
+  AppEquipmentApprovalApprovalRoute: AppEquipmentApprovalApprovalRoute,
   AppVenueVenueIdRoute: AppVenueVenueIdRoute,
 }
 
@@ -493,6 +527,8 @@ export interface FileRoutesByFullPath {
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
   '/auth/verify-email': typeof AuthVerifyEmailRoute
+  '/app/equipment-approval/$approvalId': typeof AppEquipmentApprovalApprovalIdRoute
+  '/app/equipment-approval/approval': typeof AppEquipmentApprovalApprovalRoute
   '/app/settings/account': typeof AppSettingsAccountRoute
   '/app/settings/integrations': typeof AppSettingsIntegrationsRoute
   '/app/settings/notifications': typeof AppSettingsNotificationsRoute
@@ -522,6 +558,8 @@ export interface FileRoutesByTo {
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
   '/auth/verify-email': typeof AuthVerifyEmailRoute
+  '/app/equipment-approval/$approvalId': typeof AppEquipmentApprovalApprovalIdRoute
+  '/app/equipment-approval/approval': typeof AppEquipmentApprovalApprovalRoute
   '/app/settings/account': typeof AppSettingsAccountRoute
   '/app/settings/integrations': typeof AppSettingsIntegrationsRoute
   '/app/settings/notifications': typeof AppSettingsNotificationsRoute
@@ -552,6 +590,8 @@ export interface FileRoutesById {
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
   '/auth/verify-email': typeof AuthVerifyEmailRoute
+  '/app/equipment-approval/$approvalId': typeof AppEquipmentApprovalApprovalIdRoute
+  '/app/equipment-approval/approval': typeof AppEquipmentApprovalApprovalRoute
   '/app/settings/account': typeof AppSettingsAccountRoute
   '/app/settings/integrations': typeof AppSettingsIntegrationsRoute
   '/app/settings/notifications': typeof AppSettingsNotificationsRoute
@@ -583,6 +623,8 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/register'
     | '/auth/verify-email'
+    | '/app/equipment-approval/$approvalId'
+    | '/app/equipment-approval/approval'
     | '/app/settings/account'
     | '/app/settings/integrations'
     | '/app/settings/notifications'
@@ -611,6 +653,8 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/register'
     | '/auth/verify-email'
+    | '/app/equipment-approval/$approvalId'
+    | '/app/equipment-approval/approval'
     | '/app/settings/account'
     | '/app/settings/integrations'
     | '/app/settings/notifications'
@@ -639,6 +683,8 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/register'
     | '/auth/verify-email'
+    | '/app/equipment-approval/$approvalId'
+    | '/app/equipment-approval/approval'
     | '/app/settings/account'
     | '/app/settings/integrations'
     | '/app/settings/notifications'
@@ -696,6 +742,8 @@ export const routeTree = rootRoute
         "/app/user-management",
         "/app/venue-reservation",
         "/app/venues",
+        "/app/equipment-approval/$approvalId",
+        "/app/equipment-approval/approval",
         "/app/venue/$venueId"
       ]
     },
@@ -780,6 +828,14 @@ export const routeTree = rootRoute
     "/auth/verify-email": {
       "filePath": "auth/verify-email.tsx",
       "parent": "/auth"
+    },
+    "/app/equipment-approval/$approvalId": {
+      "filePath": "app/equipment-approval/$approvalId.tsx",
+      "parent": "/app"
+    },
+    "/app/equipment-approval/approval": {
+      "filePath": "app/equipment-approval/approval.tsx",
+      "parent": "/app"
     },
     "/app/settings/account": {
       "filePath": "app/settings/account.tsx",
