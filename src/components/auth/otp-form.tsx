@@ -1,7 +1,3 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-
 import { Button } from "@/components/ui/button";
 import {
     Card,
@@ -27,9 +23,13 @@ import {
 } from "@/components/ui/input-otp";
 import { verifyOTP } from "@/lib/auth";
 import { cn } from "@/lib/utils";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Link } from "@tanstack/react-router";
 import { useNavigate } from "@tanstack/react-router";
-import { CheckCircle2, Mail } from "lucide-react";
+import { ArrowLeft, CheckCircle2, Mail } from "lucide-react";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
 const FormSchema = z.object({
     pin: z.string().min(6, {
@@ -103,6 +103,10 @@ export function InputOTPForm() {
     return (
         <Card className="w-full max-w-md mx-auto shadow-lg">
             <CardHeader className="space-y-1">
+                <Link to="/auth/login">
+                    {" "}
+                    <ArrowLeft className="h-5 w-5 text-primary" />
+                </Link>
                 <div className="mx-auto bg-primary/10 p-3 rounded-full w-fit">
                     <Mail className="h-6 w-6 text-primary" />
                 </div>
