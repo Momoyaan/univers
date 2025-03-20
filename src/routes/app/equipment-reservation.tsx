@@ -15,7 +15,7 @@ function RouteComponent() {
                             Equipment Reservation
                         </h1>
                         <p className="text-muted-foreground">
-                            Fill out the form below to reserve a equipments for
+                            Fill out the form below to reserve equipments for
                             your event
                         </p>
                     </div>
