@@ -19,7 +19,7 @@ export default function LandingNav() {
                         Go to App
                     </Link>
                     <Link
-                        to="/login"
+                        to="/auth/login"
                         className={buttonVariants({ variant: "default" })}
                     >
                         Sign In

@@ -12,8 +12,13 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as AboutImport } from './routes/about'
+import { Route as AuthRouteImport } from './routes/auth/route'
 import { Route as AppRouteImport } from './routes/app/route'
 import { Route as IndexImport } from './routes/index'
+import { Route as AuthVerifyEmailImport } from './routes/auth/verify-email'
+import { Route as AuthRegisterImport } from './routes/auth/register'
+import { Route as AuthLoginImport } from './routes/auth/login'
+import { Route as AuthForgotPasswordImport } from './routes/auth/forgot-password'
 import { Route as AppVenuesImport } from './routes/app/venues'
 import { Route as AppVenueReservationImport } from './routes/app/venue-reservation'
 import { Route as AppUserManagementImport } from './routes/app/user-management'
@@ -22,10 +27,6 @@ import { Route as AppEventsImport } from './routes/app/events'
 import { Route as AppEquipmentsImport } from './routes/app/equipments'
 import { Route as AppDashboardImport } from './routes/app/dashboard'
 import { Route as AppCalendarImport } from './routes/app/calendar'
-import { Route as authVerifyEmailImport } from './routes/(auth)/verify-email'
-import { Route as authRegisterImport } from './routes/(auth)/register'
-import { Route as authLoginImport } from './routes/(auth)/login'
-import { Route as authForgotPasswordImport } from './routes/(auth)/forgot-password'
 import { Route as AppVenueApprovalRouteImport } from './routes/app/venue-approval/route'
 import { Route as AppSettingsRouteImport } from './routes/app/settings/route'
 import { Route as AppVenueVenueIdImport } from './routes/app/venue/$venueId'
@@ -44,6 +45,12 @@ const AboutRoute = AboutImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const AuthRouteRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const AppRouteRoute = AppRouteImport.update({
   id: '/app',
   path: '/app',
@@ -54,6 +61,30 @@ const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRoute,
+} as any)
+
+const AuthVerifyEmailRoute = AuthVerifyEmailImport.update({
+  id: '/verify-email',
+  path: '/verify-email',
+  getParentRoute: () => AuthRouteRoute,
+} as any)
+
+const AuthRegisterRoute = AuthRegisterImport.update({
+  id: '/register',
+  path: '/register',
+  getParentRoute: () => AuthRouteRoute,
+} as any)
+
+const AuthLoginRoute = AuthLoginImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => AuthRouteRoute,
+} as any)
+
+const AuthForgotPasswordRoute = AuthForgotPasswordImport.update({
+  id: '/forgot-password',
+  path: '/forgot-password',
+  getParentRoute: () => AuthRouteRoute,
 } as any)
 
 const AppVenuesRoute = AppVenuesImport.update({
@@ -102,30 +133,6 @@ const AppCalendarRoute = AppCalendarImport.update({
   id: '/calendar',
   path: '/calendar',
   getParentRoute: () => AppRouteRoute,
-} as any)
-
-const authVerifyEmailRoute = authVerifyEmailImport.update({
-  id: '/(auth)/verify-email',
-  path: '/verify-email',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const authRegisterRoute = authRegisterImport.update({
-  id: '/(auth)/register',
-  path: '/register',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const authLoginRoute = authLoginImport.update({
-  id: '/(auth)/login',
-  path: '/login',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const authForgotPasswordRoute = authForgotPasswordImport.update({
-  id: '/(auth)/forgot-password',
-  path: '/forgot-password',
-  getParentRoute: () => rootRoute,
 } as any)
 
 const AppVenueApprovalRouteRoute = AppVenueApprovalRouteImport.update({
@@ -202,6 +209,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppRouteImport
       parentRoute: typeof rootRoute
     }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRoute
+    }
     '/about': {
       id: '/about'
       path: '/about'
@@ -222,34 +236,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/app/venue-approval'
       preLoaderRoute: typeof AppVenueApprovalRouteImport
       parentRoute: typeof AppRouteImport
-    }
-    '/(auth)/forgot-password': {
-      id: '/(auth)/forgot-password'
-      path: '/forgot-password'
-      fullPath: '/forgot-password'
-      preLoaderRoute: typeof authForgotPasswordImport
-      parentRoute: typeof rootRoute
-    }
-    '/(auth)/login': {
-      id: '/(auth)/login'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof authLoginImport
-      parentRoute: typeof rootRoute
-    }
-    '/(auth)/register': {
-      id: '/(auth)/register'
-      path: '/register'
-      fullPath: '/register'
-      preLoaderRoute: typeof authRegisterImport
-      parentRoute: typeof rootRoute
-    }
-    '/(auth)/verify-email': {
-      id: '/(auth)/verify-email'
-      path: '/verify-email'
-      fullPath: '/verify-email'
-      preLoaderRoute: typeof authVerifyEmailImport
-      parentRoute: typeof rootRoute
     }
     '/app/calendar': {
       id: '/app/calendar'
@@ -306,6 +292,34 @@ declare module '@tanstack/react-router' {
       fullPath: '/app/venues'
       preLoaderRoute: typeof AppVenuesImport
       parentRoute: typeof AppRouteImport
+    }
+    '/auth/forgot-password': {
+      id: '/auth/forgot-password'
+      path: '/forgot-password'
+      fullPath: '/auth/forgot-password'
+      preLoaderRoute: typeof AuthForgotPasswordImport
+      parentRoute: typeof AuthRouteImport
+    }
+    '/auth/login': {
+      id: '/auth/login'
+      path: '/login'
+      fullPath: '/auth/login'
+      preLoaderRoute: typeof AuthLoginImport
+      parentRoute: typeof AuthRouteImport
+    }
+    '/auth/register': {
+      id: '/auth/register'
+      path: '/register'
+      fullPath: '/auth/register'
+      preLoaderRoute: typeof AuthRegisterImport
+      parentRoute: typeof AuthRouteImport
+    }
+    '/auth/verify-email': {
+      id: '/auth/verify-email'
+      path: '/verify-email'
+      fullPath: '/auth/verify-email'
+      preLoaderRoute: typeof AuthVerifyEmailImport
+      parentRoute: typeof AuthRouteImport
     }
     '/app/settings/account': {
       id: '/app/settings/account'
@@ -425,16 +439,31 @@ const AppRouteRouteWithChildren = AppRouteRoute._addFileChildren(
   AppRouteRouteChildren,
 )
 
+interface AuthRouteRouteChildren {
+  AuthForgotPasswordRoute: typeof AuthForgotPasswordRoute
+  AuthLoginRoute: typeof AuthLoginRoute
+  AuthRegisterRoute: typeof AuthRegisterRoute
+  AuthVerifyEmailRoute: typeof AuthVerifyEmailRoute
+}
+
+const AuthRouteRouteChildren: AuthRouteRouteChildren = {
+  AuthForgotPasswordRoute: AuthForgotPasswordRoute,
+  AuthLoginRoute: AuthLoginRoute,
+  AuthRegisterRoute: AuthRegisterRoute,
+  AuthVerifyEmailRoute: AuthVerifyEmailRoute,
+}
+
+const AuthRouteRouteWithChildren = AuthRouteRoute._addFileChildren(
+  AuthRouteRouteChildren,
+)
+
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/app': typeof AppRouteRouteWithChildren
+  '/auth': typeof AuthRouteRouteWithChildren
   '/about': typeof AboutRoute
   '/app/settings': typeof AppSettingsRouteRouteWithChildren
   '/app/venue-approval': typeof AppVenueApprovalRouteRouteWithChildren
-  '/forgot-password': typeof authForgotPasswordRoute
-  '/login': typeof authLoginRoute
-  '/register': typeof authRegisterRoute
-  '/verify-email': typeof authVerifyEmailRoute
   '/app/calendar': typeof AppCalendarRoute
   '/app/dashboard': typeof AppDashboardRoute
   '/app/equipments': typeof AppEquipmentsRoute
@@ -443,6 +472,10 @@ export interface FileRoutesByFullPath {
   '/app/user-management': typeof AppUserManagementRoute
   '/app/venue-reservation': typeof AppVenueReservationRoute
   '/app/venues': typeof AppVenuesRoute
+  '/auth/forgot-password': typeof AuthForgotPasswordRoute
+  '/auth/login': typeof AuthLoginRoute
+  '/auth/register': typeof AuthRegisterRoute
+  '/auth/verify-email': typeof AuthVerifyEmailRoute
   '/app/settings/account': typeof AppSettingsAccountRoute
   '/app/settings/integrations': typeof AppSettingsIntegrationsRoute
   '/app/settings/notifications': typeof AppSettingsNotificationsRoute
@@ -455,13 +488,10 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/app': typeof AppRouteRouteWithChildren
+  '/auth': typeof AuthRouteRouteWithChildren
   '/about': typeof AboutRoute
   '/app/settings': typeof AppSettingsRouteRouteWithChildren
   '/app/venue-approval': typeof AppVenueApprovalRouteRouteWithChildren
-  '/forgot-password': typeof authForgotPasswordRoute
-  '/login': typeof authLoginRoute
-  '/register': typeof authRegisterRoute
-  '/verify-email': typeof authVerifyEmailRoute
   '/app/calendar': typeof AppCalendarRoute
   '/app/dashboard': typeof AppDashboardRoute
   '/app/equipments': typeof AppEquipmentsRoute
@@ -470,6 +500,10 @@ export interface FileRoutesByTo {
   '/app/user-management': typeof AppUserManagementRoute
   '/app/venue-reservation': typeof AppVenueReservationRoute
   '/app/venues': typeof AppVenuesRoute
+  '/auth/forgot-password': typeof AuthForgotPasswordRoute
+  '/auth/login': typeof AuthLoginRoute
+  '/auth/register': typeof AuthRegisterRoute
+  '/auth/verify-email': typeof AuthVerifyEmailRoute
   '/app/settings/account': typeof AppSettingsAccountRoute
   '/app/settings/integrations': typeof AppSettingsIntegrationsRoute
   '/app/settings/notifications': typeof AppSettingsNotificationsRoute
@@ -483,13 +517,10 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/app': typeof AppRouteRouteWithChildren
+  '/auth': typeof AuthRouteRouteWithChildren
   '/about': typeof AboutRoute
   '/app/settings': typeof AppSettingsRouteRouteWithChildren
   '/app/venue-approval': typeof AppVenueApprovalRouteRouteWithChildren
-  '/(auth)/forgot-password': typeof authForgotPasswordRoute
-  '/(auth)/login': typeof authLoginRoute
-  '/(auth)/register': typeof authRegisterRoute
-  '/(auth)/verify-email': typeof authVerifyEmailRoute
   '/app/calendar': typeof AppCalendarRoute
   '/app/dashboard': typeof AppDashboardRoute
   '/app/equipments': typeof AppEquipmentsRoute
@@ -498,6 +529,10 @@ export interface FileRoutesById {
   '/app/user-management': typeof AppUserManagementRoute
   '/app/venue-reservation': typeof AppVenueReservationRoute
   '/app/venues': typeof AppVenuesRoute
+  '/auth/forgot-password': typeof AuthForgotPasswordRoute
+  '/auth/login': typeof AuthLoginRoute
+  '/auth/register': typeof AuthRegisterRoute
+  '/auth/verify-email': typeof AuthVerifyEmailRoute
   '/app/settings/account': typeof AppSettingsAccountRoute
   '/app/settings/integrations': typeof AppSettingsIntegrationsRoute
   '/app/settings/notifications': typeof AppSettingsNotificationsRoute
@@ -512,13 +547,10 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/app'
+    | '/auth'
     | '/about'
     | '/app/settings'
     | '/app/venue-approval'
-    | '/forgot-password'
-    | '/login'
-    | '/register'
-    | '/verify-email'
     | '/app/calendar'
     | '/app/dashboard'
     | '/app/equipments'
@@ -527,6 +559,10 @@ export interface FileRouteTypes {
     | '/app/user-management'
     | '/app/venue-reservation'
     | '/app/venues'
+    | '/auth/forgot-password'
+    | '/auth/login'
+    | '/auth/register'
+    | '/auth/verify-email'
     | '/app/settings/account'
     | '/app/settings/integrations'
     | '/app/settings/notifications'
@@ -538,13 +574,10 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/app'
+    | '/auth'
     | '/about'
     | '/app/settings'
     | '/app/venue-approval'
-    | '/forgot-password'
-    | '/login'
-    | '/register'
-    | '/verify-email'
     | '/app/calendar'
     | '/app/dashboard'
     | '/app/equipments'
@@ -553,6 +586,10 @@ export interface FileRouteTypes {
     | '/app/user-management'
     | '/app/venue-reservation'
     | '/app/venues'
+    | '/auth/forgot-password'
+    | '/auth/login'
+    | '/auth/register'
+    | '/auth/verify-email'
     | '/app/settings/account'
     | '/app/settings/integrations'
     | '/app/settings/notifications'
@@ -564,13 +601,10 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/app'
+    | '/auth'
     | '/about'
     | '/app/settings'
     | '/app/venue-approval'
-    | '/(auth)/forgot-password'
-    | '/(auth)/login'
-    | '/(auth)/register'
-    | '/(auth)/verify-email'
     | '/app/calendar'
     | '/app/dashboard'
     | '/app/equipments'
@@ -579,6 +613,10 @@ export interface FileRouteTypes {
     | '/app/user-management'
     | '/app/venue-reservation'
     | '/app/venues'
+    | '/auth/forgot-password'
+    | '/auth/login'
+    | '/auth/register'
+    | '/auth/verify-email'
     | '/app/settings/account'
     | '/app/settings/integrations'
     | '/app/settings/notifications'
@@ -592,21 +630,15 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AppRouteRoute: typeof AppRouteRouteWithChildren
+  AuthRouteRoute: typeof AuthRouteRouteWithChildren
   AboutRoute: typeof AboutRoute
-  authForgotPasswordRoute: typeof authForgotPasswordRoute
-  authLoginRoute: typeof authLoginRoute
-  authRegisterRoute: typeof authRegisterRoute
-  authVerifyEmailRoute: typeof authVerifyEmailRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AppRouteRoute: AppRouteRouteWithChildren,
+  AuthRouteRoute: AuthRouteRouteWithChildren,
   AboutRoute: AboutRoute,
-  authForgotPasswordRoute: authForgotPasswordRoute,
-  authLoginRoute: authLoginRoute,
-  authRegisterRoute: authRegisterRoute,
-  authVerifyEmailRoute: authVerifyEmailRoute,
 }
 
 export const routeTree = rootRoute
@@ -621,11 +653,8 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/app",
-        "/about",
-        "/(auth)/forgot-password",
-        "/(auth)/login",
-        "/(auth)/register",
-        "/(auth)/verify-email"
+        "/auth",
+        "/about"
       ]
     },
     "/": {
@@ -645,6 +674,15 @@ export const routeTree = rootRoute
         "/app/venue-reservation",
         "/app/venues",
         "/app/venue/$venueId"
+      ]
+    },
+    "/auth": {
+      "filePath": "auth/route.tsx",
+      "children": [
+        "/auth/forgot-password",
+        "/auth/login",
+        "/auth/register",
+        "/auth/verify-email"
       ]
     },
     "/about": {
@@ -667,18 +705,6 @@ export const routeTree = rootRoute
         "/app/venue-approval/$approvalId",
         "/app/venue-approval/approval"
       ]
-    },
-    "/(auth)/forgot-password": {
-      "filePath": "(auth)/forgot-password.tsx"
-    },
-    "/(auth)/login": {
-      "filePath": "(auth)/login.tsx"
-    },
-    "/(auth)/register": {
-      "filePath": "(auth)/register.tsx"
-    },
-    "/(auth)/verify-email": {
-      "filePath": "(auth)/verify-email.tsx"
     },
     "/app/calendar": {
       "filePath": "app/calendar.tsx",
@@ -711,6 +737,22 @@ export const routeTree = rootRoute
     "/app/venues": {
       "filePath": "app/venues.tsx",
       "parent": "/app"
+    },
+    "/auth/forgot-password": {
+      "filePath": "auth/forgot-password.tsx",
+      "parent": "/auth"
+    },
+    "/auth/login": {
+      "filePath": "auth/login.tsx",
+      "parent": "/auth"
+    },
+    "/auth/register": {
+      "filePath": "auth/register.tsx",
+      "parent": "/auth"
+    },
+    "/auth/verify-email": {
+      "filePath": "auth/verify-email.tsx",
+      "parent": "/auth"
     },
     "/app/settings/account": {
       "filePath": "app/settings/account.tsx",
