@@ -19,6 +19,7 @@ import {
     LayoutGrid,
     Menu,
     Package,
+    PackagePlus,
     Settings,
     Users,
 } from "lucide-react";
@@ -44,6 +45,11 @@ const mainNavigation = [
     },
     { name: "Users", href: "/app/user-management", icon: Users },
     { name: "Equipments", href: "/app/equipments", icon: Package },
+    {
+        name: "Equipment Reservation",
+        href: "/app/equipment-reservation",
+        icon: PackagePlus,
+    },
 ];
 
 export function Sidebar() {

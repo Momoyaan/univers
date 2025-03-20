@@ -25,6 +25,7 @@ import { Route as AppUserManagementImport } from './routes/app/user-management'
 import { Route as AppNotificationsImport } from './routes/app/notifications'
 import { Route as AppEventsImport } from './routes/app/events'
 import { Route as AppEquipmentsImport } from './routes/app/equipments'
+import { Route as AppEquipmentReservationImport } from './routes/app/equipment-reservation'
 import { Route as AppDashboardImport } from './routes/app/dashboard'
 import { Route as AppCalendarImport } from './routes/app/calendar'
 import { Route as AppVenueApprovalRouteImport } from './routes/app/venue-approval/route'
@@ -120,6 +121,12 @@ const AppEventsRoute = AppEventsImport.update({
 const AppEquipmentsRoute = AppEquipmentsImport.update({
   id: '/equipments',
   path: '/equipments',
+  getParentRoute: () => AppRouteRoute,
+} as any)
+
+const AppEquipmentReservationRoute = AppEquipmentReservationImport.update({
+  id: '/equipment-reservation',
+  path: '/equipment-reservation',
   getParentRoute: () => AppRouteRoute,
 } as any)
 
@@ -249,6 +256,13 @@ declare module '@tanstack/react-router' {
       path: '/dashboard'
       fullPath: '/app/dashboard'
       preLoaderRoute: typeof AppDashboardImport
+      parentRoute: typeof AppRouteImport
+    }
+    '/app/equipment-reservation': {
+      id: '/app/equipment-reservation'
+      path: '/equipment-reservation'
+      fullPath: '/app/equipment-reservation'
+      preLoaderRoute: typeof AppEquipmentReservationImport
       parentRoute: typeof AppRouteImport
     }
     '/app/equipments': {
@@ -412,6 +426,7 @@ interface AppRouteRouteChildren {
   AppVenueApprovalRouteRoute: typeof AppVenueApprovalRouteRouteWithChildren
   AppCalendarRoute: typeof AppCalendarRoute
   AppDashboardRoute: typeof AppDashboardRoute
+  AppEquipmentReservationRoute: typeof AppEquipmentReservationRoute
   AppEquipmentsRoute: typeof AppEquipmentsRoute
   AppEventsRoute: typeof AppEventsRoute
   AppNotificationsRoute: typeof AppNotificationsRoute
@@ -426,6 +441,7 @@ const AppRouteRouteChildren: AppRouteRouteChildren = {
   AppVenueApprovalRouteRoute: AppVenueApprovalRouteRouteWithChildren,
   AppCalendarRoute: AppCalendarRoute,
   AppDashboardRoute: AppDashboardRoute,
+  AppEquipmentReservationRoute: AppEquipmentReservationRoute,
   AppEquipmentsRoute: AppEquipmentsRoute,
   AppEventsRoute: AppEventsRoute,
   AppNotificationsRoute: AppNotificationsRoute,
@@ -466,6 +482,7 @@ export interface FileRoutesByFullPath {
   '/app/venue-approval': typeof AppVenueApprovalRouteRouteWithChildren
   '/app/calendar': typeof AppCalendarRoute
   '/app/dashboard': typeof AppDashboardRoute
+  '/app/equipment-reservation': typeof AppEquipmentReservationRoute
   '/app/equipments': typeof AppEquipmentsRoute
   '/app/events': typeof AppEventsRoute
   '/app/notifications': typeof AppNotificationsRoute
@@ -494,6 +511,7 @@ export interface FileRoutesByTo {
   '/app/venue-approval': typeof AppVenueApprovalRouteRouteWithChildren
   '/app/calendar': typeof AppCalendarRoute
   '/app/dashboard': typeof AppDashboardRoute
+  '/app/equipment-reservation': typeof AppEquipmentReservationRoute
   '/app/equipments': typeof AppEquipmentsRoute
   '/app/events': typeof AppEventsRoute
   '/app/notifications': typeof AppNotificationsRoute
@@ -523,6 +541,7 @@ export interface FileRoutesById {
   '/app/venue-approval': typeof AppVenueApprovalRouteRouteWithChildren
   '/app/calendar': typeof AppCalendarRoute
   '/app/dashboard': typeof AppDashboardRoute
+  '/app/equipment-reservation': typeof AppEquipmentReservationRoute
   '/app/equipments': typeof AppEquipmentsRoute
   '/app/events': typeof AppEventsRoute
   '/app/notifications': typeof AppNotificationsRoute
@@ -553,6 +572,7 @@ export interface FileRouteTypes {
     | '/app/venue-approval'
     | '/app/calendar'
     | '/app/dashboard'
+    | '/app/equipment-reservation'
     | '/app/equipments'
     | '/app/events'
     | '/app/notifications'
@@ -580,6 +600,7 @@ export interface FileRouteTypes {
     | '/app/venue-approval'
     | '/app/calendar'
     | '/app/dashboard'
+    | '/app/equipment-reservation'
     | '/app/equipments'
     | '/app/events'
     | '/app/notifications'
@@ -607,6 +628,7 @@ export interface FileRouteTypes {
     | '/app/venue-approval'
     | '/app/calendar'
     | '/app/dashboard'
+    | '/app/equipment-reservation'
     | '/app/equipments'
     | '/app/events'
     | '/app/notifications'
@@ -667,6 +689,7 @@ export const routeTree = rootRoute
         "/app/venue-approval",
         "/app/calendar",
         "/app/dashboard",
+        "/app/equipment-reservation",
         "/app/equipments",
         "/app/events",
         "/app/notifications",
@@ -712,6 +735,10 @@ export const routeTree = rootRoute
     },
     "/app/dashboard": {
       "filePath": "app/dashboard.tsx",
+      "parent": "/app"
+    },
+    "/app/equipment-reservation": {
+      "filePath": "app/equipment-reservation.tsx",
       "parent": "/app"
     },
     "/app/equipments": {
