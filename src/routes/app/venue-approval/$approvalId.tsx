@@ -40,7 +40,7 @@ export const Route = createFileRoute("/app/venue-approval/$approvalId")({
         };
     },
 });
-import { initialReservations } from "../venue-approvals";
+import { initialReservations } from "./approval";
 
 function ReservationDetails() {
     // const { approvalId } = Route.useLoaderData();
@@ -219,7 +219,10 @@ function ReservationDetails() {
             <div className="flex flex-col flex-1 overflow-hidden">
                 <header className="flex items-center justify-between border-b px-6 py-4">
                     <div className="flex items-center gap-4">
-                        <Link from={Route.fullPath} to="/app/venue-approvals">
+                        <Link
+                            from={Route.fullPath}
+                            to="/app/venue-approval/approval"
+                        >
                             <ArrowLeft className="h-4 w-4" />
                         </Link>
                         <h1 className="text-xl font-semibold h-8">

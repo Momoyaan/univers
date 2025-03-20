@@ -43,7 +43,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 
-export const Route = createFileRoute("/app/venue-approvals")({
+export const Route = createFileRoute("/app/venue-approval/approval")({
     component: VenueReservationApproval,
 });
 

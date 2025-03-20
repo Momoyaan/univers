@@ -10,9 +10,10 @@ import { cn } from "@/lib/utils";
 import { Link } from "@tanstack/react-router";
 import { useRouterState } from "@tanstack/react-router";
 import {
+    BookCheck,
+    BookText,
     Building,
     CalendarDays,
-    CheckCircle,
     ChevronLeft,
     Home,
     LayoutGrid,
@@ -31,32 +32,18 @@ const mainNavigation = [
     { name: "Calendar", href: "/app/calendar", icon: CalendarDays },
     { name: "Events", href: "/app/events", icon: LayoutGrid },
     { name: "Venues", href: "/app/venues", icon: Building },
-    { name: "Venue Approval", href: "/app/venue-approvals", icon: CheckCircle },
+    {
+        name: "Venue Approval",
+        href: "/app/venue-approval/approval",
+        icon: BookCheck,
+    },
+    {
+        name: "Venue Reservation",
+        href: "/app/venue-reservation",
+        icon: BookText,
+    },
     { name: "Users", href: "/app/user-management", icon: Users },
     { name: "Equipments", href: "/app/equipments", icon: Package },
-];
-
-const workspaces = [
-    {
-        name: "Marketing Events",
-        href: "/app/workspace/marketing",
-        color: "bg-blue-500",
-    },
-    {
-        name: "Product Launches",
-        href: "/app/workspace/product",
-        color: "bg-green-500",
-    },
-    {
-        name: "Team Building",
-        href: "/app/workspace/team",
-        color: "bg-purple-500",
-    },
-    {
-        name: "Conferences",
-        href: "/app/workspace/conferences",
-        color: "bg-orange-500",
-    },
 ];
 
 export function Sidebar() {
@@ -159,40 +146,7 @@ export function Sidebar() {
                                     </Link>
                                 ))}
                             </div>
-
                             <Separator className="my-4" />
-
-                            {!isCollapsed && (
-                                <h2 className="mb-2 px-4 text-xs font-semibold text-muted-foreground">
-                                    WORKSPACES
-                                </h2>
-                            )}
-                            <div className="space-y-1">
-                                {workspaces.map((workspace) => (
-                                    <Link
-                                        key={workspace.name}
-                                        to={workspace.href}
-                                        className={cn(
-                                            "flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors",
-                                            pathname === workspace.href
-                                                ? "bg-primary text-primary-foreground"
-                                                : "text-foreground hover:bg-secondary hover:text-secondary-foreground",
-                                            isCollapsed &&
-                                                "justify-center px-2",
-                                        )}
-                                    >
-                                        <div
-                                            className={cn(
-                                                "h-2 w-2 rounded-full",
-                                                workspace.color,
-                                            )}
-                                        />
-                                        {!isCollapsed && (
-                                            <span>{workspace.name}</span>
-                                        )}
-                                    </Link>
-                                ))}
-                            </div>
                         </ScrollArea>
                     </div>
                     {isCollapsed ? (

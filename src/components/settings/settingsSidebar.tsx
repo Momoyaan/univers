@@ -6,7 +6,6 @@ import { Link, useRouterState } from "@tanstack/react-router";
 import {
     Bell,
     Building,
-    CreditCard,
     Globe,
     Lock,
     LogOut,
@@ -25,12 +24,6 @@ export function SettingsSidebar() {
             label: "Notifications",
             icon: <Bell className="h-4 w-4" />,
         },
-        {
-            id: "workspaces",
-            label: "Workspaces",
-            icon: <Building className="h-4 w-4" />,
-        },
-        { id: "team", label: "Team", icon: <Users className="h-4 w-4" /> },
         {
             id: "integrations",
             label: "Integrations",
