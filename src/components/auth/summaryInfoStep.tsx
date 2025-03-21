@@ -35,32 +35,38 @@ export default function SummaryStep({ onSubmit, onBack }: SummaryStepProps) {
                 </p>
 
                 <Card>
-                    <CardContent className="pt-6">
+                    <CardContent className="p-6">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div className="space-y-4">
                                 <h4 className="text-sm font-medium text-muted-foreground">
                                     Personal Information
                                 </h4>
-                                <div className="grid grid-cols-2 gap-x-2 gap-y-3 text-sm">
+                                <div className="grid grid-cols-[120px_1fr] gap-y-3 text-sm">
                                     <div className="font-medium">
                                         ID Number:
                                     </div>
-                                    <div>{formData.idNumber}</div>
+                                    <div className="break-all">
+                                        {formData.idNumber}
+                                    </div>
 
                                     <div className="font-medium">
                                         First Name:
                                     </div>
-                                    <div>{formData.firstName}</div>
+                                    <div className="break-all">
+                                        {formData.firstName}
+                                    </div>
 
                                     <div className="font-medium">
                                         Last Name:
                                     </div>
-                                    <div>{formData.lastName}</div>
+                                    <div className="break-all">
+                                        {formData.lastName}
+                                    </div>
 
                                     <div className="font-medium">
                                         Department:
                                     </div>
-                                    <div>
+                                    <div className="break-all">
                                         {departments[
                                             formData.department as keyof typeof departments
                                         ] || formData.department}
@@ -72,9 +78,11 @@ export default function SummaryStep({ onSubmit, onBack }: SummaryStepProps) {
                                 <h4 className="text-sm font-medium text-muted-foreground">
                                     Account Information
                                 </h4>
-                                <div className="grid grid-cols-2 gap-x-2 gap-y-3 text-sm">
+                                <div className="grid grid-cols-[120px_1fr] gap-y-3 text-sm">
                                     <div className="font-medium">Email:</div>
-                                    <div>{formData.email}</div>
+                                    <div className="break-all">
+                                        {formData.email}
+                                    </div>
 
                                     <div className="font-medium">Password:</div>
                                     <div>••••••••</div>
