@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Separator } from "@radix-ui/react-select";
 import { format } from "date-fns";
 import { AlertCircle, Calendar, Clock, MapPin } from "lucide-react";
 import { useState } from "react";
@@ -118,12 +119,13 @@ export default function UserReservations() {
                 onValueChange={setActiveTab}
                 className="w-full"
             >
-                <TabsList className="grid w-full grid-cols-3">
-                    <TabsTrigger value="all">All Reservations</TabsTrigger>
-                    <TabsTrigger value="approved">Approved</TabsTrigger>
-                    <TabsTrigger value="pending">Pending</TabsTrigger>
-                </TabsList>
-
+                <div className="flex items-center justify-between border-b py-2">
+                    <TabsList className="flex items-center gap-2">
+                        <TabsTrigger value="all">All Reservations</TabsTrigger>
+                        <TabsTrigger value="approved">Approved</TabsTrigger>
+                        <TabsTrigger value="pending">Pending</TabsTrigger>
+                    </TabsList>
+                </div>
                 <TabsContent value={activeTab} className="pt-4">
                     {filteredReservations.length > 0 ? (
                         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">

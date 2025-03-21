@@ -178,10 +178,12 @@ export default function EquipmentList({
 
     return (
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-            <TabsList className="grid w-full grid-cols-2">
-                <TabsTrigger value="msdo">MSDO Equipment</TabsTrigger>
-                <TabsTrigger value="opc">OPC Equipment</TabsTrigger>
-            </TabsList>
+            <div className="flex items-center justify-between border-b py-2">
+                <TabsList className="flex item-center gap-2">
+                    <TabsTrigger value="msdo">MSDO Equipment</TabsTrigger>
+                    <TabsTrigger value="opc">OPC Equipment</TabsTrigger>
+                </TabsList>
+            </div>
 
             <TabsContent value="msdo" className="pt-4">
                 <ScrollArea className="h-[300px]">

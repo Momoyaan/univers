@@ -120,14 +120,19 @@ export default function EquipmentReservationForm() {
                 onValueChange={setActiveTab}
                 className="w-full"
             >
-                <TabsList className="grid w-full grid-cols-2">
-                    <TabsTrigger value="form">Reservation Form</TabsTrigger>
-                    <TabsTrigger value="myReservations">
-                        My Reservations
-                    </TabsTrigger>
-                </TabsList>
+                <div className="flex items-center justify-between border-b py-2">
+                    <TabsList className="grid w-full grid-cols-2">
+                        <TabsTrigger value="form">Reservation Form</TabsTrigger>
+                        <TabsTrigger value="myReservations">
+                            My Reservations
+                        </TabsTrigger>
+                    </TabsList>
+                </div>
 
-                <TabsContent value="form" className="space-y-4 pt-4">
+                <TabsContent
+                    value="form"
+                    className="space-y-4 pt-4 overflow-hidden"
+                >
                     <Form {...form}>
                         <form
                             onSubmit={form.handleSubmit(onSubmit)}
