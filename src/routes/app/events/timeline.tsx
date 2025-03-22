@@ -4,7 +4,7 @@ import { EventModal } from "@/components/events/eventModal";
 import { EventTimeline } from "@/components/events/eventTimeline";
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import { useState } from "react";
-export const Route = createFileRoute("/app/events")({
+export const Route = createFileRoute("/app/events/timeline")({
     component: Events,
     // beforeLoad: async ({ location }) => {
     // 	if (!isAuthenticated) {

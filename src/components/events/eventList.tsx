@@ -1,4 +1,5 @@
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
     Card,
     CardContent,
@@ -7,6 +8,7 @@ import {
 } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Separator } from "@/components/ui/separator";
+import { useNavigate } from "@tanstack/react-router";
 import {
     CalendarClock,
     ChevronRight,
@@ -14,7 +16,6 @@ import {
     MapPin,
     Users,
 } from "lucide-react";
-
 // Sample data
 const events = [
     {
@@ -114,6 +115,12 @@ const getStatusColor = (status: string) => {
 };
 
 export function EventList() {
+    const navigate = useNavigate();
+
+    const handleNavigate = (eventId: number) => {
+        navigate({ to: `/app/events/${eventId}` });
+    };
+
     return (
         <div className="space-y-4">
             <div className="flex items-center justify-between">
@@ -192,7 +199,14 @@ export function EventList() {
                                         </div>
                                     ))}
                                 </div>
-                                <ChevronRight className="h-4 w-4 text-muted-foreground" />
+                                <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    className="flex items-center gap-2 text-sm font-normal"
+                                    onClick={() => handleNavigate(event.id)}
+                                >
+                                    <ChevronRight className="h-4 w-4 text-muted-foreground" />
+                                </Button>
                             </div>
                         </CardFooter>
                     </Card>

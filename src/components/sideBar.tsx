@@ -32,7 +32,7 @@ import { Separator } from "./ui/separator";
 const mainNavigation = [
     { name: "Dashboard", href: "/app/dashboard", icon: Home },
     { name: "Calendar", href: "/app/calendar", icon: CalendarDays },
-    { name: "Events", href: "/app/events", icon: LayoutGrid },
+    { name: "Events", href: "/app/events/timeline", icon: LayoutGrid },
     { name: "Venues", href: "/app/venues/management", icon: Building },
     {
         name: "Venue Approval",

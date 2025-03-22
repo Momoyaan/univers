@@ -1,8 +1,15 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { CalendarDays, CheckCircle, Circle, Clock } from "lucide-react";
-
+import { useNavigate } from "@tanstack/react-router";
+import {
+    CalendarDays,
+    CheckCircle,
+    ChevronRight,
+    Circle,
+    Clock,
+} from "lucide-react";
 // Sample timeline data
 const timelineEvents = [
     {
@@ -107,6 +114,11 @@ const getStatusColor = (status: string) => {
 };
 
 export function EventTimeline() {
+    const navigate = useNavigate();
+
+    const handleNavigate = (eventId: number) => {
+        navigate({ to: `/app/events/${eventId}` });
+    };
     return (
         <div className="space-y-6">
             <div className="flex items-center justify-between">
@@ -163,18 +175,32 @@ export function EventTimeline() {
                                         <p className="text-sm text-muted-foreground mb-3">
                                             {event.description}
                                         </p>
-                                        <div className="flex items-center gap-2">
-                                            <Avatar className="h-6 w-6">
-                                                <AvatarImage
-                                                    src={event.owner.avatar}
-                                                />
-                                                <AvatarFallback>
-                                                    {event.owner.name.charAt(0)}
-                                                </AvatarFallback>
-                                            </Avatar>
-                                            <span className="text-xs">
-                                                {event.owner.name}
-                                            </span>
+                                        <div className="flex items-center justify-between gap-2">
+                                            <div className="flex items-center gap-2">
+                                                <Avatar className="h-6 w-6">
+                                                    <AvatarImage
+                                                        src={event.owner.avatar}
+                                                    />
+                                                    <AvatarFallback>
+                                                        {event.owner.name.charAt(
+                                                            0,
+                                                        )}
+                                                    </AvatarFallback>
+                                                </Avatar>
+                                                <span className="text-xs">
+                                                    {event.owner.name}
+                                                </span>
+                                            </div>
+                                            <Button
+                                                variant="ghost"
+                                                size="icon"
+                                                className="flex items-center gap-2 text-sm font-normal"
+                                                onClick={() =>
+                                                    handleNavigate(event.id)
+                                                }
+                                            >
+                                                <ChevronRight className="h-4 w-4 text-muted-foreground" />
+                                            </Button>
                                         </div>
                                     </CardContent>
                                 </Card>
