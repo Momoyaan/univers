@@ -1,5 +1,3 @@
-import { createFileRoute } from "@tanstack/react-router";
-
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -39,7 +37,9 @@ import {
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { DeleteConfirmDialog } from "@/components/user-management/deleteConfirmDialog";
 import { VenueFormDialog } from "@/components/venue/venueFormDialog";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import {
+    Building,
     Calendar,
     Download,
     Edit,
@@ -52,16 +52,12 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 
-export const Route = createFileRoute("/app/venues")({
+export const Route = createFileRoute("/app/venues/management")({
     component: VenueManagement,
 });
 
-function RouteComponent() {
-    return <div>Hello "/app/venues"!</div>;
-}
-
 // Sample venue data
-const initialVenues = [
+export const initialVenues = [
     {
         id: 1,
         name: "Main Conference Hall",
@@ -253,6 +249,7 @@ const commonAmenities = [
 ];
 
 export function VenueManagement() {
+    const navigate = useNavigate();
     const [venues, setVenues] = useState(initialVenues);
     const [searchQuery, setSearchQuery] = useState("");
     const [typeFilter, setTypeFilter] = useState<string | null>(null);
@@ -264,6 +261,9 @@ export function VenueManagement() {
     const [venueToDelete, setVenueToDelete] = useState<number | null>(null);
     const [viewMode, setViewMode] = useState<"table" | "grid">("table");
 
+    const handleNavigate = (venueId: number) => {
+        navigate({ from: Route.fullPath, to: `/app/venues/${venueId}` });
+    };
     // Filter venues based on search query and filters
     const filteredVenues = venues.filter((venue) => {
         const matchesSearch =
@@ -666,6 +666,16 @@ export function VenueManagement() {
                                                         <Calendar className="mr-2 h-4 w-4" />
                                                         View Calendar
                                                     </DropdownMenuItem>
+                                                    <DropdownMenuItem
+                                                        onClick={() =>
+                                                            handleNavigate(
+                                                                venue.id,
+                                                            )
+                                                        }
+                                                    >
+                                                        <Building className="mr-2 h-4 w-4" />
+                                                        View Details
+                                                    </DropdownMenuItem>
                                                     <DropdownMenuSeparator />
                                                     <DropdownMenuItem
                                                         className="text-destructive"
@@ -763,6 +773,16 @@ export function VenueManagement() {
                                                     <DropdownMenuItem>
                                                         <Calendar className="mr-2 h-4 w-4" />
                                                         View Calendar
+                                                    </DropdownMenuItem>
+                                                    <DropdownMenuItem
+                                                        onClick={() =>
+                                                            handleNavigate(
+                                                                venue.id,
+                                                            )
+                                                        }
+                                                    >
+                                                        <Building className="mr-2 h-4 w-4" />
+                                                        View Details
                                                     </DropdownMenuItem>
                                                     <DropdownMenuSeparator />
                                                     <DropdownMenuItem

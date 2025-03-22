@@ -377,7 +377,7 @@ export function EquipmentReservationApproval() {
 
     const handleNavigateToVenue = (venueId: number) => {
         // Navigate to the venue details page
-        navigate({ to: `/app/equipment-approval/${venueId}` });
+        navigate({ to: `/app/venues/${venueId}` });
     };
 
     // Status badge styling

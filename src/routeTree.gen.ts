@@ -19,7 +19,6 @@ import { Route as AuthVerifyEmailImport } from './routes/auth/verify-email'
 import { Route as AuthRegisterImport } from './routes/auth/register'
 import { Route as AuthLoginImport } from './routes/auth/login'
 import { Route as AuthForgotPasswordImport } from './routes/auth/forgot-password'
-import { Route as AppVenuesImport } from './routes/app/venues'
 import { Route as AppVenueReservationImport } from './routes/app/venue-reservation'
 import { Route as AppUserManagementImport } from './routes/app/user-management'
 import { Route as AppNotificationsImport } from './routes/app/notifications'
@@ -28,9 +27,11 @@ import { Route as AppEquipmentsImport } from './routes/app/equipments'
 import { Route as AppEquipmentReservationImport } from './routes/app/equipment-reservation'
 import { Route as AppDashboardImport } from './routes/app/dashboard'
 import { Route as AppCalendarImport } from './routes/app/calendar'
+import { Route as AppVenuesRouteImport } from './routes/app/venues/route'
 import { Route as AppVenueApprovalRouteImport } from './routes/app/venue-approval/route'
 import { Route as AppSettingsRouteImport } from './routes/app/settings/route'
-import { Route as AppVenueVenueIdImport } from './routes/app/venue/$venueId'
+import { Route as AppVenuesManagementImport } from './routes/app/venues/management'
+import { Route as AppVenuesVenueIdImport } from './routes/app/venues/$venueId'
 import { Route as AppVenueApprovalApprovalImport } from './routes/app/venue-approval/approval'
 import { Route as AppVenueApprovalApprovalIdImport } from './routes/app/venue-approval/$approvalId'
 import { Route as AppSettingsProfileImport } from './routes/app/settings/profile'
@@ -90,12 +91,6 @@ const AuthForgotPasswordRoute = AuthForgotPasswordImport.update({
   getParentRoute: () => AuthRouteRoute,
 } as any)
 
-const AppVenuesRoute = AppVenuesImport.update({
-  id: '/venues',
-  path: '/venues',
-  getParentRoute: () => AppRouteRoute,
-} as any)
-
 const AppVenueReservationRoute = AppVenueReservationImport.update({
   id: '/venue-reservation',
   path: '/venue-reservation',
@@ -144,6 +139,12 @@ const AppCalendarRoute = AppCalendarImport.update({
   getParentRoute: () => AppRouteRoute,
 } as any)
 
+const AppVenuesRouteRoute = AppVenuesRouteImport.update({
+  id: '/venues',
+  path: '/venues',
+  getParentRoute: () => AppRouteRoute,
+} as any)
+
 const AppVenueApprovalRouteRoute = AppVenueApprovalRouteImport.update({
   id: '/venue-approval',
   path: '/venue-approval',
@@ -156,10 +157,16 @@ const AppSettingsRouteRoute = AppSettingsRouteImport.update({
   getParentRoute: () => AppRouteRoute,
 } as any)
 
-const AppVenueVenueIdRoute = AppVenueVenueIdImport.update({
-  id: '/venue/$venueId',
-  path: '/venue/$venueId',
-  getParentRoute: () => AppRouteRoute,
+const AppVenuesManagementRoute = AppVenuesManagementImport.update({
+  id: '/management',
+  path: '/management',
+  getParentRoute: () => AppVenuesRouteRoute,
+} as any)
+
+const AppVenuesVenueIdRoute = AppVenuesVenueIdImport.update({
+  id: '/$venueId',
+  path: '/$venueId',
+  getParentRoute: () => AppVenuesRouteRoute,
 } as any)
 
 const AppVenueApprovalApprovalRoute = AppVenueApprovalApprovalImport.update({
@@ -260,6 +267,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppVenueApprovalRouteImport
       parentRoute: typeof AppRouteImport
     }
+    '/app/venues': {
+      id: '/app/venues'
+      path: '/venues'
+      fullPath: '/app/venues'
+      preLoaderRoute: typeof AppVenuesRouteImport
+      parentRoute: typeof AppRouteImport
+    }
     '/app/calendar': {
       id: '/app/calendar'
       path: '/calendar'
@@ -314,13 +328,6 @@ declare module '@tanstack/react-router' {
       path: '/venue-reservation'
       fullPath: '/app/venue-reservation'
       preLoaderRoute: typeof AppVenueReservationImport
-      parentRoute: typeof AppRouteImport
-    }
-    '/app/venues': {
-      id: '/app/venues'
-      path: '/venues'
-      fullPath: '/app/venues'
-      preLoaderRoute: typeof AppVenuesImport
       parentRoute: typeof AppRouteImport
     }
     '/auth/forgot-password': {
@@ -407,12 +414,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppVenueApprovalApprovalImport
       parentRoute: typeof AppVenueApprovalRouteImport
     }
-    '/app/venue/$venueId': {
-      id: '/app/venue/$venueId'
-      path: '/venue/$venueId'
-      fullPath: '/app/venue/$venueId'
-      preLoaderRoute: typeof AppVenueVenueIdImport
-      parentRoute: typeof AppRouteImport
+    '/app/venues/$venueId': {
+      id: '/app/venues/$venueId'
+      path: '/$venueId'
+      fullPath: '/app/venues/$venueId'
+      preLoaderRoute: typeof AppVenuesVenueIdImport
+      parentRoute: typeof AppVenuesRouteImport
+    }
+    '/app/venues/management': {
+      id: '/app/venues/management'
+      path: '/management'
+      fullPath: '/app/venues/management'
+      preLoaderRoute: typeof AppVenuesManagementImport
+      parentRoute: typeof AppVenuesRouteImport
     }
   }
 }
@@ -451,9 +465,24 @@ const AppVenueApprovalRouteRouteWithChildren =
     AppVenueApprovalRouteRouteChildren,
   )
 
+interface AppVenuesRouteRouteChildren {
+  AppVenuesVenueIdRoute: typeof AppVenuesVenueIdRoute
+  AppVenuesManagementRoute: typeof AppVenuesManagementRoute
+}
+
+const AppVenuesRouteRouteChildren: AppVenuesRouteRouteChildren = {
+  AppVenuesVenueIdRoute: AppVenuesVenueIdRoute,
+  AppVenuesManagementRoute: AppVenuesManagementRoute,
+}
+
+const AppVenuesRouteRouteWithChildren = AppVenuesRouteRoute._addFileChildren(
+  AppVenuesRouteRouteChildren,
+)
+
 interface AppRouteRouteChildren {
   AppSettingsRouteRoute: typeof AppSettingsRouteRouteWithChildren
   AppVenueApprovalRouteRoute: typeof AppVenueApprovalRouteRouteWithChildren
+  AppVenuesRouteRoute: typeof AppVenuesRouteRouteWithChildren
   AppCalendarRoute: typeof AppCalendarRoute
   AppDashboardRoute: typeof AppDashboardRoute
   AppEquipmentReservationRoute: typeof AppEquipmentReservationRoute
@@ -462,15 +491,14 @@ interface AppRouteRouteChildren {
   AppNotificationsRoute: typeof AppNotificationsRoute
   AppUserManagementRoute: typeof AppUserManagementRoute
   AppVenueReservationRoute: typeof AppVenueReservationRoute
-  AppVenuesRoute: typeof AppVenuesRoute
   AppEquipmentApprovalApprovalIdRoute: typeof AppEquipmentApprovalApprovalIdRoute
   AppEquipmentApprovalApprovalRoute: typeof AppEquipmentApprovalApprovalRoute
-  AppVenueVenueIdRoute: typeof AppVenueVenueIdRoute
 }
 
 const AppRouteRouteChildren: AppRouteRouteChildren = {
   AppSettingsRouteRoute: AppSettingsRouteRouteWithChildren,
   AppVenueApprovalRouteRoute: AppVenueApprovalRouteRouteWithChildren,
+  AppVenuesRouteRoute: AppVenuesRouteRouteWithChildren,
   AppCalendarRoute: AppCalendarRoute,
   AppDashboardRoute: AppDashboardRoute,
   AppEquipmentReservationRoute: AppEquipmentReservationRoute,
@@ -479,10 +507,8 @@ const AppRouteRouteChildren: AppRouteRouteChildren = {
   AppNotificationsRoute: AppNotificationsRoute,
   AppUserManagementRoute: AppUserManagementRoute,
   AppVenueReservationRoute: AppVenueReservationRoute,
-  AppVenuesRoute: AppVenuesRoute,
   AppEquipmentApprovalApprovalIdRoute: AppEquipmentApprovalApprovalIdRoute,
   AppEquipmentApprovalApprovalRoute: AppEquipmentApprovalApprovalRoute,
-  AppVenueVenueIdRoute: AppVenueVenueIdRoute,
 }
 
 const AppRouteRouteWithChildren = AppRouteRoute._addFileChildren(
@@ -514,6 +540,7 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/app/settings': typeof AppSettingsRouteRouteWithChildren
   '/app/venue-approval': typeof AppVenueApprovalRouteRouteWithChildren
+  '/app/venues': typeof AppVenuesRouteRouteWithChildren
   '/app/calendar': typeof AppCalendarRoute
   '/app/dashboard': typeof AppDashboardRoute
   '/app/equipment-reservation': typeof AppEquipmentReservationRoute
@@ -522,7 +549,6 @@ export interface FileRoutesByFullPath {
   '/app/notifications': typeof AppNotificationsRoute
   '/app/user-management': typeof AppUserManagementRoute
   '/app/venue-reservation': typeof AppVenueReservationRoute
-  '/app/venues': typeof AppVenuesRoute
   '/auth/forgot-password': typeof AuthForgotPasswordRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
@@ -535,7 +561,8 @@ export interface FileRoutesByFullPath {
   '/app/settings/profile': typeof AppSettingsProfileRoute
   '/app/venue-approval/$approvalId': typeof AppVenueApprovalApprovalIdRoute
   '/app/venue-approval/approval': typeof AppVenueApprovalApprovalRoute
-  '/app/venue/$venueId': typeof AppVenueVenueIdRoute
+  '/app/venues/$venueId': typeof AppVenuesVenueIdRoute
+  '/app/venues/management': typeof AppVenuesManagementRoute
 }
 
 export interface FileRoutesByTo {
@@ -545,6 +572,7 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/app/settings': typeof AppSettingsRouteRouteWithChildren
   '/app/venue-approval': typeof AppVenueApprovalRouteRouteWithChildren
+  '/app/venues': typeof AppVenuesRouteRouteWithChildren
   '/app/calendar': typeof AppCalendarRoute
   '/app/dashboard': typeof AppDashboardRoute
   '/app/equipment-reservation': typeof AppEquipmentReservationRoute
@@ -553,7 +581,6 @@ export interface FileRoutesByTo {
   '/app/notifications': typeof AppNotificationsRoute
   '/app/user-management': typeof AppUserManagementRoute
   '/app/venue-reservation': typeof AppVenueReservationRoute
-  '/app/venues': typeof AppVenuesRoute
   '/auth/forgot-password': typeof AuthForgotPasswordRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
@@ -566,7 +593,8 @@ export interface FileRoutesByTo {
   '/app/settings/profile': typeof AppSettingsProfileRoute
   '/app/venue-approval/$approvalId': typeof AppVenueApprovalApprovalIdRoute
   '/app/venue-approval/approval': typeof AppVenueApprovalApprovalRoute
-  '/app/venue/$venueId': typeof AppVenueVenueIdRoute
+  '/app/venues/$venueId': typeof AppVenuesVenueIdRoute
+  '/app/venues/management': typeof AppVenuesManagementRoute
 }
 
 export interface FileRoutesById {
@@ -577,6 +605,7 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/app/settings': typeof AppSettingsRouteRouteWithChildren
   '/app/venue-approval': typeof AppVenueApprovalRouteRouteWithChildren
+  '/app/venues': typeof AppVenuesRouteRouteWithChildren
   '/app/calendar': typeof AppCalendarRoute
   '/app/dashboard': typeof AppDashboardRoute
   '/app/equipment-reservation': typeof AppEquipmentReservationRoute
@@ -585,7 +614,6 @@ export interface FileRoutesById {
   '/app/notifications': typeof AppNotificationsRoute
   '/app/user-management': typeof AppUserManagementRoute
   '/app/venue-reservation': typeof AppVenueReservationRoute
-  '/app/venues': typeof AppVenuesRoute
   '/auth/forgot-password': typeof AuthForgotPasswordRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
@@ -598,7 +626,8 @@ export interface FileRoutesById {
   '/app/settings/profile': typeof AppSettingsProfileRoute
   '/app/venue-approval/$approvalId': typeof AppVenueApprovalApprovalIdRoute
   '/app/venue-approval/approval': typeof AppVenueApprovalApprovalRoute
-  '/app/venue/$venueId': typeof AppVenueVenueIdRoute
+  '/app/venues/$venueId': typeof AppVenuesVenueIdRoute
+  '/app/venues/management': typeof AppVenuesManagementRoute
 }
 
 export interface FileRouteTypes {
@@ -610,6 +639,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/app/settings'
     | '/app/venue-approval'
+    | '/app/venues'
     | '/app/calendar'
     | '/app/dashboard'
     | '/app/equipment-reservation'
@@ -618,7 +648,6 @@ export interface FileRouteTypes {
     | '/app/notifications'
     | '/app/user-management'
     | '/app/venue-reservation'
-    | '/app/venues'
     | '/auth/forgot-password'
     | '/auth/login'
     | '/auth/register'
@@ -631,7 +660,8 @@ export interface FileRouteTypes {
     | '/app/settings/profile'
     | '/app/venue-approval/$approvalId'
     | '/app/venue-approval/approval'
-    | '/app/venue/$venueId'
+    | '/app/venues/$venueId'
+    | '/app/venues/management'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -640,6 +670,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/app/settings'
     | '/app/venue-approval'
+    | '/app/venues'
     | '/app/calendar'
     | '/app/dashboard'
     | '/app/equipment-reservation'
@@ -648,7 +679,6 @@ export interface FileRouteTypes {
     | '/app/notifications'
     | '/app/user-management'
     | '/app/venue-reservation'
-    | '/app/venues'
     | '/auth/forgot-password'
     | '/auth/login'
     | '/auth/register'
@@ -661,7 +691,8 @@ export interface FileRouteTypes {
     | '/app/settings/profile'
     | '/app/venue-approval/$approvalId'
     | '/app/venue-approval/approval'
-    | '/app/venue/$venueId'
+    | '/app/venues/$venueId'
+    | '/app/venues/management'
   id:
     | '__root__'
     | '/'
@@ -670,6 +701,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/app/settings'
     | '/app/venue-approval'
+    | '/app/venues'
     | '/app/calendar'
     | '/app/dashboard'
     | '/app/equipment-reservation'
@@ -678,7 +710,6 @@ export interface FileRouteTypes {
     | '/app/notifications'
     | '/app/user-management'
     | '/app/venue-reservation'
-    | '/app/venues'
     | '/auth/forgot-password'
     | '/auth/login'
     | '/auth/register'
@@ -691,7 +722,8 @@ export interface FileRouteTypes {
     | '/app/settings/profile'
     | '/app/venue-approval/$approvalId'
     | '/app/venue-approval/approval'
-    | '/app/venue/$venueId'
+    | '/app/venues/$venueId'
+    | '/app/venues/management'
   fileRoutesById: FileRoutesById
 }
 
@@ -733,6 +765,7 @@ export const routeTree = rootRoute
       "children": [
         "/app/settings",
         "/app/venue-approval",
+        "/app/venues",
         "/app/calendar",
         "/app/dashboard",
         "/app/equipment-reservation",
@@ -741,10 +774,8 @@ export const routeTree = rootRoute
         "/app/notifications",
         "/app/user-management",
         "/app/venue-reservation",
-        "/app/venues",
         "/app/equipment-approval/$approvalId",
-        "/app/equipment-approval/approval",
-        "/app/venue/$venueId"
+        "/app/equipment-approval/approval"
       ]
     },
     "/auth": {
@@ -777,6 +808,14 @@ export const routeTree = rootRoute
         "/app/venue-approval/approval"
       ]
     },
+    "/app/venues": {
+      "filePath": "app/venues/route.tsx",
+      "parent": "/app",
+      "children": [
+        "/app/venues/$venueId",
+        "/app/venues/management"
+      ]
+    },
     "/app/calendar": {
       "filePath": "app/calendar.tsx",
       "parent": "/app"
@@ -807,10 +846,6 @@ export const routeTree = rootRoute
     },
     "/app/venue-reservation": {
       "filePath": "app/venue-reservation.tsx",
-      "parent": "/app"
-    },
-    "/app/venues": {
-      "filePath": "app/venues.tsx",
       "parent": "/app"
     },
     "/auth/forgot-password": {
@@ -861,9 +896,13 @@ export const routeTree = rootRoute
       "filePath": "app/venue-approval/approval.tsx",
       "parent": "/app/venue-approval"
     },
-    "/app/venue/$venueId": {
-      "filePath": "app/venue/$venueId.tsx",
-      "parent": "/app"
+    "/app/venues/$venueId": {
+      "filePath": "app/venues/$venueId.tsx",
+      "parent": "/app/venues"
+    },
+    "/app/venues/management": {
+      "filePath": "app/venues/management.tsx",
+      "parent": "/app/venues"
     }
   }
 }

@@ -29,9 +29,8 @@ import {
     Link,
     Outlet,
     createFileRoute,
-    useRouter,
+    useNavigate,
 } from "@tanstack/react-router";
-import { useNavigate } from "@tanstack/react-router";
 import { format } from "date-fns";
 import {
     Calendar,
@@ -42,6 +41,7 @@ import {
     Search,
 } from "lucide-react";
 import { useState } from "react";
+import { fromTheme } from "tailwind-merge";
 
 export const Route = createFileRoute("/app/venue-approval/approval")({
     component: VenueReservationApproval,
@@ -57,6 +57,7 @@ export const initialReservations = [
         department: "Computer Science",
         contactNumber: "(555) 123-4567",
         userName: "Dr. Alan Turing",
+        userIdNumber: "EMP-1001",
         eventDate: "2024-05-15",
         startTime: "09:00",
         endTime: "12:00",
@@ -75,6 +76,7 @@ export const initialReservations = [
         approvers: [
             {
                 name: "Jane Smith",
+                idNumber: "EMP-2001",
                 department: "Office of Planning and Coordination",
                 role: "OPC Director",
                 dateSigned: "2024-05-02T14:20:00Z",
@@ -82,6 +84,7 @@ export const initialReservations = [
             },
             {
                 name: "Michael Johnson",
+                idNumber: "EMP-2002",
                 department: "Media Services Department",
                 role: "MSDO Head",
                 dateSigned: "2024-05-03T09:15:00Z",
@@ -89,6 +92,7 @@ export const initialReservations = [
             },
             {
                 name: "Sarah Williams",
+                idNumber: "EMP-2003",
                 department: "Facilities Management",
                 role: "Venue Owner",
                 dateSigned: "2024-05-03T11:30:00Z",
@@ -96,6 +100,7 @@ export const initialReservations = [
             },
             {
                 name: "Dr. Robert Chen",
+                idNumber: "EMP-2004",
                 department: "Administration",
                 role: "VP Admin",
                 dateSigned: null,
@@ -103,6 +108,7 @@ export const initialReservations = [
             },
             {
                 name: "Dr. Elizabeth Taylor",
+                idNumber: "EMP-2005",
                 department: "Academic Affairs",
                 role: "VPAA",
                 dateSigned: null,
@@ -110,6 +116,7 @@ export const initialReservations = [
             },
             {
                 name: "Thomas Garcia",
+                idNumber: "EMP-2006",
                 department: "Finance and Accounting",
                 role: "FAO Director",
                 dateSigned: null,
@@ -117,6 +124,7 @@ export const initialReservations = [
             },
             {
                 name: "Maria Rodriguez",
+                idNumber: "EMP-2007",
                 department: "Security Services",
                 role: "SSD Head",
                 dateSigned: "2024-05-04T16:45:00Z",
@@ -132,6 +140,7 @@ export const initialReservations = [
         department: "Research and Development",
         contactNumber: "(555) 987-6543",
         userName: "Prof. Marie Curie",
+        userIdNumber: "FAC-1002",
         eventDate: "2024-05-20",
         startTime: "13:00",
         endTime: "17:00",
@@ -150,6 +159,7 @@ export const initialReservations = [
         approvers: [
             {
                 name: "Jane Smith",
+                idNumber: "EMP-2001",
                 department: "Office of Planning and Coordination",
                 role: "OPC Director",
                 dateSigned: "2024-04-26T10:20:00Z",
@@ -157,6 +167,7 @@ export const initialReservations = [
             },
             {
                 name: "Michael Johnson",
+                idNumber: "EMP-2002",
                 department: "Media Services Department",
                 role: "MSDO Head",
                 dateSigned: "2024-04-26T14:15:00Z",
@@ -164,6 +175,7 @@ export const initialReservations = [
             },
             {
                 name: "Sarah Williams",
+                idNumber: "EMP-2003",
                 department: "Facilities Management",
                 role: "Venue Owner",
                 dateSigned: "2024-04-27T09:30:00Z",
@@ -171,6 +183,7 @@ export const initialReservations = [
             },
             {
                 name: "Dr. Robert Chen",
+                idNumber: "EMP-2004",
                 department: "Administration",
                 role: "VP Admin",
                 dateSigned: "2024-04-28T11:45:00Z",
@@ -178,6 +191,7 @@ export const initialReservations = [
             },
             {
                 name: "Dr. Elizabeth Taylor",
+                idNumber: "EMP-2005",
                 department: "Academic Affairs",
                 role: "VPAA",
                 dateSigned: "2024-04-29T13:20:00Z",
@@ -185,6 +199,7 @@ export const initialReservations = [
             },
             {
                 name: "Thomas Garcia",
+                idNumber: "EMP-2006",
                 department: "Finance and Accounting",
                 role: "FAO Director",
                 dateSigned: "2024-04-30T15:10:00Z",
@@ -192,6 +207,7 @@ export const initialReservations = [
             },
             {
                 name: "Maria Rodriguez",
+                idNumber: "EMP-2007",
                 department: "Security Services",
                 role: "SSD Head",
                 dateSigned: "2024-05-01T09:45:00Z",
@@ -207,6 +223,7 @@ export const initialReservations = [
         department: "Student Affairs",
         contactNumber: "(555) 234-5678",
         userName: "James Maxwell",
+        userIdNumber: "STU-1003",
         eventDate: "2024-05-18",
         startTime: "14:00",
         endTime: "16:30",
@@ -225,6 +242,7 @@ export const initialReservations = [
         approvers: [
             {
                 name: "Jane Smith",
+                idNumber: "EMP-2001",
                 department: "Office of Planning and Coordination",
                 role: "OPC Director",
                 dateSigned: "2024-05-04T09:20:00Z",
@@ -232,6 +250,7 @@ export const initialReservations = [
             },
             {
                 name: "Michael Johnson",
+                idNumber: "EMP-2002",
                 department: "Media Services Department",
                 role: "MSDO Head",
                 dateSigned: "2024-05-04T14:15:00Z",
@@ -239,6 +258,7 @@ export const initialReservations = [
             },
             {
                 name: "Sarah Williams",
+                idNumber: "EMP-2003",
                 department: "Facilities Management",
                 role: "Venue Owner",
                 dateSigned: "2024-05-05T10:30:00Z",
@@ -246,6 +266,7 @@ export const initialReservations = [
             },
             {
                 name: "Dr. Robert Chen",
+                idNumber: "EMP-2004",
                 department: "Administration",
                 role: "VP Admin",
                 dateSigned: null,
@@ -253,6 +274,7 @@ export const initialReservations = [
             },
             {
                 name: "Dr. Elizabeth Taylor",
+                idNumber: "EMP-2005",
                 department: "Academic Affairs",
                 role: "VPAA",
                 dateSigned: null,
@@ -260,6 +282,7 @@ export const initialReservations = [
             },
             {
                 name: "Thomas Garcia",
+                idNumber: "EMP-2006",
                 department: "Finance and Accounting",
                 role: "FAO Director",
                 dateSigned: null,
@@ -267,6 +290,7 @@ export const initialReservations = [
             },
             {
                 name: "Maria Rodriguez",
+                idNumber: "EMP-2007",
                 department: "Security Services",
                 role: "SSD Head",
                 dateSigned: "2024-05-05T16:45:00Z",
@@ -282,6 +306,7 @@ export const initialReservations = [
         department: "Engineering",
         contactNumber: "(555) 345-6789",
         userName: "Dr. Nikola Tesla",
+        userIdNumber: "FAC-1004",
         eventDate: "2024-05-25",
         startTime: "10:00",
         endTime: "15:00",
@@ -302,6 +327,7 @@ export const initialReservations = [
         approvers: [
             {
                 name: "Jane Smith",
+                idNumber: "EMP-2001",
                 department: "Office of Planning and Coordination",
                 role: "OPC Director",
                 dateSigned: "2024-05-03T14:20:00Z",
@@ -309,6 +335,7 @@ export const initialReservations = [
             },
             {
                 name: "Michael Johnson",
+                idNumber: "EMP-2002",
                 department: "Media Services Department",
                 role: "MSDO Head",
                 dateSigned: "2024-05-03T16:15:00Z",
@@ -316,6 +343,7 @@ export const initialReservations = [
             },
             {
                 name: "Sarah Williams",
+                idNumber: "EMP-2003",
                 department: "Facilities Management",
                 role: "Venue Owner",
                 dateSigned: "2024-05-04T09:30:00Z",
@@ -323,6 +351,7 @@ export const initialReservations = [
             },
             {
                 name: "Dr. Robert Chen",
+                idNumber: "EMP-2004",
                 department: "Administration",
                 role: "VP Admin",
                 dateSigned: "2024-05-05T11:45:00Z",
@@ -330,6 +359,7 @@ export const initialReservations = [
             },
             {
                 name: "Dr. Elizabeth Taylor",
+                idNumber: "EMP-2005",
                 department: "Academic Affairs",
                 role: "VPAA",
                 dateSigned: null,
@@ -337,6 +367,7 @@ export const initialReservations = [
             },
             {
                 name: "Thomas Garcia",
+                idNumber: "EMP-2006",
                 department: "Finance and Accounting",
                 role: "FAO Director",
                 dateSigned: null,
@@ -344,6 +375,7 @@ export const initialReservations = [
             },
             {
                 name: "Maria Rodriguez",
+                idNumber: "EMP-2007",
                 department: "Security Services",
                 role: "SSD Head",
                 dateSigned: null,
@@ -359,6 +391,7 @@ export const initialReservations = [
         department: "Psychology",
         contactNumber: "(555) 456-7890",
         userName: "Dr. Sigmund Freud",
+        userIdNumber: "FAC-1005",
         eventDate: "2024-06-02",
         startTime: "13:30",
         endTime: "16:00",
@@ -377,6 +410,7 @@ export const initialReservations = [
         approvers: [
             {
                 name: "Jane Smith",
+                idNumber: "EMP-2001",
                 department: "Office of Planning and Coordination",
                 role: "OPC Director",
                 dateSigned: "2024-05-06T10:20:00Z",
@@ -384,6 +418,7 @@ export const initialReservations = [
             },
             {
                 name: "Michael Johnson",
+                idNumber: "EMP-2002",
                 department: "Media Services Department",
                 role: "MSDO Head",
                 dateSigned: "2024-05-06T14:15:00Z",
@@ -391,6 +426,7 @@ export const initialReservations = [
             },
             {
                 name: "Sarah Williams",
+                idNumber: "EMP-2003",
                 department: "Facilities Management",
                 role: "Venue Owner",
                 dateSigned: null,
@@ -398,6 +434,7 @@ export const initialReservations = [
             },
             {
                 name: "Dr. Robert Chen",
+                idNumber: "EMP-2004",
                 department: "Administration",
                 role: "VP Admin",
                 dateSigned: null,
@@ -405,6 +442,7 @@ export const initialReservations = [
             },
             {
                 name: "Dr. Elizabeth Taylor",
+                idNumber: "EMP-2005",
                 department: "Academic Affairs",
                 role: "VPAA",
                 dateSigned: null,
@@ -412,6 +450,7 @@ export const initialReservations = [
             },
             {
                 name: "Thomas Garcia",
+                idNumber: "EMP-2006",
                 department: "Finance and Accounting",
                 role: "FAO Director",
                 dateSigned: null,
@@ -419,6 +458,7 @@ export const initialReservations = [
             },
             {
                 name: "Maria Rodriguez",
+                idNumber: "EMP-2007",
                 department: "Security Services",
                 role: "SSD Head",
                 dateSigned: null,
@@ -441,7 +481,6 @@ const venues = [
 ];
 
 export function VenueReservationApproval() {
-    const router = useRouter();
     const navigate = useNavigate();
     const [reservations, setReservations] = useState(initialReservations);
     const [searchQuery, setSearchQuery] = useState("");
@@ -504,7 +543,7 @@ export function VenueReservationApproval() {
 
     const handleNavigateToVenue = (venueId: number) => {
         // Navigate to the venue details page
-        navigate({ to: `/app/venue/${venueId}` });
+        navigate({ from: Route.fullPath, to: `/app/venues/${venueId}` });
     };
 
     // Status badge styling
@@ -546,7 +585,6 @@ export function VenueReservationApproval() {
         return format(date, "h:mm a");
     };
 
-    const posts = ["post1", "post2"];
     return (
         <div className="bg-background">
             <div className="flex flex-col flex-1 overflow-hidden">
@@ -696,6 +734,7 @@ export function VenueReservationApproval() {
                                 <TableHead>Time</TableHead>
                                 <TableHead>Department</TableHead>
                                 <TableHead>Requester</TableHead>
+                                <TableHead>ID Number</TableHead>
                                 <TableHead>Status</TableHead>
                                 <TableHead>Submitted</TableHead>
                                 <TableHead className="w-[100px]">
@@ -746,6 +785,9 @@ export function VenueReservationApproval() {
                                         {reservation.userName}
                                     </TableCell>
                                     <TableCell>
+                                        {reservation.userIdNumber}
+                                    </TableCell>
+                                    <TableCell>
                                         {getStatusBadge(reservation.status)}
                                     </TableCell>
                                     <TableCell>
@@ -794,7 +836,7 @@ export function VenueReservationApproval() {
                             {filteredReservations.length === 0 && (
                                 <TableRow>
                                     <TableCell
-                                        colSpan={9}
+                                        colSpan={10}
                                         className="text-center py-8 text-muted-foreground"
                                     >
                                         No reservations found. Try adjusting

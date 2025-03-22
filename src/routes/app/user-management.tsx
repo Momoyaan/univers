@@ -28,7 +28,6 @@ import {
 } from "@/components/ui/table";
 import { DeleteConfirmDialog } from "@/components/user-management/deleteConfirmDialog";
 import { UserFormDialog } from "@/components/user-management/userFormDialog";
-import { createFileRoute } from "@tanstack/react-router";
 import {
     Download,
     MoreHorizontal,
@@ -39,6 +38,8 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 
+import { createFileRoute } from "@tanstack/react-router";
+
 export const Route = createFileRoute("/app/user-management")({
     component: UserManagement,
 });
@@ -47,82 +48,57 @@ export const Route = createFileRoute("/app/user-management")({
 const initialUsers = [
     {
         id: 1,
-        name: "Alex Johnson",
-        email: "alex@example.com",
-        role: "Admin",
-        department: "IT",
+        name: "John Doe",
+        idNumber: "EMP-1001",
+        email: "john.doe@example.com",
+        role: "Administrator",
+        department: "IT Department",
         status: "active",
-        lastActive: "2 hours ago",
+        lastActive: "2024-05-01T10:30:00Z",
         avatar: "/placeholder.svg?height=40&width=40",
     },
     {
         id: 2,
-        name: "Maria Garcia",
-        email: "maria@example.com",
-        role: "Event Manager",
-        department: "Marketing",
+        name: "Jane Smith",
+        idNumber: "EMP-1002",
+        email: "jane.smith@example.com",
+        role: "Manager",
+        department: "Human Resources",
         status: "active",
-        lastActive: "1 day ago",
+        lastActive: "2024-05-02T14:45:00Z",
         avatar: "/placeholder.svg?height=40&width=40",
     },
     {
         id: 3,
-        name: "Sam Lee",
-        email: "sam@example.com",
+        name: "Robert Johnson",
+        idNumber: "EMP-1003",
+        email: "robert.johnson@example.com",
         role: "User",
-        department: "Operations",
-        status: "active",
-        lastActive: "3 days ago",
+        department: "Marketing",
+        status: "inactive",
+        lastActive: "2024-04-15T09:20:00Z",
         avatar: "/placeholder.svg?height=40&width=40",
     },
     {
         id: 4,
-        name: "Taylor Swift",
-        email: "taylor@example.com",
-        role: "Event Manager",
-        department: "Sales",
-        status: "inactive",
-        lastActive: "2 weeks ago",
+        name: "Emily Davis",
+        idNumber: "EMP-1004",
+        email: "emily.davis@example.com",
+        role: "User",
+        department: "Finance",
+        status: "active",
+        lastActive: "2024-05-03T11:10:00Z",
         avatar: "/placeholder.svg?height=40&width=40",
     },
     {
         id: 5,
-        name: "John Smith",
-        email: "john@example.com",
-        role: "User",
-        department: "Finance",
+        name: "Michael Wilson",
+        idNumber: "EMP-1005",
+        email: "michael.wilson@example.com",
+        role: "Manager",
+        department: "Operations",
         status: "active",
-        lastActive: "5 hours ago",
-        avatar: "/placeholder.svg?height=40&width=40",
-    },
-    {
-        id: 6,
-        name: "Emma Wilson",
-        email: "emma@example.com",
-        role: "User",
-        department: "HR",
-        status: "pending",
-        lastActive: "Never",
-        avatar: "/placeholder.svg?height=40&width=40",
-    },
-    {
-        id: 7,
-        name: "David Kim",
-        email: "david@example.com",
-        role: "Admin",
-        department: "IT",
-        status: "active",
-        lastActive: "1 hour ago",
-        avatar: "/placeholder.svg?height=40&width=40",
-    },
-    {
-        id: 8,
-        name: "Sarah Johnson",
-        email: "sarah@example.com",
-        role: "User",
-        department: "Marketing",
-        status: "active",
-        lastActive: "4 days ago",
+        lastActive: "2024-05-01T16:30:00Z",
         avatar: "/placeholder.svg?height=40&width=40",
     },
 ];
@@ -233,6 +209,17 @@ export function UserManagement() {
             default:
                 return <Badge variant="outline">{status}</Badge>;
         }
+    };
+
+    const formatDate = (dateString: string) => {
+        const date = new Date(dateString);
+        return date.toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+        });
     };
 
     return (
@@ -352,6 +339,7 @@ export function UserManagement() {
                                     />
                                 </TableHead>
                                 <TableHead>User</TableHead>
+                                <TableHead>ID Number</TableHead>
                                 <TableHead>Role</TableHead>
                                 <TableHead>Department</TableHead>
                                 <TableHead>Status</TableHead>
@@ -394,12 +382,15 @@ export function UserManagement() {
                                             </div>
                                         </div>
                                     </TableCell>
+                                    <TableCell>{user.idNumber}</TableCell>
                                     <TableCell>{user.role}</TableCell>
                                     <TableCell>{user.department}</TableCell>
                                     <TableCell>
                                         {getStatusBadge(user.status)}
                                     </TableCell>
-                                    <TableCell>{user.lastActive}</TableCell>
+                                    <TableCell>
+                                        {formatDate(user.lastActive)}
+                                    </TableCell>
                                     <TableCell>
                                         <DropdownMenu>
                                             <DropdownMenuTrigger asChild>
