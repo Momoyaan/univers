@@ -75,7 +75,7 @@ export function Sidebar() {
                 </Button>
                 <div
                     className={cn(
-                        "fixed inset-y-0 z-20 flex flex-col bg-background transition-all duration-300 ease-in-out lg:static",
+                        "fixed inset-y-0 z-20 flex flex-col bg-card transition-all duration-300 ease-in-out lg:static",
                         isCollapsed ? "w-[72px]" : "w-72",
                         isMobileOpen
                             ? "translate-x-0"
