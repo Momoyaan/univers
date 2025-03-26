@@ -2,6 +2,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
+import { DataTable } from "@/components/ui/data-table";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -10,7 +11,6 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Input } from "@/components/ui/input";
 import {
     Select,
     SelectContent,
@@ -18,32 +18,22 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from "@/components/ui/table";
 import { DeleteConfirmDialog } from "@/components/user-management/deleteConfirmDialog";
 import { UserFormDialog } from "@/components/user-management/userFormDialog";
+import { createFileRoute } from "@tanstack/react-router";
+import type { ColumnDef } from "@tanstack/react-table";
 import {
     Download,
     MoreHorizontal,
-    Search,
     Trash2,
     UserCog,
     UserPlus,
 } from "lucide-react";
 import { useState } from "react";
 
-import { createFileRoute } from "@tanstack/react-router";
-
 export const Route = createFileRoute("/app/user-management")({
     component: UserManagement,
 });
-
 // Sample user data
 const initialUsers = [
     {
@@ -111,7 +101,6 @@ const departments = ["IT", "Marketing", "Operations", "Sales", "Finance", "HR"];
 
 export function UserManagement() {
     const [users, setUsers] = useState(initialUsers);
-    const [searchQuery, setSearchQuery] = useState("");
     const [roleFilter, setRoleFilter] = useState<string | null>(null);
     const [statusFilter, setStatusFilter] = useState<string | null>(null);
     const [selectedUsers, setSelectedUsers] = useState<number[]>([]);
@@ -120,37 +109,14 @@ export function UserManagement() {
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
     const [userToDelete, setUserToDelete] = useState<number | null>(null);
 
-    // Filter users based on search query and filters
+    // Filter users based on filters
     const filteredUsers = users.filter((user) => {
-        const matchesSearch =
-            user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            user.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            user.department.toLowerCase().includes(searchQuery.toLowerCase());
-
         const matchesRole = roleFilter ? user.role === roleFilter : true;
         const matchesStatus = statusFilter
             ? user.status === statusFilter
             : true;
-
-        return matchesSearch && matchesRole && matchesStatus;
+        return matchesRole && matchesStatus;
     });
-
-    // Handle bulk selection
-    const handleSelectAll = () => {
-        if (selectedUsers.length === filteredUsers.length) {
-            setSelectedUsers([]);
-        } else {
-            setSelectedUsers(filteredUsers.map((user) => user.id));
-        }
-    };
-
-    const handleSelectUser = (userId: number) => {
-        if (selectedUsers.includes(userId)) {
-            setSelectedUsers(selectedUsers.filter((id) => id !== userId));
-        } else {
-            setSelectedUsers([...selectedUsers, userId]);
-        }
-    };
 
     // Handle user operations
     const handleAddUser = (userData: any) => {
@@ -222,22 +188,124 @@ export function UserManagement() {
         });
     };
 
+    // Define columns for DataTable
+    const columns: ColumnDef<(typeof users)[0]>[] = [
+        {
+            id: "select",
+            header: ({ table }) => (
+                <Checkbox
+                    checked={
+                        table.getIsAllPageRowsSelected() ||
+                        (table.getIsSomePageRowsSelected() && "indeterminate")
+                    }
+                    onCheckedChange={(value) =>
+                        table.toggleAllPageRowsSelected(!!value)
+                    }
+                    aria-label="Select all"
+                />
+            ),
+            cell: ({ row }) => (
+                <Checkbox
+                    checked={row.getIsSelected()}
+                    onCheckedChange={(value) => row.toggleSelected(!!value)}
+                    aria-label="Select row"
+                />
+            ),
+            enableSorting: false,
+            enableHiding: false,
+        },
+        {
+            accessorKey: "name",
+            header: "User",
+            cell: ({ row }) => {
+                const user = row.original;
+                return (
+                    <div className="flex items-center gap-3">
+                        <Avatar className="h-8 w-8">
+                            <AvatarImage src={user.avatar} />
+                            <AvatarFallback>
+                                {user.name.charAt(0)}
+                            </AvatarFallback>
+                        </Avatar>
+                        <div>
+                            <div className="font-medium">{user.name}</div>
+                            <div className="text-sm text-muted-foreground">
+                                {user.email}
+                            </div>
+                        </div>
+                    </div>
+                );
+            },
+        },
+        {
+            accessorKey: "idNumber",
+            header: "ID Number",
+        },
+        {
+            accessorKey: "role",
+            header: "Role",
+        },
+        {
+            accessorKey: "department",
+            header: "Department",
+        },
+        {
+            accessorKey: "status",
+            header: "Status",
+            cell: ({ row }) => getStatusBadge(row.original.status),
+        },
+        {
+            accessorKey: "lastActive",
+            header: "Last Active",
+            cell: ({ row }) => formatDate(row.original.lastActive),
+        },
+        {
+            id: "actions",
+            cell: ({ row }) => {
+                const user = row.original;
+                return (
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button
+                                variant="ghost"
+                                size="icon"
+                                className="h-8 w-8"
+                            >
+                                <MoreHorizontal className="h-4 w-4" />
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                            <DropdownMenuItem
+                                onClick={() => setEditingUser(user)}
+                            >
+                                <UserCog className="mr-2 h-4 w-4" />
+                                Edit
+                            </DropdownMenuItem>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem
+                                className="text-destructive"
+                                onClick={() => {
+                                    setUserToDelete(user.id);
+                                    setIsDeleteDialogOpen(true);
+                                }}
+                            >
+                                <Trash2 className="mr-2 h-4 w-4" />
+                                Delete
+                            </DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                );
+            },
+        },
+    ];
+
     return (
         <div className="bg-background">
             <div className="flex flex-col flex-1 overflow-hidden">
-                <header className="flex items-center justify-between border-b px-6 py-3.5">
+                <header className="flex items-center justify-between border-b px-6 h-16 py-3.5">
                     <h1 className="text-xl font-semibold">User Management</h1>
                     <div className="flex items-center gap-2">
-                        <div className="relative">
-                            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-                            <Input
-                                type="search"
-                                placeholder="Search users..."
-                                className="w-64 pl-8"
-                                value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
-                            />
-                        </div>
                         <Button
                             onClick={() => setIsAddUserOpen(true)}
                             size="sm"
@@ -325,128 +393,12 @@ export function UserManagement() {
                 </div>
 
                 <div className="flex-1 overflow-auto p-6">
-                    <Table>
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead className="w-[40px]">
-                                    <Checkbox
-                                        checked={
-                                            selectedUsers.length > 0 &&
-                                            selectedUsers.length ===
-                                                filteredUsers.length
-                                        }
-                                        onCheckedChange={handleSelectAll}
-                                    />
-                                </TableHead>
-                                <TableHead>User</TableHead>
-                                <TableHead>ID Number</TableHead>
-                                <TableHead>Role</TableHead>
-                                <TableHead>Department</TableHead>
-                                <TableHead>Status</TableHead>
-                                <TableHead>Last Active</TableHead>
-                                <TableHead className="w-[80px]">
-                                    Actions
-                                </TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            {filteredUsers.map((user) => (
-                                <TableRow key={user.id}>
-                                    <TableCell>
-                                        <Checkbox
-                                            checked={selectedUsers.includes(
-                                                user.id,
-                                            )}
-                                            onCheckedChange={() =>
-                                                handleSelectUser(user.id)
-                                            }
-                                        />
-                                    </TableCell>
-                                    <TableCell>
-                                        <div className="flex items-center gap-3">
-                                            <Avatar className="h-8 w-8">
-                                                <AvatarImage
-                                                    src={user.avatar}
-                                                />
-                                                <AvatarFallback>
-                                                    {user.name.charAt(0)}
-                                                </AvatarFallback>
-                                            </Avatar>
-                                            <div>
-                                                <div className="font-medium">
-                                                    {user.name}
-                                                </div>
-                                                <div className="text-sm text-muted-foreground">
-                                                    {user.email}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </TableCell>
-                                    <TableCell>{user.idNumber}</TableCell>
-                                    <TableCell>{user.role}</TableCell>
-                                    <TableCell>{user.department}</TableCell>
-                                    <TableCell>
-                                        {getStatusBadge(user.status)}
-                                    </TableCell>
-                                    <TableCell>
-                                        {formatDate(user.lastActive)}
-                                    </TableCell>
-                                    <TableCell>
-                                        <DropdownMenu>
-                                            <DropdownMenuTrigger asChild>
-                                                <Button
-                                                    variant="ghost"
-                                                    size="icon"
-                                                    className="h-8 w-8"
-                                                >
-                                                    <MoreHorizontal className="h-4 w-4" />
-                                                </Button>
-                                            </DropdownMenuTrigger>
-                                            <DropdownMenuContent align="end">
-                                                <DropdownMenuLabel>
-                                                    Actions
-                                                </DropdownMenuLabel>
-                                                <DropdownMenuItem
-                                                    onClick={() =>
-                                                        setEditingUser(user)
-                                                    }
-                                                >
-                                                    <UserCog className="mr-2 h-4 w-4" />
-                                                    Edit
-                                                </DropdownMenuItem>
-                                                <DropdownMenuSeparator />
-                                                <DropdownMenuItem
-                                                    className="text-destructive"
-                                                    onClick={() => {
-                                                        setUserToDelete(
-                                                            user.id,
-                                                        );
-                                                        setIsDeleteDialogOpen(
-                                                            true,
-                                                        );
-                                                    }}
-                                                >
-                                                    <Trash2 className="mr-2 h-4 w-4" />
-                                                    Delete
-                                                </DropdownMenuItem>
-                                            </DropdownMenuContent>
-                                        </DropdownMenu>
-                                    </TableCell>
-                                </TableRow>
-                            ))}
-                            {filteredUsers.length === 0 && (
-                                <TableRow>
-                                    <TableCell
-                                        colSpan={7}
-                                        className="text-center py-8 text-muted-foreground"
-                                    >
-                                        No users found. Try adjusting your
-                                        filters.
-                                    </TableCell>
-                                </TableRow>
-                            )}
-                        </TableBody>
-                    </Table>
+                    <DataTable
+                        columns={columns}
+                        data={filteredUsers}
+                        searchColumn="name"
+                        searchPlaceholder="Search users..."
+                    />
                 </div>
             </div>
 

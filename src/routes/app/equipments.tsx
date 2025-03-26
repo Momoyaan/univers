@@ -9,6 +9,7 @@ import {
     CardTitle,
 } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
+import { DataTable } from "@/components/ui/data-table";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -17,7 +18,6 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Input } from "@/components/ui/input";
 import {
     Select,
     SelectContent,
@@ -25,23 +25,15 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from "@/components/ui/table";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { DeleteConfirmDialog } from "@/components/user-management/deleteConfirmDialog";
 import { createFileRoute } from "@tanstack/react-router";
+import type { ColumnDef } from "@tanstack/react-table";
 import {
     Download,
     Edit,
     MoreHorizontal,
     Plus,
-    Search,
     Trash2,
     Wrench,
 } from "lucide-react";
@@ -55,114 +47,107 @@ export const Route = createFileRoute("/app/equipments")({
 const initialEquipment = [
     {
         id: 1,
-        name: "Projector - Sony VPL-FHZ75",
+        name: "Projector",
+        idNumber: "EQ-001",
         category: "Audio/Visual",
+        owner: "MSDO",
         location: "Main Conference Hall",
+        totalQuantity: 10,
+        availableQuantity: 7,
         status: "available",
         condition: "excellent",
-        serialNumber: "SNY-2023-001",
-        purchaseDate: "2023-01-15",
-        lastMaintenance: "2023-10-20",
-        nextMaintenance: "2024-04-20",
-        notes: "4K resolution, 6500 lumens",
+        lastMaintenance: "2024-04-15",
+        serialNumber: "PRJ-2024-001",
         image: "/placeholder.svg?height=80&width=80",
     },
     {
         id: 2,
-        name: "Wireless Microphone Set - Shure QLXD",
+        name: "Wireless Microphone",
+        idNumber: "EQ-002",
         category: "Audio/Visual",
+        owner: "MSDO",
         location: "Equipment Storage Room A",
-        status: "in-use",
+        totalQuantity: 15,
+        availableQuantity: 12,
+        status: "available",
         condition: "good",
-        serialNumber: "SHR-2022-045",
-        purchaseDate: "2022-05-10",
-        lastMaintenance: "2023-08-15",
-        nextMaintenance: "2024-02-15",
-        notes: "Set of 4 wireless mics with receiver",
+        lastMaintenance: "2024-04-10",
+        serialNumber: "MIC-2024-002",
         image: "/placeholder.svg?height=80&width=80",
     },
     {
         id: 3,
-        name: "Laptop - Dell XPS 15",
-        category: "Computers",
+        name: "Laptop",
+        idNumber: "EQ-003",
+        category: "Computing",
+        owner: "MSDO",
         location: "IT Department",
+        totalQuantity: 20,
+        availableQuantity: 15,
         status: "available",
         condition: "good",
-        serialNumber: "DLL-2022-102",
-        purchaseDate: "2022-03-20",
-        lastMaintenance: "2023-09-05",
-        nextMaintenance: "2024-03-05",
-        notes: "16GB RAM, 1TB SSD, Windows 11 Pro",
+        lastMaintenance: "2024-03-25",
+        serialNumber: "LPT-2024-003",
         image: "/placeholder.svg?height=80&width=80",
     },
     {
         id: 4,
-        name: "Speaker System - JBL EON ONE",
-        category: "Audio/Visual",
-        location: "Auditorium",
-        status: "maintenance",
-        condition: "fair",
-        serialNumber: "JBL-2021-033",
-        purchaseDate: "2021-07-12",
-        lastMaintenance: "2023-11-10",
-        nextMaintenance: "2024-05-10",
-        notes: "Portable PA system, needs new cables",
+        name: "Folding Chairs",
+        idNumber: "EQ-101",
+        category: "Furniture",
+        owner: "OPC",
+        location: "Equipment Storage Room B",
+        totalQuantity: 200,
+        availableQuantity: 150,
+        status: "available",
+        condition: "good",
+        lastMaintenance: "2024-02-15",
+        serialNumber: "CHR-2024-101",
         image: "/placeholder.svg?height=80&width=80",
     },
     {
         id: 5,
-        name: "Whiteboard - Mobile Magnetic",
+        name: "Folding Tables",
+        idNumber: "EQ-102",
         category: "Furniture",
-        location: "Workshop Room B",
+        owner: "OPC",
+        location: "Equipment Storage Room B",
+        totalQuantity: 50,
+        availableQuantity: 35,
         status: "available",
-        condition: "excellent",
-        serialNumber: "WHB-2023-007",
-        purchaseDate: "2023-02-28",
-        lastMaintenance: "2023-10-15",
-        nextMaintenance: "2024-04-15",
-        notes: '72" x 48", double-sided, with wheels',
+        condition: "fair",
+        lastMaintenance: "2024-02-15",
+        serialNumber: "TBL-2024-102",
         image: "/placeholder.svg?height=80&width=80",
     },
     {
         id: 6,
-        name: "Video Camera - Sony FX6",
-        category: "Audio/Visual",
-        location: "Equipment Storage Room B",
-        status: "in-use",
+        name: "Portable Stage",
+        idNumber: "EQ-103",
+        category: "Staging",
+        owner: "OPC",
+        location: "Equipment Storage Room A",
+        totalQuantity: 5,
+        availableQuantity: 2,
+        status: "available",
         condition: "excellent",
-        serialNumber: "SNY-2023-056",
-        purchaseDate: "2023-03-15",
-        lastMaintenance: "2023-09-30",
-        nextMaintenance: "2024-03-30",
-        notes: "4K cinema camera with accessories",
+        lastMaintenance: "2024-01-20",
+        serialNumber: "STG-2024-103",
         image: "/placeholder.svg?height=80&width=80",
     },
     {
         id: 7,
-        name: "Podium with Microphone",
-        category: "Furniture",
-        location: "Main Conference Hall",
-        status: "available",
-        condition: "good",
-        serialNumber: "PDM-2022-012",
-        purchaseDate: "2022-01-10",
-        lastMaintenance: "2023-07-20",
-        nextMaintenance: "2024-01-20",
-        notes: "Wooden podium with built-in mic and light",
-        image: "/placeholder.svg?height=80&width=80",
-    },
-    {
-        id: 8,
-        name: "Lighting Kit - ARRI Fresnel",
+        name: "Sound System",
+        idNumber: "EQ-004",
         category: "Audio/Visual",
-        location: "Equipment Storage Room A",
-        status: "out-of-order",
-        condition: "poor",
-        serialNumber: "ARI-2020-089",
-        purchaseDate: "2020-11-05",
-        lastMaintenance: "2023-06-15",
-        nextMaintenance: "2023-12-15",
-        notes: "One light not working, needs repair",
+        owner: "MSDO",
+        location: "Auditorium",
+        totalQuantity: 3,
+        availableQuantity: 0,
+        status: "maintenance",
+        condition: "fair",
+        lastMaintenance: "2024-05-01",
+        serialNumber: "SND-2024-004",
         image: "/placeholder.svg?height=80&width=80",
     },
 ];
@@ -189,7 +174,6 @@ const locations = [
 
 export function EquipmentInventory() {
     const [equipment, setEquipment] = useState(initialEquipment);
-    const [searchQuery, setSearchQuery] = useState("");
     const [categoryFilter, setCategoryFilter] = useState<string | null>(null);
     const [statusFilter, setStatusFilter] = useState<string | null>(null);
     const [selectedItems, setSelectedItems] = useState<number[]>([]);
@@ -201,24 +185,15 @@ export function EquipmentInventory() {
     );
     const [viewMode, setViewMode] = useState<"table" | "grid">("table");
 
-    // Filter equipment based on search query and filters
+    // Filter equipment based on filters
     const filteredEquipment = equipment.filter((item) => {
-        const matchesSearch =
-            item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            item.serialNumber
-                .toLowerCase()
-                .includes(searchQuery.toLowerCase()) ||
-            item.location.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            item.notes.toLowerCase().includes(searchQuery.toLowerCase());
-
         const matchesCategory = categoryFilter
             ? item.category === categoryFilter
             : true;
         const matchesStatus = statusFilter
             ? item.status === statusFilter
             : true;
-
-        return matchesSearch && matchesCategory && matchesStatus;
+        return matchesCategory && matchesStatus;
     });
 
     // Equipment statistics
@@ -231,23 +206,6 @@ export function EquipmentInventory() {
             .length,
         outOfOrder: equipment.filter((item) => item.status === "out-of-order")
             .length,
-    };
-
-    // Handle bulk selection
-    const handleSelectAll = () => {
-        if (selectedItems.length === filteredEquipment.length) {
-            setSelectedItems([]);
-        } else {
-            setSelectedItems(filteredEquipment.map((item) => item.id));
-        }
-    };
-
-    const handleSelectItem = (itemId: number) => {
-        if (selectedItems.includes(itemId)) {
-            setSelectedItems(selectedItems.filter((id) => id !== itemId));
-        } else {
-            setSelectedItems([...selectedItems, itemId]);
-        }
     };
 
     // Handle equipment operations
@@ -362,24 +320,147 @@ export function EquipmentInventory() {
         }
     };
 
+    // Define columns for DataTable
+    const columns: ColumnDef<(typeof equipment)[0]>[] = [
+        {
+            id: "select",
+            header: ({ table }) => (
+                <Checkbox
+                    checked={
+                        table.getIsAllPageRowsSelected() ||
+                        (table.getIsSomePageRowsSelected() && "indeterminate")
+                    }
+                    onCheckedChange={(value) =>
+                        table.toggleAllPageRowsSelected(!!value)
+                    }
+                    aria-label="Select all"
+                />
+            ),
+            cell: ({ row }) => (
+                <Checkbox
+                    checked={row.getIsSelected()}
+                    onCheckedChange={(value) => row.toggleSelected(!!value)}
+                    aria-label="Select row"
+                />
+            ),
+            enableSorting: false,
+            enableHiding: false,
+        },
+        {
+            accessorKey: "name",
+            header: "Equipment",
+            cell: ({ row }) => {
+                const item = row.original;
+                return (
+                    <div className="flex items-center gap-3">
+                        <div className="h-10 w-10 rounded-md overflow-hidden bg-muted">
+                            <img
+                                src={item.image || "/placeholder.svg"}
+                                alt={item.name}
+                                className="h-full w-full object-cover"
+                            />
+                        </div>
+                        <div>
+                            <div className="font-medium">{item.name}</div>
+                            <div className="text-xs text-muted-foreground">
+                                Last maintenance: {item.lastMaintenance}
+                            </div>
+                        </div>
+                    </div>
+                );
+            },
+        },
+        {
+            accessorKey: "idNumber",
+            header: "ID Number",
+        },
+        {
+            accessorKey: "category",
+            header: "Category",
+        },
+        {
+            accessorKey: "location",
+            header: "Location",
+        },
+        {
+            accessorKey: "status",
+            header: "Status",
+            cell: ({ row }) => getStatusBadge(row.original.status),
+        },
+        {
+            accessorKey: "condition",
+            header: "Condition",
+            cell: ({ row }) => getConditionBadge(row.original.condition),
+        },
+        {
+            accessorKey: "serialNumber",
+            header: "Serial Number",
+        },
+        {
+            id: "actions",
+            cell: ({ row }) => {
+                const item = row.original;
+                return (
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button
+                                variant="ghost"
+                                size="icon"
+                                className="h-8 w-8"
+                            >
+                                <MoreHorizontal className="h-4 w-4" />
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                            <DropdownMenuItem
+                                onClick={() => setEditingEquipment(item)}
+                            >
+                                <Edit className="mr-2 h-4 w-4" />
+                                Edit
+                            </DropdownMenuItem>
+                            {item.status !== "maintenance" && (
+                                <DropdownMenuItem
+                                    onClick={() => {
+                                        handleEditEquipment({
+                                            ...item,
+                                            status: "maintenance",
+                                            lastMaintenance: new Date()
+                                                .toISOString()
+                                                .split("T")[0],
+                                        });
+                                    }}
+                                >
+                                    <Wrench className="mr-2 h-4 w-4" />
+                                    Mark for Maintenance
+                                </DropdownMenuItem>
+                            )}
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem
+                                className="text-destructive"
+                                onClick={() => {
+                                    setEquipmentToDelete(item.id);
+                                    setIsDeleteDialogOpen(true);
+                                }}
+                            >
+                                <Trash2 className="mr-2 h-4 w-4" />
+                                Delete
+                            </DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                );
+            },
+        },
+    ];
+
     return (
         <div className="bg-background">
             <div className="flex flex-col flex-1 overflow-hidden">
-                <header className="flex items-center justify-between border-b px-6 py-3.5">
+                <header className="flex items-center justify-between border-b px-6 py-3.5 h-16">
                     <h1 className="text-xl font-semibold">
                         Equipment Inventory
                     </h1>
                     <div className="flex items-center gap-2">
-                        <div className="relative">
-                            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-                            <Input
-                                type="search"
-                                placeholder="Search equipment..."
-                                className="w-64 pl-8"
-                                value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
-                            />
-                        </div>
                         <Button
                             onClick={() => setIsAddEquipmentOpen(true)}
                             size="sm"
@@ -496,7 +577,7 @@ export function EquipmentInventory() {
                         </Tabs>
 
                         <Select
-                            value={categoryFilter || ""}
+                            value={categoryFilter || "all"}
                             onValueChange={(value) =>
                                 setCategoryFilter(value || null)
                             }
@@ -517,7 +598,7 @@ export function EquipmentInventory() {
                         </Select>
 
                         <Select
-                            value={statusFilter || ""}
+                            value={statusFilter || "all"}
                             onValueChange={(value) =>
                                 setStatusFilter(value || null)
                             }
@@ -551,157 +632,12 @@ export function EquipmentInventory() {
 
                 <div className="flex-1 overflow-auto p-6">
                     {viewMode === "table" ? (
-                        <Table>
-                            <TableHeader>
-                                <TableRow>
-                                    <TableHead className="w-[40px]">
-                                        <Checkbox
-                                            checked={
-                                                selectedItems.length > 0 &&
-                                                selectedItems.length ===
-                                                    filteredEquipment.length
-                                            }
-                                            onCheckedChange={handleSelectAll}
-                                        />
-                                    </TableHead>
-                                    <TableHead>Equipment</TableHead>
-                                    <TableHead>Category</TableHead>
-                                    <TableHead>Location</TableHead>
-                                    <TableHead>Status</TableHead>
-                                    <TableHead>Condition</TableHead>
-                                    <TableHead>Serial Number</TableHead>
-                                    <TableHead className="w-[80px]">
-                                        Actions
-                                    </TableHead>
-                                </TableRow>
-                            </TableHeader>
-                            <TableBody>
-                                {filteredEquipment.map((item) => (
-                                    <TableRow key={item.id}>
-                                        <TableCell>
-                                            <Checkbox
-                                                checked={selectedItems.includes(
-                                                    item.id,
-                                                )}
-                                                onCheckedChange={() =>
-                                                    handleSelectItem(item.id)
-                                                }
-                                            />
-                                        </TableCell>
-                                        <TableCell>
-                                            <div className="flex items-center gap-3">
-                                                <div className="h-10 w-10 rounded-md overflow-hidden bg-muted">
-                                                    <img
-                                                        src={
-                                                            item.image ||
-                                                            "/placeholder.svg"
-                                                        }
-                                                        alt={item.name}
-                                                        className="h-full w-full object-cover"
-                                                    />
-                                                </div>
-                                                <div>
-                                                    <div className="font-medium">
-                                                        {item.name}
-                                                    </div>
-                                                    <div className="text-xs text-muted-foreground">
-                                                        Last maintenance:{" "}
-                                                        {item.lastMaintenance}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </TableCell>
-                                        <TableCell>{item.category}</TableCell>
-                                        <TableCell>{item.location}</TableCell>
-                                        <TableCell>
-                                            {getStatusBadge(item.status)}
-                                        </TableCell>
-                                        <TableCell>
-                                            {getConditionBadge(item.condition)}
-                                        </TableCell>
-                                        <TableCell>
-                                            {item.serialNumber}
-                                        </TableCell>
-                                        <TableCell>
-                                            <DropdownMenu>
-                                                <DropdownMenuTrigger asChild>
-                                                    <Button
-                                                        variant="ghost"
-                                                        size="icon"
-                                                        className="h-8 w-8"
-                                                    >
-                                                        <MoreHorizontal className="h-4 w-4" />
-                                                    </Button>
-                                                </DropdownMenuTrigger>
-                                                <DropdownMenuContent align="end">
-                                                    <DropdownMenuLabel>
-                                                        Actions
-                                                    </DropdownMenuLabel>
-                                                    <DropdownMenuItem
-                                                        onClick={() =>
-                                                            setEditingEquipment(
-                                                                item,
-                                                            )
-                                                        }
-                                                    >
-                                                        <Edit className="mr-2 h-4 w-4" />
-                                                        Edit
-                                                    </DropdownMenuItem>
-                                                    {item.status !==
-                                                        "maintenance" && (
-                                                        <DropdownMenuItem
-                                                            onClick={() => {
-                                                                handleEditEquipment(
-                                                                    {
-                                                                        ...item,
-                                                                        status: "maintenance",
-                                                                        lastMaintenance:
-                                                                            new Date()
-                                                                                .toISOString()
-                                                                                .split(
-                                                                                    "T",
-                                                                                )[0],
-                                                                    },
-                                                                );
-                                                            }}
-                                                        >
-                                                            <Wrench className="mr-2 h-4 w-4" />
-                                                            Mark for Maintenance
-                                                        </DropdownMenuItem>
-                                                    )}
-                                                    <DropdownMenuSeparator />
-                                                    <DropdownMenuItem
-                                                        className="text-destructive"
-                                                        onClick={() => {
-                                                            setEquipmentToDelete(
-                                                                item.id,
-                                                            );
-                                                            setIsDeleteDialogOpen(
-                                                                true,
-                                                            );
-                                                        }}
-                                                    >
-                                                        <Trash2 className="mr-2 h-4 w-4" />
-                                                        Delete
-                                                    </DropdownMenuItem>
-                                                </DropdownMenuContent>
-                                            </DropdownMenu>
-                                        </TableCell>
-                                    </TableRow>
-                                ))}
-                                {filteredEquipment.length === 0 && (
-                                    <TableRow>
-                                        <TableCell
-                                            colSpan={8}
-                                            className="text-center py-8 text-muted-foreground"
-                                        >
-                                            No equipment found. Try adjusting
-                                            your filters.
-                                        </TableCell>
-                                    </TableRow>
-                                )}
-                            </TableBody>
-                        </Table>
+                        <DataTable
+                            columns={columns}
+                            data={filteredEquipment}
+                            searchColumn="name"
+                            searchPlaceholder="Search equipment..."
+                        />
                     ) : (
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                             {filteredEquipment.map((item) => (
@@ -713,11 +649,26 @@ export function EquipmentInventory() {
                                                     checked={selectedItems.includes(
                                                         item.id,
                                                     )}
-                                                    onCheckedChange={() =>
-                                                        handleSelectItem(
-                                                            item.id,
-                                                        )
-                                                    }
+                                                    onCheckedChange={() => {
+                                                        if (
+                                                            selectedItems.includes(
+                                                                item.id,
+                                                            )
+                                                        ) {
+                                                            setSelectedItems(
+                                                                selectedItems.filter(
+                                                                    (id) =>
+                                                                        id !==
+                                                                        item.id,
+                                                                ),
+                                                            );
+                                                        } else {
+                                                            setSelectedItems([
+                                                                ...selectedItems,
+                                                                item.id,
+                                                            ]);
+                                                        }
+                                                    }}
                                                 />
                                                 <CardTitle className="text-base">
                                                     {item.name}
@@ -785,7 +736,7 @@ export function EquipmentInventory() {
                                             </DropdownMenu>
                                         </div>
                                         <CardDescription className="text-xs">
-                                            {item.serialNumber}
+                                            {item.idNumber}
                                         </CardDescription>
                                     </CardHeader>
                                     <CardContent className="p-4 pt-0">
@@ -815,23 +766,9 @@ export function EquipmentInventory() {
                                                 <div className="text-sm">
                                                     Location: {item.location}
                                                 </div>
-                                            </div>
-                                        </div>
-                                        <div className="text-xs text-muted-foreground">
-                                            <div>
-                                                Purchase Date:{" "}
-                                                {item.purchaseDate}
-                                            </div>
-                                            <div>
-                                                Last Maintenance:{" "}
-                                                {item.lastMaintenance}
-                                            </div>
-                                            <div>
-                                                Next Maintenance:{" "}
-                                                {item.nextMaintenance}
-                                            </div>
-                                            <div className="mt-1">
-                                                {item.notes}
+                                                <div className="text-sm">
+                                                    Serial: {item.serialNumber}
+                                                </div>
                                             </div>
                                         </div>
                                     </CardContent>
